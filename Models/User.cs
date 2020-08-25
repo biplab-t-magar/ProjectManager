@@ -1,15 +1,23 @@
-namespace ProjectManager
+namespace ProjectManager.Models
 {
     public class User
     {
+        [key]
         public int UserId;
         [Required]
-        public string FirstName;
+        public string FirstName {get; set;}
         [Required]
-        public string LastName;
-        public string MiddleName;
+        public string LastName {get; set;}
+        public string MiddleName {get; set;}
         
-        public int OrganizationId;
+        //a user can only have one organization
+        //if user works for two or more organizations, he will need separate accounts for each organization
+        public int OrganizationId {get; set;}
+        public Organization Organization {get; set;}
 
+
+        public List<TaskType> TaskTypes {get; set;}
+        public List<ProjectUser> ProjectUsers {get; set;}
+        public List<TaskUser> TaskUsers {get; set;}
     }
 }

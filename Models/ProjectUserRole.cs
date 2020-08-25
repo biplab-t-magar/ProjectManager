@@ -1,18 +1,14 @@
 namespace ProjectManager.Models
 {
-    public class ProjectUser
+    public class ProjectUserRole
     {
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        public Project Project {get; set;}
-        [Required]
         public int UserId {get; set;}
         [Required]
-        public User User{get; set;}
-
+        public ProjectUser ProjectUser {get; set;}
         [Required]
-        public ProjectUserRole ProjectUserRole {get; set;} 
-        
+        public string Role {get; set;}
     }
 }

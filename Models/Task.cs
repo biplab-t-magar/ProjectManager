@@ -6,6 +6,8 @@ namespace ProjectManager.Models
         //foreign key
         [Required]
         public int ProjectId {get; set;}
+        [Required]
+        public Project Project {get; set;}
 
         public int TaskId {get; set;}
         [Required]
@@ -24,14 +26,15 @@ namespace ProjectManager.Models
 
         //optional
         public int TaskTypeId {get; set;}
-        
-        //foreign key
-        [Required]
-        public int ProjectId {get; set;}
+        public TaskType TaskType {get; set;}
 
         //foreign key
         [Required]
         public int MilestoneId {get; set;}
-        
+        [Required]
+        public Milestone Milestone {get; set;}
+
+        public List<TaskUpdate> TaskUpdates {get; set;}
+        public List<TaskUser> TaskUsers {get; set;}
     }
 }
