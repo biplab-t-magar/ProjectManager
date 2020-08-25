@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace ProjectManager.Models
 {
     public class User
     {
-        [key]
+        [Key]
         public int UserId;
         [Required]
         public string FirstName {get; set;}

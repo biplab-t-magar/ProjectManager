@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ProjectManager.Models
 {
     public class ProjectUser

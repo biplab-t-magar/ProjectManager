@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace ProjectManager.Models
 {
     public class Organization
     {
-        [key]
+        [Key]
         public int OrganizationId {get; set;}
         [Required]
         public string Name {get; set;}
