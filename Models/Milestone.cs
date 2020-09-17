@@ -6,7 +6,7 @@ namespace ProjectManager.Models
     public class Milestone
     {
         //foreign key
-        [Required]
+        [Required(ErrorMessage = "ProjectId is required")]
         public int ProjectId {get; set;}
         [Required]
         public Project Project {get; set;}
