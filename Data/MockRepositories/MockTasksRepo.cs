@@ -11,7 +11,7 @@ namespace ProjectManager.Data.MockRepositories
         {
             tasks = new List<Task>
             {
-                // new Task{ProjectId=1,TaskId=1,Name="Solidify domain knowledge", TaskStatus="Completed", TaskType="", TaskTypeId=, MilestoneId=}
+                new Task{ProjectId=1,TaskId=1,Name="Solidify domain knowledge", TaskStatus="Completed", TaskType="", TaskTypeId=, MilestoneId=}
             };
         }
 
