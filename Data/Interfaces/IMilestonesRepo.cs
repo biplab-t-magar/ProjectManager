@@ -3,9 +3,9 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public interface IMilestoneRepo
+    public interface IMilestonesRepo
     {
-        IEnumerable<Milestone> GetAllMilestonesInProject(int projectId);
+        IEnumerable<Milestone> GetMilestonesByProject(int projectId);
         Milestone GetMilestoneById(int projectId, int milestoneId);
     } 
 }

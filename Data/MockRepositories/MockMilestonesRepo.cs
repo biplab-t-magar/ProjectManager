@@ -3,11 +3,11 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public class MockMilestoneRepo : IMilestoneRepo
+    public class MockMilestonesRepo : IMilestonesRepo
     {
         private List<Milestone> milestones;
 
-        public MockMilestoneRepo()
+        public MockMilestonesRepo()
         {
             milestones = new List<Milestone> 
             {
@@ -21,7 +21,7 @@ namespace ProjectManager.Data.Interfaces
             };
         }
 
-        public IEnumerable<Milestone> GetAllMilestonesInProject(int projectId)
+        public IEnumerable<Milestone> GetMilestonesByProject(int projectId)
         {
             List<Milestone> projectMilestones = new List<Milestone>();
             

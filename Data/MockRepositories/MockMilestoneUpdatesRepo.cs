@@ -4,10 +4,10 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.MockRepositories
 {
-    public class MockMilestoneUpdateRepo : IMilestoneUpdateRepo
+    public class MockMilestoneUpdatesRepo : IMilestoneUpdatesRepo
     {
         private List<MilestoneUpdate> milestoneUpdates; 
-        MockMilestoneUpdateRepo()
+        MockMilestoneUpdatesRepo()
         {
             milestoneUpdates = new List<MilestoneUpdate>
             {

@@ -13,8 +13,9 @@ namespace ProjectManager.Models
         [Required]
         public User User{get; set;}
 
+        //Could be: Manager, Member, Spectator
         [Required]
-        public ProjectUserRole ProjectUserRole {get; set;} 
+        public string Role {get; set;}
         
     }
 }

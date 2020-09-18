@@ -3,8 +3,8 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public interface IOrganizationRepo
+    public interface IOrganizationsRepo
     {
-        string GetOrganizationName(int organizationId);
+        Organization GetOrganizationById(int organizationId);
     } 
 }
