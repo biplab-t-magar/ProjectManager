@@ -12,7 +12,7 @@ namespace ProjectManager.Models
         [Required]
         public Milestone Milestone {get; set;}
         [Required]
-        public string Time {get; set;}
+        public string TimeOfUpdate {get; set;}
 
         [Required]
         public string MilestoneStatus {get; set;}

@@ -23,7 +23,7 @@ namespace ProjectManager.Models
 
         public List<Task> Tasks {get; set;}
         public List<MilestoneUpdate> MilestoneUpdates {get; set;}
-
+        
 
     }
 }
