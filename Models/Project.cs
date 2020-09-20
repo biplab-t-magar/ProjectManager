@@ -19,7 +19,7 @@ namespace ProjectManager.Models
 
         public List<Milestone> Milestones {get; set;}
         public List<Task> Tasks {get; set;}
-        public List<TaskType> TaskTypes {get; set;}
+        // public List<TaskType> TaskTypes {get; set;}
         public List<ProjectUser> ProjectUsers {get; set;}
     }
 }

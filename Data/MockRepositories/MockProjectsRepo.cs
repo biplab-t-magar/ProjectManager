@@ -12,9 +12,9 @@ namespace ProjectManager.Data.MockRepositories
         {
             projects = new List<Project>
             {
-                new Project{ProjectId=1, Name="Biplab's Senior Project", DateCreated="06/31/2020 09:43:32", OrganizationId=1},
-                new Project{ProjectId=2, Name="Business Startup", DateCreated="08/31/2020 09:43:32", OrganizationId=2},
-                new Project{ProjectId=3, Name="Indie Game Project", DateCreated="03/31/2020 09:43:32"}
+                new Project{ProjectId=1, Name="Biplab's Senior Project", DateCreated="06/31/2020 09:43:32", DateTerminated=null, OrganizationId=1},
+                new Project{ProjectId=2, Name="Business Startup", DateCreated="08/31/2020 09:43:32", DateTerminated=null, OrganizationId=2},
+                new Project{ProjectId=3, Name="Indie Game Project", DateCreated="03/31/2020 09:43:32", DateTerminated=null}
             };
         }
         public Project GetProjectById(int projectId)

@@ -11,13 +11,22 @@ namespace ProjectManager.Data.MockRepositories
         {
             taskUpdates = new List<TaskUpdate>
             {
-                new TaskUpdate{},
-            }
+                new TaskUpdate{ProjectId=1, TaskId=1, Status="Started", Time="demo time"},
+                new TaskUpdate{ProjectId=1, TaskId=1, Status="Under Review", Time="another demo time"},
+                new TaskUpdate{ProjectId=1, TaskId=1, Status="Completed", Time="demo time"},
+                new TaskUpdate{ProjectId=1, TaskId=2, Status="Started", Time="time"},
+            };
         }
 
-        public TaskUpdate GetTaskUpdates(int projectId, int taskId)
+        public IEnumerable<TaskUpdate> GetTaskUpdates(int projectId, int taskId)
         {
-            throw new System.NotImplementedException();
+            List<TaskUpdate> taskUpdateForATask = new List<TaskUpdate>();
+            for(int i = 0; i < taskUpdates.Count; i++) {
+                if(taskUpdates[i].ProjectId == projectId && taskUpdates[i].TaskId == taskId) {
+                    taskUpdateForATask.Add(taskUpdates[i]);
+                }
+            }
+            return taskUpdateForATask;
         }
     }
 }

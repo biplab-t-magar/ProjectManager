@@ -19,7 +19,7 @@ namespace ProjectManager.Models
         public Organization Organization {get; set;}
 
 
-        public List<TaskType> TaskTypes {get; set;}
+        // public List<TaskType> TaskTypes {get; set;}
         public List<ProjectUser> ProjectUsers {get; set;}
         public List<TaskUser> TaskUsers {get; set;}
     }

@@ -11,31 +11,24 @@ namespace ProjectManager.Data.MockRepositories
         {
             taskTypes = new List<TaskType>
             {
-                new TaskType{},
-            }
+                new TaskType{TaskTypeId=1, ProjectId=1, Name="Logistics", Urgency="Medium", },
+                new TaskType{TaskTypeId=2, ProjectId=1, Name="Design Related", Urgency="High"},
+                new TaskType{TaskTypeId=3, ProjectId=1, Name="Bug", Urgency="Medium"},
+                new TaskType{TaskTypeId=1, ProjectId=2, Name="Tax Issues", Urgency="Low"},
+                new TaskType{TaskTypeId=2, ProjectId=2, Name="Logistics", Urgency="Medium"}
+            };
         }
 
-        public TaskType GetTaskTypeById(int taskTypeId)
+        public TaskType GetTaskTypeById(int projectId, int taskTypeId)
         {
             throw new System.NotImplementedException();
         }
-
-        public IEnumerable<TaskType> GetTaskTypesByOrganization(int organizationId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public IEnumerable<TaskType> GetTaskTypesByProject(int projectId)
         {
             throw new System.NotImplementedException();
         }
 
         public IEnumerable<TaskType> GetTaskTypesByUrgency(string urgency)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<TaskType> GetTaskTypesByUser(int userId)
         {
             throw new System.NotImplementedException();
         }

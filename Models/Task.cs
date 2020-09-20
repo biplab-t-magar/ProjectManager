@@ -16,8 +16,7 @@ namespace ProjectManager.Models
         [Required]
         public string Name {get; set;}
         
-        //enum
-        // Unstarted, Started, Suspended, RoadblockEncountered, UnderReview, Completed
+        // Not Started, Started, Suspended, Roadblock Encountered, Under Review, Completed
         [Required]
         public string TaskStatus {get; set;}
 
