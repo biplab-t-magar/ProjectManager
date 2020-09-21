@@ -29,6 +29,7 @@
     padding: 8px 0px 8px 16px;
     list-style: none;
     height: 60px;
+    /* margin: 10px; */
 }
 
 .nav-text a {
@@ -43,15 +44,15 @@
     border-radius: 4px;
 }
 
-.nav-text a:hover {
-    background-color: #407FA3;
-    box-shadow: 2px 10px 27px -18px rgba(0,67,111,1);
-}
+
 .nav-text a.active {
     background-color: #407FA3;
     box-shadow: 2px 10px 27px -18px rgba(0,67,111,1);
 }
-
+.nav-text a:hover {
+    background-color: #5a9abf;
+    box-shadow: 2px 10px 27px -18px rgba(0,67,111,1);
+}
 
 .nav-menu-items {
     width: 100%;
