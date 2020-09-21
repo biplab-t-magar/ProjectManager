@@ -8,6 +8,9 @@ import Projects from '../Pages/Projects.js';
 import Reports from '../Pages/Reports.js';
 import Tasks from '../Pages/Tasks.js';
 
+
+//Add notes to tags
+
 const App = () => {
     return(
         <div>

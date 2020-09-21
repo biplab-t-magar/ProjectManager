@@ -1,0 +1,43 @@
+
+button.create-button {
+    /* float: right;
+    clear: right; */
+    margin: 20px;
+    margin-top: 10px;
+}
+
+div.projects-content {
+    margin: 3% 3%;
+    margin-top: 20px;
+    background-color: #f0f0f5;
+    border-radius: 7px;
+}
+
+.page-description {
+    margin: 2% 0;
+    /* margin-top: 0; */
+    opacity: 0.8;
+    background-color: #6666ff;
+    padding: 20px;
+    border-radius: 7px;
+    border: solid 1px gray;
+    z-index: 0;
+}
+.page-description span {
+    margin-left: 3px;
+}
+
+.main-page-content {
+    /* background: #a3a3c2; */
+    margin-top: -70px;
+    z-index: 5;
+}
+
+div.num-of-entries {
+    margin: 4px 20px;
+}
+
+div.num-of-entries input {
+    margin: 2px 10px;
+    width: 40px
+}
