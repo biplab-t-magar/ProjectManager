@@ -1,11 +1,12 @@
 import React from 'react';
 import '../CSS/Projects.css';
 import PageDescription from "../Components/PageDescription";
+import ListHeader from "../Components/ListHeaders.js";
 
 const Projects = () => {
     let errorMessage = "This is not a valid number of entries to show.";
     let numOfEntriesToShow = 10;
-    const ProjectListColums = ["Project Id", "Project Name", "Date Created", "Description"]
+    const listHeaders = ["Project Id", "Project Name", "Date Created", "Description"]
     return (
         <div className="page">
             <div className="projects-content">
@@ -17,13 +18,8 @@ const Projects = () => {
                     entries
                     <div className="text-danger invalid-entry">{errorMessage}</div>
                 </div>
-                <div className="project-list">
-                    <div className="row">
-                        <div>Project Id</div>
-                        <div>Project Name</div>
-                        <div>Date Created</div>
-                        <div>Description</div>
-                    </div>
+                <div className="projects-list">
+                    <ListHeader headers={listHeaders}/>
                     
                 </div>
                 
