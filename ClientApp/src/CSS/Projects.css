@@ -1,3 +1,7 @@
+div {
+    margin: 0;
+    padding: 0;
+}
 
 button.create-button {
     /* float: right;
@@ -14,19 +18,7 @@ div.projects-content {
     width: 100%;
 }
 
-.page-description {
-    margin: 2% 0;
-    /* margin-top: 0; */
-    opacity: 0.8;
-    background-color: #6666ff;
-    padding: 20px;
-    border-radius: 7px;
-    border: solid 1px gray;
-    z-index: 0;
-}
-.page-description span {
-    margin-left: 3px;
-}
+
 
 .main-page-content {
     /* background: #a3a3c2; */
@@ -34,15 +26,23 @@ div.projects-content {
     z-index: 5;
 }
 
-div.num-of-entries {
-    margin: 4px 20px;
-}
-
-div.num-of-entries input {
-    margin: 2px 10px;
-    width: 40px
-}
-
 .projects-list {
     width: 100%;
+}
+
+.project-list-row {
+    border: 1px #ccc solid;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    /* height: 75px; */
+}
+
+
+.project-list-row .column {
+    flex: 1;
+}
+
+.project-list-row .column.description {
+    flex: 4;
 }

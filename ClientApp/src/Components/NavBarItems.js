@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiFillHome, AiOutlineFundProjectionScreen, FaTasks } from "react-icons/ai"; 
+import { AiFillHome, AiOutlineFundProjectionScreen } from "react-icons/ai"; 
 import { GoTasklist } from "react-icons/go";
 import { HiDocumentReport } from "react-icons/hi";
 
