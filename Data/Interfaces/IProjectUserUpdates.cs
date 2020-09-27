@@ -3,9 +3,8 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public interface IUsersRepo
+    public interface IProjectUserUpdatesRepo
     {
-        User GetUserById(int userId);        
-        
+        List<ProjectUser> GetProjectUserUpdates(int projectId);
     }
 }

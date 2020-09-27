@@ -3,8 +3,8 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public interface IOrganizationsRepo
+    public interface IProjectUpdatesRepo
     {
-        Organization GetOrganizationById(int organizationId);
-    } 
+        IEnumerable<Project> GetProjectUpdates(int projectId);
+    }
 }

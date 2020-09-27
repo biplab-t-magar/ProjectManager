@@ -3,9 +3,8 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.Interfaces
 {
-    public interface IUsersRepo
+    public interface ITaskUserUpdatesRepo
     {
-        User GetUserById(int userId);        
-        
+        List<TaskUserUpdate> GetTaskUserUpdates(int projectId, int taskId);
     }
 }

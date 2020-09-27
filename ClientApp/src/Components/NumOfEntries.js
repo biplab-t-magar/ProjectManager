@@ -4,10 +4,11 @@ const NumOfEntries = (props) => {
     let errorMessageRef = useRef("");
     const invalidEntryRef = useRef();
     const inputRef = useRef();
-    const [numOfEntries, setNumOfEntries] = useState(10);
+    // const [numOfEntries, setNumOfEntries] = useState(10);
     
     const handleChange = (e) => {
-        setNumOfEntries(e.target.value);
+        // setNumOfEntries(e.target.value);
+        props.onNumOfEntriesChange(e.target.value);
         let errorMessage = checkEntryValidity(e.target.value);
         
         //check for one space
@@ -33,7 +34,7 @@ const NumOfEntries = (props) => {
     return (
         <div className="num-of-entries">
             Show 
-            <input type="text" ref={inputRef} value={numOfEntries} className="" id="num-of-entries-input" onChange={handleChange} />
+            <input type="text" ref={inputRef} value={props.NumOfEntries} className="" id="num-of-entries-input" onChange={handleChange} />
             entries
             <div ref={invalidEntryRef} className="text-danger invalid-entry hidden">{errorMessageRef.current}</div>
         </div>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManager.Models
@@ -16,6 +17,13 @@ namespace ProjectManager.Models
         //Could be: Manager, Member, Spectator
         [Required]
         public string Role {get; set;}
+
+        [Required]
+        public string TimeAdded {get; set;}
+
+        public string TimeRemoved {get; set;}
+
+        List<ProjectUserUpdate> ProjectUserUpdates {get; set;}
         
     }
 }

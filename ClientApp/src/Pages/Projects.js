@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../CSS/Projects.css';
 import PageDescription from "../Components/PageDescription";
 import ListColumns from '../Components/ListColumns';
@@ -6,34 +6,26 @@ import NumOfEntries from '../Components/NumOfEntries';
 
 
 const Projects = () => {
-    const [entriesToShow, setEntriesToShow] = useState(10);
-     
-    let numOfEntriesToShow = 10;
-    const headerColumns = [
-        {
-            name: "Project Id",
-            cName: "id",
-        }, 
-        {
-            name: "Project Name",
-            cName: "name",
-        },
-        {
-            name: "Date Created",
-            cName: "date",
-        },
-        {
-            name: "Description",
-            cName: "description",
-        },
-    ];
+    const [numOfEntries, setNumOfEntries] = useState(10);
+    let items = {};
+
+    //on intial render, get the object of all 
+    useEffect(() => {
+        fetch('/projects/1')
+            .then(res => res.json())
+            .then(json => {
+                items = json;
+            });
+    }, []);
+    
+    console.log(items);
     
     return (
         <div className="page">
             <div className="projects">
                 <PageDescription title="Your Projects" description="This is a list of all of your projects so far"/>
                 <button type="button" className="btn btn-lg create-button create-button">+ Create New Project</button>
-                <NumOfEntries numOfEntries={numOfEntriesToShow}/>
+                <NumOfEntries numOfEntries={numOfEntries} onNumOfEntriesChange={setNumOfEntries}/>
                 <div className="projects-list">
                     {/*headers*/}
                     <div className="project-list-header project-list-row">
@@ -57,6 +49,25 @@ const Projects = () => {
 }
 
 export default Projects;
+
+const headerColumns = [
+    {
+        name: "Project Id",
+        cName: "id",
+    }, 
+    {
+        name: "Project Name",
+        cName: "name",
+    },
+    {
+        name: "Date Created",
+        cName: "date",
+    },
+    {
+        name: "Description",
+        cName: "description",
+    },
+];
 
 const dummyProjects = [
     [

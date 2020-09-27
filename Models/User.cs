@@ -12,12 +12,9 @@ namespace ProjectManager.Models
         [Required]
         public string LastName {get; set;}
         public string MiddleName {get; set;}
-        
-        //a user can only have one organization
-        //if user works for two or more organizations, he will need separate accounts for each organization
-        public int OrganizationId {get; set;}
-        public Organization Organization {get; set;}
-
+        [Required]
+        public string Email {get; set;}
+        public string Bio{get; set;}
 
         // public List<TaskType> TaskTypes {get; set;}
         public List<ProjectUser> ProjectUsers {get; set;}

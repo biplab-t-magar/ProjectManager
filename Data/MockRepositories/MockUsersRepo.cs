@@ -33,7 +33,7 @@ namespace ProjectManager.Data.MockRepositories
             return null;
         }
 
-        public IEnumerable<User> GetUsersByOrganization(int organizationId)
+        public List<User> GetUsersByOrganization(int organizationId)
         {
             List<User> usersInOrg = new List<User>();
             for(int i=0; i < users.Count; i++)

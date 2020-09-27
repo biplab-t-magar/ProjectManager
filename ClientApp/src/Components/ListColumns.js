@@ -14,6 +14,6 @@ const ListColumns = (props) => {
            
         </div>
     );
-}
+};
 
 export default ListColumns;

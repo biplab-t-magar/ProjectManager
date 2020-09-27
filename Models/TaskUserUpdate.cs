@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManager.Models
 {
-    public class TaskUser
+    public class TaskUserUpdate
     {
         [Required]
         public int ProjectId {get; set;}
@@ -17,13 +16,15 @@ namespace ProjectManager.Models
         public int UserId {get; set;}
         [Required]
         public User User {get; set;}
+        [Required]
+        public int TaskUserUpdateId {get; set;}
 
         [Required]
-        public string TimeAdded {get; set;}
-
+        public int UpdatedByUserId {get; set;}
+        public User UpdatedBy{get; set;}
+        [Required]
+        public string TimeStamp {get; set;}
         public string TimeRemoved {get; set;}
-
-        List<TaskUserUpdate> TaskUserUpdates {get; set;}
 
     }
 }

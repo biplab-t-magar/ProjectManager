@@ -5,7 +5,6 @@ namespace ProjectManager.Models
 {
     public class Task
     {
-
         //foreign key
         [Required]
         public int ProjectId {get; set;}
@@ -26,15 +25,11 @@ namespace ProjectManager.Models
         [Required]
         public string Urgency {get; set;}
 
-        //optional
+        [Required]
+        //default task type should be set to general
         public int TaskTypeId {get; set;}
+        [Required]
         public TaskType TaskType {get; set;}
-
-        //foreign key
-        [Required]
-        public int MilestoneId {get; set;}
-        [Required]
-        public Milestone Milestone {get; set;}
 
         public List<TaskUpdate> TaskUpdates {get; set;}
         public List<TaskUser> TaskUsers {get; set;}
