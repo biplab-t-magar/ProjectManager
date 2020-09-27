@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,6 +25,8 @@ namespace ProjectManager.Models
         //Low, Medium, High
         [Required]
         public string Urgency {get; set;}
+        [Required]
+        public DateTime TimeCreate {get; set;}
 
         [Required]
         //default task type should be set to general

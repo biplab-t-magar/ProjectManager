@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManager.Models
@@ -7,15 +8,14 @@ namespace ProjectManager.Models
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        public Project Project {get; set;}
-        [Required]
         public int TaskId {get; set;}
-        [Required]
-        public Task Task {get; set;}
+        
         [Required]
         public int UserId {get; set;}
+
         [Required]
-        public User User {get; set;}
+        public TaskUser TaskUser {get; set;}
+        
         [Required]
         public int TaskUserUpdateId {get; set;}
 
@@ -23,8 +23,9 @@ namespace ProjectManager.Models
         public int UpdatedByUserId {get; set;}
         public User UpdatedBy{get; set;}
         [Required]
-        public string TimeStamp {get; set;}
-        public string TimeRemoved {get; set;}
+        public DateTime TimeStamp {get; set;}
+        public DateTime TimeRemoved {get; set;}
+
 
     }
 }

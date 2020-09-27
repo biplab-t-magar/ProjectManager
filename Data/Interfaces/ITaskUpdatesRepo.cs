@@ -5,6 +5,6 @@ namespace ProjectManager.Data.Interfaces
 {
     public interface ITaskUpdatesRepo
     {
-        IEnumerable<TaskUpdate> GetTaskUpdates(int projectId, int taskId);
+        List<TaskUpdate> GetTaskUpdates(int projectId, int taskId);
     }
 }

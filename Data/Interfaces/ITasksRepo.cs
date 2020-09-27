@@ -6,10 +6,10 @@ namespace ProjectManager.Data.Interfaces
     public interface ITasksRepo
     {
         Task GetTaskById(int projectId, int taskId);
-        IEnumerable<Task> GetTasksByProject(int projectId);
-        IEnumerable<Task> GetTasksByTaskStatus(int projectId, string taskStatus);
-        IEnumerable<Task> GetTasksByUrgency(int projectId, string urgency);
-        IEnumerable<Task> GetTasksByTaskType(int projectId, int taskTypeId);
+        List<Task> GetTasksByProject(int projectId);
+        List<Task> GetTasksByTaskStatus(int projectId, string taskStatus);
+        List<Task> GetTasksByUrgency(int projectId, string urgency);
+        List<Task> GetTasksByTaskType(int projectId, int taskTypeId);
 
         
     }

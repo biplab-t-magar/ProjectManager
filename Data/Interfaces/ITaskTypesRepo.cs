@@ -6,8 +6,8 @@ namespace ProjectManager.Data.Interfaces
     public interface ITaskTypesRepo
     {
         TaskType GetTaskTypeById(int projectId, int taskTypeId);
-        IEnumerable<TaskType> GetTaskTypesByProject(int projectId);
-        IEnumerable<TaskType> GetTaskTypesByDefaultUrgency(string urgency);
+        List<TaskType> GetTaskTypesByProject(int projectId);
+        List<TaskType> GetTaskTypesByDefaultUrgency(string urgency);
 
     }
 }

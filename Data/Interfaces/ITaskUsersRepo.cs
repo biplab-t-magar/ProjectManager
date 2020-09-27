@@ -5,8 +5,8 @@ namespace ProjectManager.Data.Interfaces
 {
     public interface ITaskUsersRepo
     {
-        IEnumerable<TaskUser> GetUsersByTask(int projectId, int taskId);
-        IEnumerable<TaskUser> GetTasksByUser(int userId);
-        IEnumerable<TaskUser> GetTasksInProjectByUser(int projectId, int userId);
+        List<TaskUser> GetUsersByTask(int projectId, int taskId);
+        List<TaskUser> GetTasksByUser(int userId);
+        List<TaskUser> GetTasksInProjectByUser(int projectId, int userId);
     }
 }

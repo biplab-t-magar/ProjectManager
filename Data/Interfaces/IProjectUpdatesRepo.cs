@@ -5,6 +5,6 @@ namespace ProjectManager.Data.Interfaces
 {
     public interface IProjectUpdatesRepo
     {
-        IEnumerable<Project> GetProjectUpdates(int projectId);
+        List<Project> GetProjectUpdates(int projectId);
     }
 }

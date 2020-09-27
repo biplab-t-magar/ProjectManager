@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,8 +10,6 @@ namespace ProjectManager.Models
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        public Project Project {get; set;}
-        [Required]
         public int TaskId {get; set;}
         [Required]
         public Task Task {get; set;}
@@ -19,7 +18,7 @@ namespace ProjectManager.Models
 
         public string Status {get; set;}
         [Required]
-        public string TimeStamp {get; set;}
+        public DateTime TimeStamp {get; set;}
 
         [Required]
         public int UpdatedByUserId {get; set;}
@@ -31,7 +30,6 @@ namespace ProjectManager.Models
         public string Urgency {get; set;}
 
         public int TaskTypeId {get; set;}
-
 
     }
 }

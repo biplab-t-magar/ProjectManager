@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,9 +20,9 @@ namespace ProjectManager.Models
         public User User {get; set;}
 
         [Required]
-        public string TimeAdded {get; set;}
+        public DateTime TimeAdded {get; set;}
 
-        public string TimeRemoved {get; set;}
+        public DateTime TimeRemoved {get; set;}
 
         List<TaskUserUpdate> TaskUserUpdates {get; set;}
 

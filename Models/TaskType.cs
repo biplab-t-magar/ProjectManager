@@ -14,12 +14,11 @@ namespace ProjectManager.Models
         [Required]
         public string Name {get; set;}
 
-        //enum
-        //set default value to be Medium
         public string DefaultUrgency {get; set;}
 
+
         public List<Task> Tasks {get; set;}
-        public List<TaskTypeUpdate> TaskTypeUpdate{get; set;}
+        public List<TaskTypeUpdate> TaskTypeUpdates{get; set;}
 
         
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -5,6 +6,7 @@ namespace ProjectManager.Models
 {
     public class ProjectUpdate
     {
+        
         [Required]
         public int ProjectId {get; set;}
         [Required]
@@ -16,9 +18,10 @@ namespace ProjectManager.Models
         [Required]
         public User UpdatedBy {get; set;}
         [Required]
-        public string TimeStamp {get; set;}
+        public DateTime TimeStamp {get; set;}
         public string Name {get; set;}
         public string Description {get; set;}
+
 
 
     }
