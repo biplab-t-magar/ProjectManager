@@ -10,7 +10,7 @@ namespace ProjectManager.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly IProjectsRepo _repository;
+        private readonly IProjectUsersRepo _repository;
 
         public ProjectsController(IProjectsRepo repository)
         {
@@ -29,19 +29,19 @@ namespace ProjectManager.Controllers
             
         }
         
-        // [HttpPost("{userid}/{projectid}")]
-        // public ActionResult <Project> GetProjectsByUser(int projectid, int userid) 
-        // {
-        //     var userProjects = _rep.GetProjectsByUser(userid);
-        //     //find the project 
-        //     for(var i = 0; i < userProjects.Count; i++) 
-        //     {
-        //         if(userProjects[i].ProjectId == projectid) {
-        //             return Ok(userProjects[i]);
-        //         }
-        //     }
-        //     return BadRequest();
-        // }
+        [HttpPost("{userid}")]
+        public ActionResult <Project> GetProjectsByUser(int projectid, int userid) 
+        {
+            var userProjects = _repository.GetProjectsByUser(userid);
+            //find the project 
+            for(var i = 0; i < userProjects.Count; i++) 
+            {
+                if(userProjects[i].ProjectId == projectid) {
+                    return Ok(userProjects[i]);
+                }
+            }
+            return BadRequest();
+        }
 
     }
 }

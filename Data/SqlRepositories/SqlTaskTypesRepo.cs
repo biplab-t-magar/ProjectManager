@@ -18,15 +18,6 @@ namespace ProjectManager.Data.SqlRepositories
         {
             return _context.TaskTypes.Find(taskTypeId);
         }
-
-        public List<TaskType> GetTaskTypesByDefaultUrgency(int projectId, string urgency)
-        {
-            return _context.TaskTypes.Where(tt => tt.ProjectId == projectId && tt.DefaultUrgency == urgency).ToList();
-        }
-
-        public List<TaskType> GetTaskTypesByProject(int projectId)
-        {
-            return _context.TaskTypes.Where(tt => tt.ProjectId == projectId).ToList();
-        }
+        
     }   
 }

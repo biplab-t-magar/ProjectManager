@@ -49,9 +49,11 @@ namespace ProjectManager.Data
             modelBuilder.Entity<TaskUpdate>()
                 .HasKey(tu => new {tu.ProjectId, tu.TaskId, tu.TaskUpdateId});  
 
+
             modelBuilder.Entity<TaskUpdate>()
                 .Property(tu => tu.TaskUpdateId)
-                .ValueGeneratedOnAdd();  
+                .ValueGeneratedOnAdd();
+                
 
             modelBuilder.Entity<TaskType>()
                 .HasKey(tt => new {tt.TaskTypeId});
