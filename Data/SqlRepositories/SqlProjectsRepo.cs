@@ -15,17 +15,7 @@ namespace ProjectManager.Data.SqlRepositories
         }
         public Project GetProjectById(int projectId)
         {
-            List<Project> projects = _context.Projects.ToList();
-            //search through all the entries
-            for(int i = 0; i < projects.Count; i++)
-            {
-                if(projects[i].ProjectId == projectId)
-                {
-                    return projects[i];
-                }
-            }
-            //return null if no match is found
-            return null; 
+            return _context.Projects.Find(projectId);
 
         }
     }
