@@ -16,7 +16,8 @@ namespace ProjectManager.Models
         [Required]
         public DateTime TimeAdded {get; set;}
 
-        public DateTime TimeRemoved {get; set;}
+        //this should be nullabe because value is only entered once a user is removed from a task
+        public DateTime? TimeRemoved {get; set;}
 
         public User User {get; set;}
         public Task Task {get; set;}

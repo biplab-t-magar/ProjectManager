@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManager.Data;
@@ -9,9 +10,10 @@ using ProjectManager.Data;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerContext))]
-    partial class ProjectManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20200928053407_MakingNullable")]
+    partial class MakingNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +173,7 @@ namespace ProjectManager.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UpdaterId")
+                    b.Property<int>("UpdatedByUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Urgency")
@@ -198,7 +200,7 @@ namespace ProjectManager.Migrations
                     b.Property<DateTime>("TimeAdded")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime?>("TimeRemoved")
+                    b.Property<DateTime>("TimeRemoved")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("ProjectId", "TaskId", "UserId");
@@ -230,7 +232,7 @@ namespace ProjectManager.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UpdaterId")
+                    b.Property<int>("UpdatedByUserId")
                         .HasColumnType("integer");
 
                     b.HasKey("ProjectId", "TaskId", "UserId", "TaskUserUpdateId");

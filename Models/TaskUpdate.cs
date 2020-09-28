@@ -14,20 +14,21 @@ namespace ProjectManager.Models
         [Required]
         public int TaskUpdateId {get; set;}
 
-        public string Status {get; set;}
         [Required]
         public DateTime TimeStamp {get; set;}
 
         [Required]
-        public int UpdatedByUserId {get; set;}
+        public int UpdaterId {get; set;}
         [MaxLength(50)]
         public string Name {get; set;}
-        
+        public string Status {get; set;}
+
         public string Urgency {get; set;}
 
-        public int TaskTypeId {get; set;}
+        //make tasktype nullable
+        public int? TaskTypeId {get; set;}
         public TaskType TaskType {get; set;}
-        public DateTime Deadline {get; set;}
+        public DateTime? Deadline {get; set;}
 
         public Task Task {get; set;}
 

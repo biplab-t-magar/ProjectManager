@@ -19,10 +19,11 @@ namespace ProjectManager.Models
         public int TaskUserUpdateId {get; set;}
 
         [Required]
-        public int UpdatedByUserId {get; set;}
+        public int UpdaterId {get; set;}
         [Required]
         public DateTime TimeStamp {get; set;}
-        public DateTime TimeRemoved {get; set;}
+        //make TimeRemoved nullable
+        public DateTime? TimeRemoved {get; set;}
 
         public TaskUser TaskUser {get; set;}
 
