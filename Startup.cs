@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectManager.Data;
+using ProjectManager.Data.Interfaces;
+using ProjectManager.Data.SqlRepositories;
 
 namespace ProjectManager
 {
@@ -35,7 +37,7 @@ namespace ProjectManager
                 configuration.RootPath = "ClientApp/build";
             });
 
-            // services.AddScoped<IProjectUpdatesRepo, MockProjectsRepo>();
+            services.AddScoped<IProjectsRepo, SqlProjectsRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

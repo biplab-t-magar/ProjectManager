@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManager.Data;
@@ -9,9 +10,10 @@ using ProjectManager.Data;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerContext))]
-    partial class ProjectManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20200928020523_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,7 @@ namespace ProjectManager.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("TaskId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp without time zone");
@@ -100,7 +100,7 @@ namespace ProjectManager.Migrations
                     b.Property<int>("TaskTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("TimeCreated")
+                    b.Property<DateTime>("TimeCreate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Urgency")
@@ -109,17 +109,16 @@ namespace ProjectManager.Migrations
 
                     b.HasKey("ProjectId", "TaskId");
 
-                    b.HasIndex("TaskTypeId");
-
                     b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("ProjectManager.Models.TaskType", b =>
                 {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("TaskTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
 
                     b.Property<string>("DefaultUrgency")
                         .IsRequired()
@@ -132,12 +131,7 @@ namespace ProjectManager.Migrations
                         .HasColumnType("character varying(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TaskTypeId");
-
-                    b.HasIndex("ProjectId");
+                    b.HasKey("ProjectId", "TaskTypeId");
 
                     b.ToTable("TaskTypes");
                 });
@@ -151,9 +145,7 @@ namespace ProjectManager.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("TaskUpdateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp without time zone");
@@ -178,8 +170,6 @@ namespace ProjectManager.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ProjectId", "TaskId", "TaskUpdateId");
-
-                    b.HasIndex("TaskTypeId");
 
                     b.ToTable("TaskUpdates");
                 });
@@ -220,9 +210,7 @@ namespace ProjectManager.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("TaskUserUpdateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("TimeRemoved")
                         .HasColumnType("timestamp without time zone");
@@ -294,12 +282,6 @@ namespace ProjectManager.Migrations
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ProjectManager.Models.TaskType", "TaskType")
-                        .WithMany("Tasks")
-                        .HasForeignKey("TaskTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProjectManager.Models.TaskType", b =>
@@ -313,12 +295,6 @@ namespace ProjectManager.Migrations
 
             modelBuilder.Entity("ProjectManager.Models.TaskUpdate", b =>
                 {
-                    b.HasOne("ProjectManager.Models.TaskType", "TaskType")
-                        .WithMany()
-                        .HasForeignKey("TaskTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ProjectManager.Models.Task", "Task")
                         .WithMany()
                         .HasForeignKey("ProjectId", "TaskId")

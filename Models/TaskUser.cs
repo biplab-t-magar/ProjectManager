@@ -9,22 +9,18 @@ namespace ProjectManager.Models
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        public Project Project {get; set;}
-        [Required]
         public int TaskId {get; set;}
         [Required]
-        public Task Task {get; set;}
-        [Required]
         public int UserId {get; set;}
-        [Required]
-        public User User {get; set;}
 
         [Required]
         public DateTime TimeAdded {get; set;}
 
         public DateTime TimeRemoved {get; set;}
 
-        List<TaskUserUpdate> TaskUserUpdates {get; set;}
+        public User User {get; set;}
+        public Task Task {get; set;}
 
+        public List<TaskUserUpdate> TaskUserUpdates {get; set;}
     }
 }

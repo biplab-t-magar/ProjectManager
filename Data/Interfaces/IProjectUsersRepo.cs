@@ -5,8 +5,8 @@ namespace ProjectManager.Data.Interfaces
 {
     public interface IProjectUsersRepo
     {
-        List<ProjectUser> GetUsersByProject(int projectId);
-        List<ProjectUser> GetProjectsByUser(int userId);
-        List<ProjectUser> GetProjectUsersByRole(int projectId, int userId, string role);
+        List<User> GetUsersByProject(int projectId);
+        List<Project> GetProjectsByUser(int userId);
+        List<User> GetUsersByRole(int projectId, string role);
     }
 }

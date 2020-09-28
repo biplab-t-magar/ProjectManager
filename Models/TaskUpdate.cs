@@ -12,8 +12,6 @@ namespace ProjectManager.Models
         [Required]
         public int TaskId {get; set;}
         [Required]
-        public Task Task {get; set;}
-        [Required]
         public int TaskUpdateId {get; set;}
 
         public string Status {get; set;}
@@ -22,14 +20,16 @@ namespace ProjectManager.Models
 
         [Required]
         public int UpdatedByUserId {get; set;}
-        public User UpdatedBy {get; set;}
+        [MaxLength(50)]
         public string Name {get; set;}
         
-        public string TaskStatus {get; set;}
-
         public string Urgency {get; set;}
 
         public int TaskTypeId {get; set;}
+        public TaskType TaskType {get; set;}
+        public DateTime Deadline {get; set;}
+
+        public Task Task {get; set;}
 
     }
 }
