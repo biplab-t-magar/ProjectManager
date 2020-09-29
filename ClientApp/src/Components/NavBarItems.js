@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiFillHome, AiOutlineFundProjectionScreen } from "react-icons/ai"; 
+import { AiFillHome, AiOutlineProject } from "react-icons/ai"; 
 import { GoTasklist } from "react-icons/go";
 import { HiDocumentReport } from "react-icons/hi";
 
@@ -14,7 +14,7 @@ export  const NavBarItems = [
     {
         title: 'Projects',
         path: '/projects',
-        icon: <AiOutlineFundProjectionScreen />,
+        icon: <AiOutlineProject />,
         className: 'nav-text'
     }, 
     {

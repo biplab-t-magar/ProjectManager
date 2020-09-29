@@ -1,10 +1,9 @@
 import React from 'react';
 import PageDescription from "../Components/PageDescription.js";
-import NumOfEntries from "../Components/NumOfEntries.js";
 import ListColumns from "../Components/ListColumns.js";
 
 const Tasks = () => {
-    let numOfEntriesToShow = 20;
+    // let numOfEntriesToShow = 20;
 
     const headerColumns = [
         {
@@ -32,7 +31,7 @@ const Tasks = () => {
             <div className="tasks">
                 <PageDescription title="Your Tasks" description="This is a list of all of your current tasks"/>
             </div>
-            <NumOfEntries />
+            {/* <NumOfEntries /> */}
             <div className="projects-list">
                 {/*headers*/}
                 <div className="project-list-header project-list-row">

@@ -70,6 +70,8 @@ namespace ProjectManager.Data.SqlRepositories
             return users;
         }
 
+        
+
         public List<User> GetProjectUsersByRole(int projectId, string role)
         {
             var projectUsers = _context.ProjectUsers.Where(p => (p.ProjectId == projectId && p.Role == role)).ToList();
@@ -86,6 +88,16 @@ namespace ProjectManager.Data.SqlRepositories
             //return the queried values
             return users;
         }
+
+        public List<ProjectUser> GetProjectUserRoles(int projectId)
+        {
+            var projectUsers = _context.ProjectUsers.Where(pu => pu.ProjectId == projectId).ToList();
+
+            return projectUsers;
+
+        }
+
+
 
         public List<TaskUpdate> GetTaskUpdatesByProject(int projectId)
         {

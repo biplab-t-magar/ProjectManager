@@ -38,6 +38,9 @@ namespace ProjectManager
             });
 
             services.AddScoped<IProjectsRepo, SqlProjectsRepo>();
+            services.AddScoped<IUsersRepo, SqlUsersRepo>();
+            services.AddScoped<ITasksRepo, SqlTasksRepo>();
+            services.AddScoped<ITaskTypesRepo, SqlTaskTypesRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

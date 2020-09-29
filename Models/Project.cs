@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProjectManager.Models
 {
@@ -18,8 +19,11 @@ namespace ProjectManager.Models
         [MaxLength(700)]
         public string Description {get; set;}
 
+        [JsonIgnore]
         public List<ProjectUser> ProjectUsers {get; set;}
+        [JsonIgnore]
         public List<Task> Tasks {get; set;}
+        [JsonIgnore]
         public List<TaskType> TaskTypes {get; set;}
 
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProjectManager.Models
 {
@@ -34,10 +35,10 @@ namespace ProjectManager.Models
         [Required]
         public int TaskTypeId {get; set;}
         [Required]
+        [JsonIgnore]
         public TaskType TaskType {get; set;}
-    
         
-
+        [JsonIgnore]
         public List<TaskUser> TaskUsers {get; set;}
 
     }

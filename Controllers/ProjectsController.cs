@@ -3,44 +3,45 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Models;
 using System.Linq;
 using ProjectManager.Data.Interfaces;
+using System;
 
 namespace ProjectManager.Controllers 
 {
-    [Route("/projects")]
+    [Route("/project")]
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly IProjectUsersRepo _repository;
+        private readonly IProjectsRepo _projectsRepo;
 
-        public ProjectsController(IProjectsRepo repository)
+        public ProjectsController(IProjectsRepo projectsRepo)
         {
-            _repository = repository;
+            _projectsRepo = projectsRepo;
         }
 
-
-        [HttpPost("{id}")]
-        public ActionResult <Project> GetProjectById(int projectId)
+        [HttpGet("{projectId}")]
+        public ActionResult <Project> GetProject(int projectId)
         {
-            var project = _repository.GetProjectById(projectId);
+            var project = _projectsRepo.GetProjectById(projectId);
+            if(project == null) 
+            {
+                return NotFound();
+            }
 
-            
-            return Ok(project);
+            return Ok(project);            
+        }
 
-            
+        [HttpGet("{projectId}/users")]
+        public ActionResult <List<User>> GetProjectUsers(int projectId)
+        {
+            var projectUsers = _projectsRepo.GetProjectUsers(projectId);
+            return Ok(projectUsers);
         }
         
-        [HttpPost("{userid}")]
-        public ActionResult <Project> GetProjectsByUser(int projectid, int userid) 
+        [HttpGet("{projectId}/roles")]
+        public ActionResult <List<ProjectUser>> GetProjectUserRoles(int projectId)
         {
-            var userProjects = _repository.GetProjectsByUser(userid);
-            //find the project 
-            for(var i = 0; i < userProjects.Count; i++) 
-            {
-                if(userProjects[i].ProjectId == projectid) {
-                    return Ok(userProjects[i]);
-                }
-            }
-            return BadRequest();
+            var projectUserRoles = _projectsRepo.GetProjectUserRoles(projectId);
+            return projectUserRoles;
         }
 
     }

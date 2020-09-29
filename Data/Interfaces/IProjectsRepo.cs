@@ -21,6 +21,11 @@ namespace ProjectManager.Data.Interfaces
         List<TaskType> GetProjectTaskTypes(int projectId);
         List<TaskType> GetProjectTaskTypesByDefaultUrgency(int projectId, string defaultUrgency);
 
+        List<ProjectUser> GetProjectUserRoles(int projectId);
+
         List<TaskUpdate> GetTaskUpdatesByProject(int projectId);
+        // List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, int updaterId);
+
+
     }
 }

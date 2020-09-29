@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProjectManager.Models
 {
@@ -20,8 +21,9 @@ namespace ProjectManager.Models
         public string DefaultUrgency {get; set;}
 
         [Required]
+        [JsonIgnore]
         public Project Project {get; set;}
-
+        [JsonIgnore]
         public List<Task> Tasks {get; set;}
 
     }

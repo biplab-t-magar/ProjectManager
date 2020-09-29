@@ -1,44 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import '../CSS/Projects.css';
 import PageDescription from "../Components/PageDescription";
-import ListColumns from '../Components/ListColumns';
-import NumOfEntries from '../Components/NumOfEntries';
-
+import {Link} from "react-router-dom";
 
 const Projects = () => {
-    const [numOfEntries, setNumOfEntries] = useState(10);
-    let items = {};
+    // const [numOfEntries, setNumOfEntries] = useState(10);
+    const [projectsList, setProjectsList] = useState([]);
 
-    //on intial render, get the object of all 
+    //on intial render, fetch project list from server
     useEffect(() => {
-        fetch('/projects/1')
-            .then(res => res.json())
-            .then(json => {
-                items = json;
-            });
+        fetchAllProjects();
     }, []);
     
-    console.log(items);
-    
+    const fetchAllProjects = async () => {
+        const res = await fetch('/user/1/projects');
+        const jsonData = await res.json();
+        setProjectsList(jsonData);
+    };
+
+
     return (
         <div className="page">
             <div className="projects">
                 <PageDescription title="Your Projects" description="This is a list of all of your projects so far"/>
                 <button type="button" className="btn btn-lg create-button create-button">+ Create New Project</button>
-                <NumOfEntries numOfEntries={numOfEntries} onNumOfEntriesChange={setNumOfEntries}/>
+                {/* <NumOfEntries numOfEntries={numOfEntries} onNumOfEntriesChange={setNumOfEntries}/> */}
                 <div className="projects-list">
                     {/*headers*/}
                     <div className="project-list-header project-list-row">
-                        {headerColumns.map((item, index) => {
-                            return (
-                                <div key={index} className={`${item.cName} column`}>{item.name}</div>
-                            );
-                        })}
+                        <div className="name column">Project Name</div>
+                        <div className="timeCreated column">Created On</div>
+                        <div className="deadline column">Deadline</div>
+                        <div className="description column">Description</div>
                     </div>
-                    {dummyProjects.map((row,index) => {
+                    {projectsList.map((project ) => {
                         return (
-                            
-                            <ListColumns key={index} row={row} cName="project-list-row"></ListColumns>
+                            <Link to={`/projects/${project.projectId}`} key={project.projectId}>
+                                <div  className="project-entry project-list-row">
+                                    <div className="name column">{project.name}</div>
+                                    <div className="timeCreated column">{project.timeCreated}</div>
+                                    <div className="deadline column">{project.deadline}</div>
+                                    <div className="description column">{project.description}</div>
+                                </div>
+                            </Link>
                         );
                     })}
                 </div>
@@ -49,62 +53,3 @@ const Projects = () => {
 }
 
 export default Projects;
-
-const headerColumns = [
-    {
-        name: "Project Id",
-        cName: "id",
-    }, 
-    {
-        name: "Project Name",
-        cName: "name",
-    },
-    {
-        name: "Date Created",
-        cName: "date",
-    },
-    {
-        name: "Description",
-        cName: "description",
-    },
-];
-
-const dummyProjects = [
-    [
-        {
-            name: "1",
-            cName: "id",
-        }, 
-        {
-            name: "test 1",
-            cName: "name",
-        },
-        {
-            name: "jan 3",
-            cName: "date",
-        },
-        {
-            name: "This is a test project description 1",
-            cName: "description",
-        },
-    ], 
-    [
-        {
-            name: "2",
-            cName: "id",
-        }, 
-        {
-            name: "test 2",
-            cName: "name",
-        },
-        {
-            name: "jan 28",
-            cName: "date",
-        },
-        {
-            name: "The above example creates three equal-widt",
-            cName: "description",
-        },
-    ],
-    
-];

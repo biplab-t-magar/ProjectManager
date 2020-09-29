@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProjectManager.Models
 {
@@ -24,12 +25,15 @@ namespace ProjectManager.Models
         public string Status {get; set;}
 
         public string Urgency {get; set;}
+        public DateTime? Deadline {get; set;}
 
         //make tasktype nullable
         public int? TaskTypeId {get; set;}
-        public TaskType TaskType {get; set;}
-        public DateTime? Deadline {get; set;}
 
+
+        [JsonIgnore]
+        public TaskType TaskType {get; set;}
+        [JsonIgnore]
         public Task Task {get; set;}
 
     }
