@@ -44,5 +44,27 @@ namespace ProjectManager.Controllers
             return projectUserRoles;
         }
 
+        [HttpGet("{projectId}/tasks")]
+        public ActionResult <List<Task>> GetProjectTasks(int projectId)
+        {
+            var projectTasks = _projectsRepo.GetProjectTasks(projectId);
+            return projectTasks;
+        }
+
+        
+        [HttpGet("{projectId}/tasks/{numOfTasks:int}")]
+        public ActionResult <List<Task>> GetProjectTasks(int projectId, [FromQuery(Name = "numOfTasks")] int numOfTasks)
+        {
+            var projectTasks = _projectsRepo.GetProjectTasks(projectId);
+            return projectTasks;
+        }
+
+        [HttpGet("{projectId}/taskTypes")]
+        public ActionResult <List<TaskType>> GetProjectTaskTypes(int projectId)
+        {
+            var projectTaskTypes = _projectsRepo.GetProjectTaskTypes(projectId);
+            return projectTaskTypes;
+        }
+
     }
 }

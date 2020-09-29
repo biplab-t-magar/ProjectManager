@@ -92,11 +92,11 @@ namespace ProjectManager.Data.SqlRepositories
         public List<ProjectUser> GetProjectUserRoles(int projectId)
         {
             var projectUsers = _context.ProjectUsers.Where(pu => pu.ProjectId == projectId).ToList();
+            
 
             return projectUsers;
 
         }
-
 
 
         public List<TaskUpdate> GetTaskUpdatesByProject(int projectId)

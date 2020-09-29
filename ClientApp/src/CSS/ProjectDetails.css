@@ -22,3 +22,106 @@
     border: solid 1px lightgray;
     color: #666666;
 }
+
+
+
+.project-details .project-body {
+    display: static;
+
+}
+
+.project-details .project-body .subsection{
+    display: inline-block;
+    margin: 10px;
+}
+
+.project-details .project-body .project-users.subsection {
+    width: 340px;
+    color: inherit;
+}
+
+.project-details .project-body .recent-tasks.subsection {
+    width: 340px;
+    color: inherit;
+    
+}
+
+.project-details .subsection .subsection-row.subsection-header{
+    background-color:rgb(173, 190, 197);
+    font-size: 30px;
+    opacity: 0.8;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.project-details .subsection-row.subsection-header{
+    background-color: gray;
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+.project-details .subsection .subsection-row.subsection-header a{
+    font-size: small;
+    color: inherit;
+    float:right;
+    margin-top: 13px;
+    margin-right: 5px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    padding: 4px;
+    text-decoration: none;
+}
+
+.project-details .subsection .subsection-row.subsection-header a:hover{
+    background-color: rgb(177, 187, 202);
+}
+.project-details .subsection ul{
+    border: 1px rgb(220, 228, 228) solid;
+    border-top: none;
+    margin-top: 0;
+}
+
+.project-details .subsection-row {
+    margin-bottom: 5px;
+    margin-top: 2px;
+}
+
+.project-details .subsection-row a{
+    color: gray;
+}
+
+.project-details .subsection-row .subsection-column {
+    display: inline-block;
+    color: inherit;
+}
+
+.project-details .subsection-row .subsection-column.user-name{
+    color: inherit;
+    width: 140px;
+    margin: 0px;
+    margin-left: 5px;
+    padding: 0px;
+    font-size: 14px;
+}
+
+.project-details .subsection-row .subsection-column.user-role {
+    margin: 0px;
+    font-size: small;
+    width: 100px;
+    color: rgb(179, 179, 179);
+}
+
+.project-details .subsection-row .subsection-column.user-activity {
+    font-size: small;
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.project-details .subsection-row a .user-activity:hover {
+    box-shadow: 6px 15px 41px -17px rgba(0,0,0,0.75) !important;
+    background-color: lightgray;
+    cursor: pointer;
+}
+

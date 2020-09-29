@@ -35,6 +35,7 @@ namespace ProjectManager.Models
         [Required]
         public int TaskTypeId {get; set;}
         [Required]
+        
         [JsonIgnore]
         public TaskType TaskType {get; set;}
         

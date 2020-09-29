@@ -2,17 +2,20 @@ import React, { useEffect } from 'react';
 import {Link} from "react-router-dom"
 import {useState} from "react";
 import PageDescription from '../Components/PageDescription';
-import ProjectMemberListing from '../Components/ProjectMemberListing';
 import "../CSS/ProjectDetails.css";
 
 const ProjectDetails = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
     const [projectMembers, setProjectMembers] = useState([]);
     const [projectUserRoles, setProjectUserRoles] = useState([]);
+    const [recentProjectTasks, setRecentProjectTasks] = useState([]);
+    const [projectTaskTypes, setProjectTaskTypes] = useState([]);
 
     useEffect(() => {
         fetchProjectData();
         fetchUserData();
+        fetchRecentProjectTasks();
+        fetchTaskTypes();
     }, []);
 
     const fetchProjectData = async () => {
@@ -28,22 +31,81 @@ const ProjectDetails = ({match}) => {
         //we fetch project user roles inside the fetch user data function because
         //we do not want the former data to be retreived before the latter data
         fetchProjectUserRoles();
-    }
+    };
 
     const fetchProjectUserRoles = async () => {
         const res = await fetch(`/project/${match.params.projectId}/roles`);
         const data = await res.json();
         setProjectUserRoles(data);
-    }
+    };
 
-    const findUserRole = (userId) => {
+    const fetchRecentProjectTasks = async () => {
+        //get latest 15 tasks from project
+        const res = await fetch(`/project/${match.params.projectId}/tasks?numOfTasks=15`);
+        const data = await res.json();
+        setRecentProjectTasks(data);
+    };
+
+    const fetchTaskTypes = async () => {
+        const res = await fetch(`/project/${match.params.projectId}/taskTypes`);
+        const data = await res.json();
+        setProjectTaskTypes(data);
+    };
+
+    const getUserRole = (userId) => {
         for(let i = 0; i < projectUserRoles.length; i++) {
-            if(projectUserRoles[i].userId == userId) {
-                console.log(projectUserRoles[i].role);
+            if(projectUserRoles[i].userId === userId) {
                 return projectUserRoles[i].role;
             }
         }
+    };
+    const getTaskTypeName = (typeId) => {
+        for(let i = 0; i < projectTaskTypes.length; i++) {
+            if(projectTaskTypes[i].taskTypeId === typeId) {
+                return projectTaskTypes[i].name;
+            }
+        }
     }
+
+    const renderProjectUser = (member) => {
+        return(
+            <li key={member.userId} className="subsection-row">
+                <div className="user-name subsection-column">
+                    <Link to={`/user/${member.userId}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
+                </div>
+                <div className="user-role subsection-column">
+                    {getUserRole(member.userId)}
+                </div>                                        
+                <Link to={`projects/${match.params.projectId}/users/${member.userId}`}>
+                    <div className="user-activity subsection-column">
+                        User Activity
+                    </div>
+                </Link>
+            </li>
+        );
+    }
+
+    const renderRecentProjectTasks = (task) => {
+        // console.log(task);
+
+        return(
+            <Link to={`projects/${match.params.projectId}/tasks/${task.taskId}`} key={task.taskId}>
+                <li className="subsection-row">
+                    <div className="task-name subsection-column">
+                        {task.name} 
+                    </div>                                    
+                    {/* <Link to={`projects/${match.params.projectId}/users/${member.userId}`}> */}
+                    <div className="task-type subsection-column">
+                        {getTaskTypeName(task.taskId)}
+                    </div>
+                    <div className="task-urgency subsection-column">
+                        {task.taskUrgency}
+                    </div>
+                </li>
+            </Link>
+        );
+    }
+
 
     return (
         <div className="page">
@@ -54,25 +116,37 @@ const ProjectDetails = ({match}) => {
                 </div>
                 <button type="button" className="btn btn-lg create-button create-button">Edit Project</button>
                 <button type="button" className="btn btn-lg create-button create-button">View Project History</button>
-                <div className="project-details-body">
-                    <div className="project-users">
-                        <h3>Project Team</h3>
+                <button type="button" className="btn btn-lg create-button create-button">Manage Task Types</button>
+                <div className="project-body">
+                    <div className="project-users subsection">
+                        <div className="subsection-row subsection-header">
+                            Project Team
+                            <Link to={`projects/${match.params.projectId}/users`}>
+                                More Details
+                            </Link>
+                        </div>
                         <ul>
                             {projectMembers.map((member) => {
-                                return(
-                                    <li key={member.userId}>
-                                        <ProjectMemberListing user={member}/>
-                                <span>{findUserRole(member.userId)}</span>
-                                        <Link to={`projects/${match.params.projectId}/users/${member.userId}`}>User Activity</Link>
-                                    </li>
-                                );
+                                return(renderProjectUser(member));
+                            })}
+                        </ul>
+                    </div>
+                    <div className="recent-tasks subsection">
+                        <div className="subsection-row subsection-header">
+                            Recent Tasks
+                            <Link to={`projects/${match.params.projectId}/tasks`}>
+                                View All Tasks
+                            </Link>
+                        </div>
+                        <ul>
+                            {recentProjectTasks.map((task) => {
+                                return(renderRecentProjectTasks(task));
                             })}
                         </ul>
                     </div>
                 </div>
 
             </div>
-            
         </div>
     );
 }
