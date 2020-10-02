@@ -47,42 +47,35 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.TaskTypes.Where(tt => tt.ProjectId == projectId).ToList();
         }
 
-        public List<TaskType> GetProjectTaskTypesByDefaultUrgency(int projectId, string defaultUrgency)
-        {
-            return _context.TaskTypes.Where(tt => tt.ProjectId == projectId && tt.DefaultUrgency == defaultUrgency).ToList();
-        }
-
-        public List<User> GetProjectUsers(int projectId)
+        public List<AppUser> GetProjectUsers(int projectId)
         {
             //first get all the ProjectUser entries that are paired with the given project id
             var projectUsers = _context.ProjectUsers.Where(p => p.ProjectId == projectId).ToList();
 
             //to store all users with the returned project entries
-            List<User> users = new List<User>();
+            List<AppUser> users = new List<AppUser>();
 
             //loop through all user ids and store corresponding user entries
             for(int i = 0; i < projectUsers.Count; i++)
             {
-                users.Add(_context.Users.Find(projectUsers[i].UserId));
+                users.Add(_context.Users.Find(projectUsers[i].AppUserId));
             }
 
             //return the queried values
             return users;
         }
 
-        
-
-        public List<User> GetProjectUsersByRole(int projectId, string role)
+        public List<AppUser> GetProjectUsersByRole(int projectId, string role)
         {
             var projectUsers = _context.ProjectUsers.Where(p => (p.ProjectId == projectId && p.Role == role)).ToList();
 
             //store all users corresponding to the given projectId and role
-            List<User> users = new List<User>();
+            List<AppUser> users = new List<AppUser>();
 
             //loop through all users and store corresponding user entries 
             for(int i = 0; i < projectUsers.Count; i++)
             {
-                users.Add(_context.Users.Find(projectUsers[i].UserId));
+                users.Add(_context.Users.Find(projectUsers[i].AppUserId));
             }
 
             //return the queried values
@@ -98,27 +91,40 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
-
         public List<TaskUpdate> GetTaskUpdatesByProject(int projectId)
         {
-            return _context.TaskUpdates.Where(tu => tu.ProjectId == projectId).ToList();
-        }
+            //first, get all the tasks in a project
+            var projectTasks = _context.Tasks.Where(t => t.ProjectId == projectId).ToList();
 
-        public List<Task> GetUserProjectTasks(int projectId, int userId)
-        {
-            //first get all the taskUsers entry with the given projectId and userId
-            var taskUsers = _context.TaskUsers.Where(t => t.ProjectId == projectId && t.UserId == userId).ToList();
-
-            //store all tasks by corresponding to the taskUsers entry
-            List<Task> tasks = new List<Task>();
-
-            //loop through all tasks and store corresponding Task entries
-            for(int i = 0; i < taskUsers.Count; i++)
+            //now, collect all the task updates in all the tasks of the project
+            List<TaskUpdate> taskUpdates = new List<TaskUpdate>();
+            //loop through all the projectTasks and gather every task update associated with the each task
+            for (int i = 0; i < projectTasks.Count; i++)
             {
-                tasks.Add(_context.Tasks.Find(taskUsers[i].ProjectId, taskUsers[i].TaskId));
+                taskUpdates.AddRange(_context.TaskUpdates.Where(tu => tu.TaskId == projectTasks[i].TaskId).ToList());
             }
 
-            return tasks;
+            return taskUpdates;
+        }
+
+        public List<Task> GetUserProjectTasks(int projectId, string userId)
+        {
+            //first, get all the tasks by the given user
+            var userTasks = _context.TaskUsers.Where(tu => tu.AppUserId == userId).ToList();
+
+            //now, collect only those tasks of the project that have the given user
+
+            //to store the needed tasks
+            List<Task> userProjectTasks = new List<Task>();
+
+            //for all the tasks by the user, collect only those that are in the given project
+            for(int i = 0; i < userTasks.Count; i++)
+            {
+                userProjectTasks.AddRange(_context.Tasks.Where(t => t.TaskId == userTasks[i].TaskId && t.ProjectId == projectId).ToList());
+            }
+
+            return userProjectTasks;
+
         }
     }
 }

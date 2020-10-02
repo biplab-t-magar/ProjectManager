@@ -7,13 +7,12 @@ namespace ProjectManager.Models
 {
     public class TaskUpdate
     {
-        //foreign key
-        [Required]
-        public int ProjectId {get; set;}
-        [Required]
-        public int TaskId {get; set;}
+
         [Required]
         public int TaskUpdateId {get; set;}
+        //foreign key
+        [Required]
+        public int TaskId {get; set;}
 
         [Required]
         public DateTime TimeStamp {get; set;}

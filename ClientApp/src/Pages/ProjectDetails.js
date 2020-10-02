@@ -76,7 +76,7 @@ const ProjectDetails = ({match}) => {
                 <div className="user-role subsection-column">
                     {getUserRole(member.userId)}
                 </div>                                        
-                <Link to={`projects/${match.params.projectId}/users/${member.userId}`}>
+                <Link to={`/projects/${match.params.projectId}/users/${member.userId}`}>
                     <div className="user-activity subsection-column">
                         User Activity
                     </div>
@@ -89,8 +89,8 @@ const ProjectDetails = ({match}) => {
         // console.log(task);
 
         return(
-            <Link to={`projects/${match.params.projectId}/tasks/${task.taskId}`} key={task.taskId}>
-                <li className="subsection-row">
+            <Link to={`/projects/${match.params.projectId}/task/${task.taskId}`} key={task.taskId}>
+                <li className="subsection-row subsection-list">
                     <div className="task-name subsection-column">
                         {task.name} 
                     </div>                                    
@@ -114,6 +114,12 @@ const ProjectDetails = ({match}) => {
                 <div className="project-description">
                     {projectDetails.description}
                 </div>
+                <div className="project-dates">
+                    <div className="">
+                        Created on: {projectDetails.timeCreated}
+                    </div>
+                    <div className="">Deadline: {projectDetails.deadline}</div>
+                </div>
                 <button type="button" className="btn btn-lg create-button create-button">Edit Project</button>
                 <button type="button" className="btn btn-lg create-button create-button">View Project History</button>
                 <button type="button" className="btn btn-lg create-button create-button">Manage Task Types</button>
@@ -121,7 +127,7 @@ const ProjectDetails = ({match}) => {
                     <div className="project-users subsection">
                         <div className="subsection-row subsection-header">
                             Project Team
-                            <Link to={`projects/${match.params.projectId}/users`}>
+                            <Link to={`/projects/${match.params.projectId}/users`}>
                                 More Details
                             </Link>
                         </div>
@@ -134,7 +140,7 @@ const ProjectDetails = ({match}) => {
                     <div className="recent-tasks subsection">
                         <div className="subsection-row subsection-header">
                             Recent Tasks
-                            <Link to={`projects/${match.params.projectId}/tasks`}>
+                            <Link to={`/projects/${match.params.projectId}/tasks`}>
                                 View All Tasks
                             </Link>
                         </div>

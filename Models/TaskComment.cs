@@ -1,30 +1,28 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ProjectManager.Models
 {
-    public class ProjectUser
+    public class TaskComment
     {
         [Required]
-        public int ProjectId {get; set;}
+        public int TaskCommentId {get; set;}
 
         [Required]
         public string AppUserId {get; set;}
 
-        //Could be: Manager, Member, Spectator
         [Required]
-        public string Role {get; set;}
-
+        public int TaskId {get; set;}        
+    
         [Required]
-        public DateTime TimeAdded {get; set;}
+        [MaxLength(300)]
+        public string Comment {get; set;}
 
         [JsonIgnore]
-        [Required]
         public AppUser AppUser {get; set;}
-
         [JsonIgnore]
         public Project Project {get; set;}
-
+        [JsonIgnore]
+        public Task Task {get; set;}
     }
 }

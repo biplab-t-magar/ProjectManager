@@ -13,45 +13,45 @@ namespace ProjectManager.Data.SqlRepositories
         {   
             _context = context;
         }
-        public Task GetTaskById(int projectId, int taskId)
+        public Task GetTaskById(int taskId)
         {
-            return _context.Tasks.Find(projectId, taskId);
+            return _context.Tasks.Find(taskId);
         }
 
-        public List<User> GetTaskUsers(int projectId, int taskId)
+        public List<AppUser> GetTaskUsers(int taskId)
         {
-            //first get all the TaskUser entries with the matching key
-            var taskUsers = _context.TaskUsers.Where(tu => tu.ProjectId == projectId && tu.TaskId == taskId).ToList();
+            //first get all the TaskUser entries with the matching taskId
+            var taskUsers = _context.TaskUsers.Where(tu => tu.TaskId == taskId).ToList();
 
-            List<User> users = new List<User>();
+            List<AppUser> users = new List<AppUser>();
 
             //loop through all taskUser entries and store their corresponding User entries
             for(int i = 0; i < taskUsers.Count; i++)
             {
-                users.Add(_context.Users.Find(taskUsers[i].UserId));
+                users.Add(_context.Users.Find(taskUsers[i].AppUserId));
             }
 
             return users;
         }
 
-        public TaskUpdate GetTaskUpdate(int projectId, int taskId, int taskUpdateId)
+        public TaskUpdate GetTaskUpdate(int taskUpdateId)
         {
-            return _context.TaskUpdates.Find(projectId, taskId, taskUpdateId);
+            return _context.TaskUpdates.Find(taskUpdateId);
         }
 
-        public List<TaskUpdate> GetTaskUpdatesByTask(int projectId, int taskId)
+        public List<TaskUpdate> GetTaskUpdatesByTask(int taskId)
         {
-            return _context.TaskUpdates.Where(tu => tu.ProjectId == projectId && tu.TaskId == taskId).ToList();
+            return _context.TaskUpdates.Where(tu => tu.TaskId == taskId).ToList();
         }
 
-        public TaskUserUpdate GetTaskUserUpdate(int projectId, int taskId, int userId, int taskUserUpdateId)
+        public TaskUserUpdate GetTaskUserUpdate(int taskUserUpdateId)
         {
-            return _context.TaskUserUpdates.Find(projectId, taskId, userId, taskUserUpdateId);
+            return _context.TaskUserUpdates.Find(taskUserUpdateId);
         }
 
-        public List<TaskUserUpdate> GetTaskUserUpdatesByTask(int projectId, int taskId)
+        public List<TaskUserUpdate> GetTaskUserUpdatesByTask(int taskId)
         {
-            return _context.TaskUserUpdates.Where(tuu => tuu.ProjectId == projectId && tuu.TaskId == taskId).ToList();
+            return _context.TaskUserUpdates.Where(tuu => tuu.TaskId == taskId).ToList();
         }
 
 

@@ -8,11 +8,9 @@ namespace ProjectManager.Models
     public class TaskUser
     {
         [Required]
-        public int ProjectId {get; set;}
-        [Required]
         public int TaskId {get; set;}
         [Required]
-        public int UserId {get; set;}
+        public string AppUserId {get; set;}
 
         [Required]
         public DateTime TimeAdded {get; set;}
@@ -21,7 +19,7 @@ namespace ProjectManager.Models
         public DateTime? TimeRemoved {get; set;}
 
         [JsonIgnore]
-        public User User {get; set;}
+        public AppUser AppUser {get; set;}
         [JsonIgnore]
         public Task Task {get; set;}
         [JsonIgnore]

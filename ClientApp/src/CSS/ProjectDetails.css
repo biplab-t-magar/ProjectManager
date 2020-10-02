@@ -26,25 +26,22 @@
 
 
 .project-details .project-body {
-    display: static;
-
+    
 }
 
 .project-details .project-body .subsection{
     display: inline-block;
-    margin: 10px;
+    vertical-align: top;
+    margin-right: 10px;
 }
 
 .project-details .project-body .project-users.subsection {
     width: 340px;
     color: inherit;
+    margin-top: 0px;
 }
 
-.project-details .project-body .recent-tasks.subsection {
-    width: 340px;
-    color: inherit;
-    
-}
+
 
 .project-details .subsection .subsection-row.subsection-header{
     background-color:rgb(173, 190, 197);
@@ -125,3 +122,52 @@
     cursor: pointer;
 }
 
+.project-details .project-body .recent-tasks.subsection {
+    width: 400px;
+    color: inherit;
+}
+
+.project-details .project-body .recent-tasks.subsection a{
+    color: gray;
+}
+
+.project-details .project-body .recent-tasks.subsection a{
+    color: gray;
+    background-color: lightgray;
+}
+
+
+.project-details .project-body .recent-tasks.subsection .subsection-row.subsection-list{
+    padding: 5px;
+    display: flex;
+}
+.project-details .project-body .recent-tasks.subsection .subsection-row.subsection-list:hover{
+    background-color: rgb(240, 238, 238);
+}
+
+.project-details .project-body .recent-tasks.subsection a {
+    text-decoration: none;
+    font-size: 14px;
+
+}
+
+.project-details .project-body .recent-tasks.subsection .subsection-row .task-name{
+    text-decoration: none;
+    width: 180px;
+    /* margin-right: 5px; */
+}
+.project-details .project-body .recent-tasks.subsection .subsection-row .task-type {
+    width: 100px;
+}
+
+.project-details .project-body .recent-tasks.subsection .subsection-row .task-urgency {
+    width: 100px;
+}
+
+.project-details .project-dates {
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    color: rgb(146, 176, 216);
+    display: inline-block;
+}

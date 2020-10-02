@@ -3,20 +3,18 @@ div {
     padding: 0;
 }
 
+.project-name {
+    font-weight: 400;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.692);
+}
+
 button.create-button {
     /* float: right;
     clear: right; */
     margin: 20px;
     margin-top: 10px;
 }
-/* 
-div.projects-content {
-    margin: 3% 3%;
-    margin-top: 20px;
-    background-color: #f0f0f5;
-    border-radius: 7px;
-    width: 100%;
-} */
 
 .main-page-content {
     /* background: #a3a3c2; */
@@ -24,20 +22,11 @@ div.projects-content {
     z-index: 5;
 }
 
-.projects-list {
+.tasks-list {
     width: 100%;
 }
 
-.project-list-row {
-    border: 3px #f0f0f5 solid;
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    margin-bottom: 2px;
-    /* height: 75px; */
-}
-
-.project-list-row {
+.task-list-row {
     border: 3px #f0f0f5 solid;
     display: flex;
     flex-direction: row;
@@ -47,25 +36,39 @@ div.projects-content {
 }
 
 
-.project-entry.project-list-row:hover {
+
+.task-entry.task-list-row:hover {
     cursor: pointer;
     background-color: #cce6ff;
 }
 
-.project-list-header {
+.tasks-list-header {
     background-color: #a3a3c2;
     border-radius: 5px;
 }
 
-.project-list-row .column {
+.task-list-row .column {
     flex: 1;
 }
 
-.project-list-row .column.description {
-    flex: 4;
+.task-list-row .column.description {
+    flex: 3;
+}
+.task-list-row .column.name {
+    flex: 2;
+}
+.task-list-row .column.task-type {
+    text-align: center;
+}
+.task-list-row .column.task-status {
+    text-align: center;
+}
+.task-list-row .column.urgency {
+    text-align: center;
 }
 
-.projects-list a {
+
+.tasks-list a {
     color: inherit;
     background-color: #f5f5f5;
     text-decoration: none;

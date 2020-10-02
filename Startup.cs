@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using ProjectManager.Data;
 using ProjectManager.Data.Interfaces;
 using ProjectManager.Data.SqlRepositories;
+using ProjectManager.Models;
 
 namespace ProjectManager
 {
@@ -28,6 +30,13 @@ namespace ProjectManager
             services.AddDbContext<ProjectManagerContext>(options => 
                 options.UseNpgsql(Configuration.GetConnectionString("ProjectManagerConnection")));
         
+            //AddIdentity adds cookie-based authentication
+            //adds scoped classes for things like UserManager, SignInManager, PasswordHashers, etc...
+            //Automatically adds validated user from a cookie to the HttpContext.User
+            services.AddIdentity<AppUser, IdentityRole>()
+                //Adds the UserStore and RoleStore from this context that are consumed by UserManager and RoleManager
+                .AddEntityFrameworkStores<ProjectManagerContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
 
@@ -38,7 +47,7 @@ namespace ProjectManager
             });
 
             services.AddScoped<IProjectsRepo, SqlProjectsRepo>();
-            services.AddScoped<IUsersRepo, SqlUsersRepo>();
+            services.AddScoped<IAppUsersRepo, SqlUsersRepo>();
             services.AddScoped<ITasksRepo, SqlTasksRepo>();
             services.AddScoped<ITaskTypesRepo, SqlTaskTypesRepo>();
         }
@@ -62,6 +71,10 @@ namespace ProjectManager
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            //set up Identity
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

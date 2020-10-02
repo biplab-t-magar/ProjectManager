@@ -17,8 +17,6 @@ namespace ProjectManager.Models
         [Required]
         [MaxLength(50)]
         public string Name {get; set;}
-        [Required]
-        public string DefaultUrgency {get; set;}
 
         [Required]
         [JsonIgnore]

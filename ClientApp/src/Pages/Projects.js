@@ -24,7 +24,6 @@ const Projects = () => {
             <div className="projects">
                 <PageDescription title="Your Projects" description="This is a list of all of your projects so far"/>
                 <button type="button" className="btn btn-lg create-button create-button">+ Create New Project</button>
-                {/* <NumOfEntries numOfEntries={numOfEntries} onNumOfEntriesChange={setNumOfEntries}/> */}
                 <div className="projects-list">
                     {/*headers*/}
                     <div className="project-list-header project-list-row">

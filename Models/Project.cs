@@ -16,7 +16,7 @@ namespace ProjectManager.Models
         public DateTime TimeCreated {get; set;}
 
         public DateTime Deadline {get; set;}
-        [MaxLength(700)]
+        [MaxLength(300)]
         public string Description {get; set;}
 
         [JsonIgnore]

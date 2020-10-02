@@ -8,9 +8,10 @@ namespace ProjectManager.Models
     public class Task
     {
         [Required]
-        public int ProjectId {get; set;}
-        [Required]
         public int TaskId {get; set;}
+
+        [Required]
+        public int ProjectId {get; set;}
         [MaxLength(50)]
         [Required]
         public string Name {get; set;}

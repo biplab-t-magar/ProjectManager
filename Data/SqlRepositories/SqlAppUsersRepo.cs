@@ -5,7 +5,7 @@ using ProjectManager.Models;
 
 namespace ProjectManager.Data.SqlRepositories
 {
-    public class SqlUsersRepo : IUsersRepo
+    public class SqlUsersRepo : IAppUsersRepo
     {
         private readonly ProjectManagerContext _context;
 
@@ -14,15 +14,15 @@ namespace ProjectManager.Data.SqlRepositories
             _context = context;
         }
 
-        public User GetUserById(int userId)
+        public AppUser GetUserById(string userId)
         {
             return _context.Users.Find(userId);
         }
 
-        public List<Project> GetUserProjects(int userId)
+        public List<Project> GetUserProjects(string userId)
         {
             //first get all the ProjectUser entries that are paired with the given user id
-            var projectUsers = _context.ProjectUsers.Where(p => p.UserId == userId).ToList();
+            var projectUsers = _context.ProjectUsers.Where(p => p.AppUserId == userId).ToList();
 
             //to store all projects with the returned return user entries
             List<Project> projects = new List<Project>();
@@ -37,10 +37,10 @@ namespace ProjectManager.Data.SqlRepositories
             return projects;
         }
 
-        public List<Task> GetUserTasks(int userId)
+        public List<Task> GetUserTasks(string userId)
         {
             //first get all the TaskUser entries that are paired with the given user id
-            var taskUsers = _context.TaskUsers.Where(tu => tu.UserId == userId).ToList();
+            var taskUsers = _context.TaskUsers.Where(tu => tu.AppUserId == userId).ToList();
 
             //to store all tasks with the returned user ids
             List<Task> tasks = new List<Task>();
@@ -55,7 +55,7 @@ namespace ProjectManager.Data.SqlRepositories
             return tasks;
         }
 
-        public List<Task> GetUserTasksByTaskStatus(int userId, string taskStatus)
+        public List<Task> GetUserTasksByTaskStatus(string userId, string taskStatus)
         {
             //first get all the task entries that are paried with the given user id and taskStatus
             List<Task> tasks = GetUserTasks(userId);
@@ -73,7 +73,7 @@ namespace ProjectManager.Data.SqlRepositories
             return tasksBytaskStatus;
         }
 
-        public List<Task> GetUserTasksByTaskType(int userId, int taskTypeId)
+        public List<Task> GetUserTasksByTaskType(string userId, int taskTypeId)
         {
             //first get all the task entries that are paried with the given user id and taskStatus
             List<Task> tasks = GetUserTasks(userId);
@@ -91,7 +91,7 @@ namespace ProjectManager.Data.SqlRepositories
             return tasksBytaskType;
         }
 
-        public List<Task> GetUserTasksByUrgency(int userId, string urgency)
+        public List<Task> GetUserTasksByUrgency(string userId, string urgency)
         {
             //first get all the task entries that are paried with the given user id and taskStatus
             List<Task> tasks = GetUserTasks(userId);

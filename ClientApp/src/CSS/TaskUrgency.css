@@ -1,0 +1,24 @@
+.urgency {
+    vertical-align: center;
+    text-align: center;
+    line-height: 40px;
+}
+.urgency div {
+    margin: auto;
+    width: 60%;
+    height: 40px;
+    border-radius: 4px;
+    color: black;
+}
+
+.urgency div.Low {
+    background-color: rgb(72, 202, 72);
+}
+
+.urgency div.Medium {
+    background-color: rgb(243, 243, 50);
+}
+
+.urgency div.High {
+    background-color: rgb(247, 100, 100);
+}

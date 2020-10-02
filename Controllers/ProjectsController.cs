@@ -31,7 +31,7 @@ namespace ProjectManager.Controllers
         }
 
         [HttpGet("{projectId}/users")]
-        public ActionResult <List<User>> GetProjectUsers(int projectId)
+        public ActionResult <List<AppUser>> GetProjectUsers(int projectId)
         {
             var projectUsers = _projectsRepo.GetProjectUsers(projectId);
             return Ok(projectUsers);
@@ -65,6 +65,5 @@ namespace ProjectManager.Controllers
             var projectTaskTypes = _projectsRepo.GetProjectTaskTypes(projectId);
             return projectTaskTypes;
         }
-
     }
 }
