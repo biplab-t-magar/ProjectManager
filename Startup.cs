@@ -34,9 +34,24 @@ namespace ProjectManager
             //adds scoped classes for things like UserManager, SignInManager, PasswordHashers, etc...
             //Automatically adds validated user from a cookie to the HttpContext.User
             services.AddIdentity<AppUser, IdentityRole>()
+                // {
+                //     //make sure one email corresponds to one user account
+                //     options.User.RequireUniqueEmail = true;
+                // })
                 //Adds the UserStore and RoleStore from this context that are consumed by UserManager and RoleManager
                 .AddEntityFrameworkStores<ProjectManagerContext>()
                 .AddDefaultTokenProviders();
+
+            //change password strength requirements to make them lax for demonstration purposes
+            services.Configure<IdentityOptions>(options => 
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+            });
+            
 
             services.AddControllersWithViews();
 

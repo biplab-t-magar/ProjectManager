@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NavBarItems } from './NavBarItems.js';
+import { NavBarItems } from '../Utilities/NavBarItems.js';
 import '../CSS/NavBar.css';
 
 const NavBar = () => {

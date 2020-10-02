@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManager.Data;
@@ -9,9 +10,10 @@ using ProjectManager.Data;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerContext))]
-    partial class ProjectManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20201002190256_RemoveMiddleName")]
+    partial class RemoveMiddleName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,6 +160,7 @@ namespace ProjectManager.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Bio")
+                        .IsRequired()
                         .HasColumnType("character varying(300)")
                         .HasMaxLength(300);
 

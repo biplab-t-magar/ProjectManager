@@ -15,8 +15,6 @@ namespace ProjectManager.Models
         [Required]
         [MaxLength(50)]
         public string LastName {get; set;}
-        public string MiddleName {get; set;}
-        [Required]
         // [MaxLength(50)]
         // public string Email {get; set;}
         [MaxLength(300)]
