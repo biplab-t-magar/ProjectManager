@@ -1,13 +1,29 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "../CSS/Login.css";
-import {Link} from "react-router-dom";
+import {Link, Redirect, withRouter} from "react-router-dom";
 
 const Login = () => {
     const [userName, setUserName] = useState("");
     const [userPassword,  setUserPassword] = useState("");
     const [userNameError, setUserNameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [userAuthenticated, setUserAuthenticated] = useState(false);
 
+    //on first render, check if user has already been authenticated
+    useEffect(() => {
+        checkAuthentication();
+    }, []);
+
+
+    const checkAuthentication = async () => {
+        let response = await fetch("/account");
+        //if response status is Ok, redirect to home page 
+        if(response.status === 200 ) {
+            setUserAuthenticated(true);
+        } else {
+            setUserAuthenticated(false);
+        }
+    }
     
     const handleSubmit = async (e) => {
         //stop default form submit behavior
@@ -47,15 +63,21 @@ const Login = () => {
             .then((response) => {
                 if(!response.ok) {
                     console.log(response.statusText)
+                    console.log(response.status);
+                } 
+                //redirect to home page
+                else {
+                    setUserAuthenticated(true);
                 }
             })
             .catch(error => console.log(error));
         }
-        
     }
 
     return (
         <div>
+            {/* Redirecting to another home page if user has been authenticated */}
+            {userAuthenticated ? <Redirect to="/" /> : ""}
             <div className="login">
                 <header className="welcome">
                     <span>Welcome to the Project Manager Web Application</span>
@@ -103,4 +125,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default withRouter(Login);

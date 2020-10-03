@@ -1,9 +1,8 @@
-import React, {useReducer, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../CSS/Register.css";
-import {Link} from "react-router-dom";
-import { data } from 'jquery';
+import {Link, Redirect, withRouter} from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
     const [userFirstName, setUserFirstName] = useState("");
     const [userLastName, setUserLastName] = useState("");
     const [userName, setUserName] = useState("");
@@ -13,7 +12,23 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState("");
     const [fNameError, setFNameError] = useState("");
     const [lNameError, setLNameError] = useState("");
+    const [userAuthenticated, setUserAuthenticated] = useState(false);
 
+    //on first render, check if user has already been authenticated
+    useEffect(() => {
+        checkAuthentication();
+    }, []);
+
+
+    const checkAuthentication = async () => {
+        let response = await fetch("/account");
+        //if response status is Ok, redirect to home page 
+        if(response.status === 200 ) {
+            setUserAuthenticated(true);
+        } else {
+            setUserAuthenticated(false);
+        }
+    }
     
     const handleSubmit = async (e) => {
         //stop default form submit behavior
@@ -77,6 +92,10 @@ const Login = () => {
                 if(!response.ok) {
                     console.log(response.statusText)
                 }
+                //redirect to the home page
+                else {
+                    setUserAuthenticated(true);
+                }
             })
             .then(response => console.log(response))
             .catch(error => console.log(error));
@@ -86,11 +105,13 @@ const Login = () => {
             // const data = await res.json();
             // console.log(data);
         }
-        
     }
+
 
     return (
         <div>
+            {/* Redirecting to another home page if user has been authenticated */}
+            {userAuthenticated ? <Redirect to="/" /> : ""}
             <div className="register">
                 <header className="welcome">
                     <span>Create Your Project Manager Account</span>
@@ -180,4 +201,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default withRouter(Register);

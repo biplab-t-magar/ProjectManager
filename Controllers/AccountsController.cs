@@ -20,10 +20,20 @@ namespace ProjectManager.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        //simply returns status code 200 if the user is already athurized, returns 401 if not
         public IActionResult Index()
         {
-            return null;
+            if(User.Identity.IsAuthenticated)
+            {
+                return Ok();
+            } 
+            else 
+            {
+                return Unauthorized();
+            }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> LogIn([FromBody]RegisterUser rUser)
@@ -34,14 +44,14 @@ namespace ProjectManager.Controllers
             //if the email is not registered
             if(user == null)
             {
-                return NotFound();
-            } // if valid email was not found 
+                return Unauthorized("Invalid username/password");
+            } 
              
             //attempt signing in
             var signInResult = await  _signInManager.PasswordSignInAsync(user, rUser.password, false, false);
             
             if(!signInResult.Succeeded) {
-                return Unauthorized("Email and password do not match");
+                return Unauthorized("Invalid username/password");
             } 
             //if sign in was successful, return Ok
             else {

@@ -18,10 +18,10 @@ import Register from "../Pages/Register";
 const App = () => {
     const renderNavBar = () => {
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+            console.log("hi");
             return (<NavBar/>);
         }
     }
-
 
     return(
         <div>

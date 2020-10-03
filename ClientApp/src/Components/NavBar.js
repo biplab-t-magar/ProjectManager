@@ -12,6 +12,8 @@ const NavBar = () => {
 
     return (
         <div className="navigation">
+            {/* hide the navbar when in login or register page */}
+            {/* <nav className={`nav-bar ${(currentLocation === "/login" || currentLocation === "/register") ? "hidden" : ""}`}> */}
             <nav className="nav-bar">
                 <ul className="nav-menu-items">
                     {NavBarItems.map((item, index) => {
