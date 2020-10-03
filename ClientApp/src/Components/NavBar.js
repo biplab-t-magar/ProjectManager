@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { NavBarItems } from '../Utilities/NavBarItems.js';
 import '../CSS/NavBar.css';
 
@@ -33,4 +33,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default withRouter(NavBar);

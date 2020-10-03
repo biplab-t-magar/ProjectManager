@@ -1,19 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import "../CSS/Login.css";
-import {Link, Redirect, withRouter} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
     const [userName, setUserName] = useState("");
     const [userPassword,  setUserPassword] = useState("");
     const [userNameError, setUserNameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
+    const history = useHistory();
     //on first render, check if user has already been authenticated
     useEffect(() => {
         checkAuthentication();
     }, []);
 
+    if(userAuthenticated) {
+        window.location.pathname = "/";
+    }
 
     const checkAuthentication = async () => {
         let response = await fetch("/account");
@@ -24,6 +28,10 @@ const Login = () => {
             setUserAuthenticated(false);
         }
     }
+
+    // if(userAuthenticated) {
+    //     props.history.pushState(null, "/");
+    // }
     
     const handleSubmit = async (e) => {
         //stop default form submit behavior
@@ -77,7 +85,7 @@ const Login = () => {
     return (
         <div>
             {/* Redirecting to another home page if user has been authenticated */}
-            {userAuthenticated ? <Redirect to="/" /> : ""}
+            {/* {userAuthenticated ? <Redirect push to="/" /> : ""} */}
             <div className="login">
                 <header className="welcome">
                     <span>Welcome to the Project Manager Web Application</span>
@@ -125,4 +133,4 @@ const Login = () => {
     );
 }
 
-export default withRouter(Login);
+export default Login;

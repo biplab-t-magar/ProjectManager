@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import "../CSS/Register.css";
 import {Link, Redirect, withRouter} from "react-router-dom";
 
-const Register = () => {
+const Register = (props) => {
     const [userFirstName, setUserFirstName] = useState("");
     const [userLastName, setUserLastName] = useState("");
     const [userName, setUserName] = useState("");
@@ -19,6 +19,13 @@ const Register = () => {
         checkAuthentication();
     }, []);
 
+    // if(userAuthenticated) {
+    //     props.history.pushState(null, "/");
+    // }
+
+    if(userAuthenticated) {
+        window.location.pathname = "/";
+    }
 
     const checkAuthentication = async () => {
         let response = await fetch("/account");
@@ -111,7 +118,7 @@ const Register = () => {
     return (
         <div>
             {/* Redirecting to another home page if user has been authenticated */}
-            {userAuthenticated ? <Redirect to="/" /> : ""}
+            {/* {userAuthenticated ? <Redirect to="/" /> : ""} */}
             <div className="register">
                 <header className="welcome">
                     <span>Create Your Project Manager Account</span>
@@ -201,4 +208,4 @@ const Register = () => {
     );
 }
 
-export default withRouter(Register);
+export default Register;
