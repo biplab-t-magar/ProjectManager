@@ -1,32 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";
-import "../CSS/CreateNewProject.css";
-const CreateNewProject = () => {
-    const [projectName, setProjectName] = useState("");
+import "../CSS/CreateNewProject.css"; //use same css as for create new project page because they look very similar
+import ProjectDetails from "./ProjectDetails.js";
+
+
+const EditProject = ({match}) => {
+    const [projectDetails, setProjectDetails] = useState({});
+    const [newProjectName, setNewProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
-    const [projectDescription, setProjectDescription] = useState("");
+    const [newProjectDescription, setNewProjectDescription] = useState("");
+
+    //load up project data
+    useEffect(() => {
+        fetchProjectData();
+        
+    }, [])
+
+    useEffect(() => {
+        setNewProjectName(projectDetails.name);
+        setNewProjectDescription(projectDetails.description);
+    }, [projectDetails]);
+
+    const fetchProjectData = async () => {
+        const res = await fetch(`/project/${match.params.projectId}`);
+        const data = await res.json();
+        setProjectDetails(data);
+    };
 
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
         e.preventDefault();
         //check project name error
-        if(projectName.length == 0) {
+        if(newProjectName.length == 0) {
             setProjectNameError("You must include a name for your project");
             errorsExist = true;
         } else {
             setProjectNameError("");
         }
 
-
         if(errorsExist == false) {
             const payload = {
-                name: projectName,
-                description: projectDescription,
+                ProjectId: projectDetails.projectId,
+                Name: newProjectName,
+                Description: newProjectDescription,
+                TimeCreated: projectDetails.timeCreated
             }
             //making post request to server
-            const response = await fetch("/project/new" , {
+            const response = await fetch("/project/edit" , {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -39,6 +61,8 @@ const CreateNewProject = () => {
                 window.location.pathname = `/projects/${data.projectId}`;
             })
             .catch(error => console.log(error));
+            
+            
         }
 
     }
@@ -46,8 +70,8 @@ const CreateNewProject = () => {
 
     return(
         <div className="page">
-            <div className="create-new-project">
-                <PageDescription title="Create a new project" description="You will be the manager for this project"></PageDescription>
+            <div className="edit-project">
+                <PageDescription title={`Edit ${projectDetails.name}`} description="Changing the details for this project"></PageDescription>
                 <div className="project-form">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -57,8 +81,8 @@ const CreateNewProject = () => {
                                 className="form-control" 
                                 id="project-name" 
                                 placeholder="Project Name" 
-                                value={projectName} 
-                                onChange={(e) => setProjectName(e.target.value)}
+                                value={newProjectName || ""} 
+                                onChange={(e) => setNewProjectName(e.target.value)}
                             />
                             <small className="error-message">
                                 {projectNameError ? projectNameError : ""}
@@ -71,12 +95,12 @@ const CreateNewProject = () => {
                                 className="form-control" 
                                 id="project-description" 
                                 placeholder="Project Description" 
-                                value={projectDescription} 
-                                onChange={(e) => setProjectDescription(e.target.value)}
+                                value={newProjectDescription || ""} 
+                                onChange={(e) => setNewProjectDescription(e.target.value)}
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary create">Create Project</button>
-                        <Link to={`/projects`}>
+                        <button type="submit" className="btn btn-primary create">Update Project</button>
+                        <Link to={`/projects/${match.params.projectId}`}>
                             <button className="btn btn-secondary cancel">Cancel</button>
                         </Link>
                     </form>
@@ -86,4 +110,4 @@ const CreateNewProject = () => {
     );
 }
 
-export default CreateNewProject;
+export default EditProject;

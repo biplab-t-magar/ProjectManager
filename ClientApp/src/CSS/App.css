@@ -17,6 +17,13 @@
     z-index: 0;
 }
 
+button.create-button {
+    /* float: right;
+    clear: right; */
+    margin: 20px;
+    margin-top: 10px;
+}
+
 .page-description span {
     margin-left: 3px;
 }

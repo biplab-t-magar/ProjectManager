@@ -3,6 +3,8 @@ import {Link} from "react-router-dom"
 import {useState} from "react";
 import PageDescription from '../Components/PageDescription';
 import "../CSS/ProjectDetails.css";
+import ConvertDate from '../Utilities/ConvertDate';
+import ConvertTime from '../Utilities/ConvertTime';
 
 const ProjectDetails = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
@@ -116,13 +118,17 @@ const ProjectDetails = ({match}) => {
                 </div>
                 <div className="project-dates">
                     <div className="">
-                        Created on: {projectDetails.timeCreated}
+                        Created on: {ConvertDate(projectDetails.timeCreated)} at {ConvertTime(projectDetails.timeCreated)}
                     </div>
-                    <div className="">Deadline: {projectDetails.deadline}</div>
                 </div>
-                <button type="button" className="btn btn-lg create-button create-button">Edit Project</button>
-                <button type="button" className="btn btn-lg create-button create-button">View Project History</button>
-                <button type="button" className="btn btn-lg create-button create-button">Manage Task Types</button>
+                <Link to={`/projects/${match.params.projectId}/edit`}>
+                    <button type="button" className="btn btn-lg create-button">Edit Project</button>
+                </Link>
+                <button type="button" className="btn btn-lg create-button">View Project History</button>
+                <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
+                <Link to={`/projects/${match.params.projectId}/delete`}>
+                    <button type="button" className="btn btn-lg btn-danger delete-button">Delete Project</button>
+                </Link>
                 <div className="project-body">
                     <div className="project-users subsection">
                         <div className="subsection-row subsection-header">

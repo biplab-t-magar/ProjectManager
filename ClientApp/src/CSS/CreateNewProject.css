@@ -8,5 +8,14 @@
 }
 
 button {
-    margin-left: 75%;
+    display: inline-block;
+}
+
+button.create{
+    margin-left: 450px;
+}
+
+button.cancel {
+    margin-top: 10px;
+    margin-left: 500px;
 }

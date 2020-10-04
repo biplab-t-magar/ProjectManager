@@ -34,10 +34,11 @@ namespace ProjectManager.Data.SqlRepositories
             //create a new Project user entry to assign the user to the project as a manager
             ProjectUser projectUser = new ProjectUser{Project = project};
             projectUser.AppUserId = user.Id;
-            projectUser.Role = "Manager";
+            projectUser.Role = "Administrator";
             projectUser.TimeAdded = DateTime.Now;
             //finally, add the ProjectUserEntry
             _context.Add(projectUser);
+
             //return the created project
             return project;
         }

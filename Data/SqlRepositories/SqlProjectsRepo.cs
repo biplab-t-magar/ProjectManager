@@ -137,5 +137,34 @@ namespace ProjectManager.Data.SqlRepositories
             
             _context.Add(projectUser);
         }
+
+        public Project UpdateProject(Project project)
+        {
+            if(project == null) 
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+
+            // var projectToUpdate = _context.Projects.Find(project.ProjectId);
+            // //make changes to entry
+            // projectToUpdate = project.ProjectDe;
+            _context.Attach(project);
+            _context.Entry(project).Property("Name").IsModified = true;
+            _context.Entry(project).Property("Description").IsModified = true;
+            return project;
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            var project = GetProjectById(projectId);
+            _context.Projects.Remove(project);
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
+
+        
     }
 }

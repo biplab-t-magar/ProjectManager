@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectManager.Data;
 using ProjectManager.Data.Interfaces;
+using ProjectManager.Data.Services;
 using ProjectManager.Data.SqlRepositories;
 using ProjectManager.Models;
 
@@ -78,6 +79,9 @@ namespace ProjectManager
             services.AddScoped<IAppUsersRepo, SqlUsersRepo>();
             services.AddScoped<ITasksRepo, SqlTasksRepo>();
             services.AddScoped<ITaskTypesRepo, SqlTaskTypesRepo>();
+            services.AddScoped<ProjectMemberValidation>();
+            services.AddHttpContextAccessor();  
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

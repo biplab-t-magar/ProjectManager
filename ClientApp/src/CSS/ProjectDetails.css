@@ -16,17 +16,29 @@
     margin-top: -10px;
     padding: 15px;
     height: 120px;
-    width: 75%;
+    width: 90%;
     background-color: #f0f0f5;
     border-radius: 7px;
     border: solid 1px lightgray;
     color: #666666;
 }
 
+button.delete-button {
+    margin: 20px;
+    margin-top: 10px;
 
+}
 
-.project-details .project-body {
-    
+button.delete-button:hover {
+    box-shadow: -1px -1px 45px -15px rgba(0,0,0,0.75);
+
+}
+
+button.create-button {
+    /* float: right;
+    clear: right; */
+    margin: 20px;
+    margin-top: 10px;
 }
 
 .project-details .project-body .subsection{

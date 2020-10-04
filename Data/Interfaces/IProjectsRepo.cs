@@ -27,5 +27,12 @@ namespace ProjectManager.Data.Interfaces
 
         void AddUserToProject(ProjectUser projectUser);
 
+        Project UpdateProject(Project project);
+
+        void DeleteProject(int projectId);
+
+        bool SaveChanges();
+
+
     }
 }

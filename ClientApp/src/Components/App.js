@@ -2,7 +2,6 @@ import React from 'react';
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import NavBar from './NavBar';
 import '../CSS/App.css';
 import Home from '../Pages/Home.js';
@@ -15,6 +14,8 @@ import ProjectTasks from '../Pages/ProjectTasks';
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import CreateNewProject from '../Pages/CreateNewProject';
+import EditProject from '../Pages/EditProject';
+import DeleteProject from '../Pages/DeleteProject';
 
 //Add notes to tags
 
@@ -40,6 +41,8 @@ const App = () => {
                     <Route path="/projects/:projectId" exact component={ProjectDetails} />
                     <Route path="/projects/:projectId/users/:userId" exact component={ProjectUserActivity} />
                     <Route path="/projects/:projectId/tasks" exact component={ProjectTasks} />
+                    <Route path="/projects/:projectId/edit" exact component={EditProject} />
+                    <Route path="/projects/:projectId/delete" exact component={DeleteProject} />
                     <Route path="*" component ={() => "This page does not existThis page does not existThis page does not existThis page does not existThis page does not exist"} />
                 </Switch>
             </BrowserRouter>

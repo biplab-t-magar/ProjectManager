@@ -1,0 +1,33 @@
+
+
+.delete-project h1 {
+    margin-top: 50px;
+    margin-left: 0;
+    padding: 50px;
+    background-color: rgb(206, 109, 109);
+    border-radius: 5px;
+}
+h3 {
+    margin-top: 20px;
+    margin-left: 0;
+    padding: 50px;
+}
+
+.project-name {
+    font-weight: 1000;
+}
+
+.delete-project button {
+    width: 150px;
+    margin-top: 0px;
+}
+
+.delete-project button.delete-button {
+    margin-top: 10px;
+
+}
+
+.delete-project button.cancel {
+    margin-left: 50px;
+    margin-top: -10px;
+}
