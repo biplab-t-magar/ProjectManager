@@ -28,13 +28,9 @@ div.projects-content {
     width: 100%;
 }
 
-.project-list-row {
-    border: 3px #f0f0f5 solid;
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    margin-bottom: 2px;
-    /* height: 75px; */
+.spinner {
+    margin-top: 200px;
+    margin-left: 25%;
 }
 
 .project-list-row {
@@ -42,9 +38,11 @@ div.projects-content {
     display: flex;
     flex-direction: row;
     padding: 20px;
-    margin-bottom: 2px;
-    /* height: 75px; */
+    margin: 0px;
+    height: 75px;
+    border-radius: 10px;
 }
+
 
 
 .project-entry.project-list-row:hover {

@@ -36,7 +36,7 @@
 }
 
 .project-details .project-body .project-users.subsection {
-    width: 340px;
+    width: 370px;
     color: inherit;
     margin-top: 0px;
 }
@@ -80,7 +80,8 @@
 
 .project-details .subsection-row {
     margin-bottom: 5px;
-    margin-top: 2px;
+    margin-top: 0px;
+    padding: 10px;
 }
 
 .project-details .subsection-row a{

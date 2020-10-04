@@ -18,5 +18,7 @@ namespace ProjectManager.Data.Interfaces
         // List<TaskUserUpdate> GetTaskUserUpdatesByUpdater(int projectId, int taskId, int updaterId);
         // List<TaskUserUpdate> GetTaskUserUpdatesForUser(int projectId, int taskId, int userId);
 
+        Project CreateUserProject(Project project, AppUser user);
+        bool SaveChanges();
     }
 }

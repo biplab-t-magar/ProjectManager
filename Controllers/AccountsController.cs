@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Models;
-using ProjectManager.ProjectManagarUtilities;
+using ProjectManager.ProjectManagarUtilities.UtilityModels;
 
 namespace ProjectManager.Controllers
 {
@@ -26,17 +26,17 @@ namespace ProjectManager.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return Ok();
+                return Ok(true);
             } 
             else 
             {
-                return Unauthorized();
+                return Ok(false);
             }
         }
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> LogIn([FromBody]RegisterUser rUser)
+        public async Task<IActionResult> LogIn([FromBody]RegisterUserModel rUser)
         {
 
             var user = await _userManager.FindByNameAsync(rUser.userName);
@@ -68,7 +68,7 @@ namespace ProjectManager.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUser rUser)
+        public async Task<IActionResult> Register([FromBody] RegisterUserModel rUser)
         {
 
             // first, check if the email has already been used

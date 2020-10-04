@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectManager.Data.Interfaces;
@@ -125,6 +126,16 @@ namespace ProjectManager.Data.SqlRepositories
 
             return userProjectTasks;
 
+        }
+
+        public void AddUserToProject(ProjectUser projectUser)
+        {
+            if(projectUser == null) 
+            {
+                throw new ArgumentNullException(nameof(projectUser));
+            }
+            
+            _context.Add(projectUser);
         }
     }
 }

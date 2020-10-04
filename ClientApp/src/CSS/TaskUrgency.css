@@ -1,7 +1,7 @@
 .urgency {
     vertical-align: center;
     text-align: center;
-    line-height: 40px;
+    /* line-height: 18px; */
 }
 .urgency div {
     margin: auto;

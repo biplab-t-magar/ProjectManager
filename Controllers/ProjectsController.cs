@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Models;
-using System.Linq;
 using ProjectManager.Data.Interfaces;
-using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using ProjectManager.ProjectManagarUtilities.UtilityModels;
 
 namespace ProjectManager.Controllers 
 {
@@ -12,10 +13,14 @@ namespace ProjectManager.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectsRepo _projectsRepo;
+        private readonly IAppUsersRepo _usersRepo;
+        private readonly UserManager<AppUser> _userManager;
 
-        public ProjectsController(IProjectsRepo projectsRepo)
+        public ProjectsController(IProjectsRepo projectsRepo, IAppUsersRepo usersRepo, UserManager<AppUser> userManager)
         {
             _projectsRepo = projectsRepo;
+            _usersRepo = usersRepo;
+            _userManager = userManager;
         }
 
         [HttpGet("{projectId}")]
@@ -65,5 +70,27 @@ namespace ProjectManager.Controllers
             var projectTaskTypes = _projectsRepo.GetProjectTaskTypes(projectId);
             return projectTaskTypes;
         }
+
+        [Authorize]
+        [HttpPost("new")]
+        public async System.Threading.Tasks.Task<IActionResult> CreateProject([FromBody]UtilityProjectModel projectModel)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            
+            //convert from a UtilityProjectModel to a projectModel object
+            var project = new Project();
+
+            project.Name = projectModel.name;
+            project.Description = projectModel.description;
+
+            //create a new project for the user
+            project = _usersRepo.CreateUserProject(project, user);
+            _usersRepo.SaveChanges();
+            return Ok(project);
+
+        }
+
+        
     }
 }

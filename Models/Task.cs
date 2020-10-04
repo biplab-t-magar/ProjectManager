@@ -31,9 +31,6 @@ namespace ProjectManager.Models
         public DateTime TimeCreated {get; set;}
 
         [Required]
-        public DateTime Deadline {get; set;}
-
-        [Required]
         public int TaskTypeId {get; set;}
         [Required]
         

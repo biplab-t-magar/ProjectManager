@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectManager.Data.Interfaces;
@@ -12,6 +13,33 @@ namespace ProjectManager.Data.SqlRepositories
         public SqlUsersRepo(ProjectManagerContext context)
         {   
             _context = context;
+        }
+
+        public Project CreateUserProject(Project project, AppUser user)
+        {
+            if(project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            //add the date created attribute to the project
+            project.TimeCreated = DateTime.Now;
+
+            //create the new project
+            _context.Add(project);
+
+            //create a new Project user entry to assign the user to the project as a manager
+            ProjectUser projectUser = new ProjectUser{Project = project};
+            projectUser.AppUserId = user.Id;
+            projectUser.Role = "Manager";
+            projectUser.TimeAdded = DateTime.Now;
+            //finally, add the ProjectUserEntry
+            _context.Add(projectUser);
+            //return the created project
+            return project;
         }
 
         public AppUser GetUserById(string userId)
@@ -107,6 +135,12 @@ namespace ProjectManager.Data.SqlRepositories
                 }
             }
             return tasksByUrgency;
+        }
+
+        public bool SaveChanges()
+        {
+            //save all the changes to the database
+            return _context.SaveChanges() >= 0;
         }
     }
 }

@@ -42,6 +42,15 @@ namespace ProjectManager
                 .AddEntityFrameworkStores<ProjectManagerContext>()
                 .AddDefaultTokenProviders();
 
+            //add authorization service 
+            // services.AddAuthorization(config => 
+            // {
+            //     config.AddPolicy("UserIsProjectMember", policy =>
+            //     {
+            //         policy.add
+            //     });
+            // });
+
             //change password strength requirements to make them lax for demonstration purposes
             services.Configure<IdentityOptions>(options => 
             {
@@ -51,7 +60,11 @@ namespace ProjectManager
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
             });
-            
+            //change login URL so unauthorized users can be redirected
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/login";
+            });
 
             services.AddControllersWithViews();
 

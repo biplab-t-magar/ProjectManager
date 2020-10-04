@@ -25,6 +25,7 @@ namespace ProjectManager.Data.Interfaces
         List<TaskUpdate> GetTaskUpdatesByProject(int projectId);
         // List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, int updaterId);
 
+        void AddUserToProject(ProjectUser projectUser);
 
     }
 }

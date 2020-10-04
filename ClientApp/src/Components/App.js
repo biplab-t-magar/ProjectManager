@@ -1,6 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import NavBar from './NavBar';
 import '../CSS/App.css';
 import Home from '../Pages/Home.js';
@@ -12,13 +14,13 @@ import ProjectUserActivity from "../Pages/ProjectUserActivity.js";
 import ProjectTasks from '../Pages/ProjectTasks';
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import CreateNewProject from '../Pages/CreateNewProject';
 
 //Add notes to tags
 
 const App = () => {
-    const renderNavBar = () => {
+    const renderNavBars = () => {
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
-            console.log("hi");
             return (<NavBar/>);
         }
     }
@@ -26,7 +28,7 @@ const App = () => {
     return(
         <div>
             <BrowserRouter>
-                {renderNavBar()}
+                {renderNavBars()}
                 <Switch> 
                     <Route path="/" exact component={Home}/>
                     <Route path="/login" exact component={Login}/>
@@ -34,6 +36,7 @@ const App = () => {
                     <Route path="/projects" exact component={Projects}/>
                     <Route path="/reports" exact component={Reports}/>
                     <Route path="/tasks" exact component={UserTasks}/>
+                    <Route path="/projects/new" exact component={CreateNewProject} />
                     <Route path="/projects/:projectId" exact component={ProjectDetails} />
                     <Route path="/projects/:projectId/users/:userId" exact component={ProjectUserActivity} />
                     <Route path="/projects/:projectId/tasks" exact component={ProjectTasks} />

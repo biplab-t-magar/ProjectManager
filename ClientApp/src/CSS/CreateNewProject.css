@@ -1,0 +1,12 @@
+.project-form {
+    width: 40%;
+}
+
+.project-form #project-description {
+    padding-bottom: 150px;
+    height: 200px;
+}
+
+button {
+    margin-left: 75%;
+}

@@ -1,7 +1,7 @@
-namespace ProjectManager.ProjectManagarUtilities
+namespace ProjectManager.ProjectManagarUtilities.UtilityModels
 {
     //represents a user model for model binding during user registration and login
-    public class RegisterUser 
+    public class RegisterUserModel
     {
         public string firstName {get; set;}
         public string lastName {get; set;}

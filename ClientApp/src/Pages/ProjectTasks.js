@@ -59,7 +59,6 @@ const ProjectTasks = ({match}) => {
                         <div className="task-status column">Status</div>
                         <div className="urgency column">Urgency</div>
                         <div className="time-created column">Created On</div>
-                        <div className="deadline column">Deadline</div>
                         <div className="description column">Description</div>
                     </div>
                     {taskList.map((task) => {
@@ -73,7 +72,6 @@ const ProjectTasks = ({match}) => {
                                         <div className={`${task.urgency}`}>{task.urgency}</div>
                                     </div>
                                     <div className="time-created column">{task.timeCreated}</div>
-                                    <div className="deadline column">{task.deadline}</div>
                                     <div className="description column">{task.description}</div>
                                 </div>
                             </Link>

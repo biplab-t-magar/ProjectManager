@@ -20,9 +20,10 @@ const Login = (props) => {
     }
 
     const checkAuthentication = async () => {
-        let response = await fetch("/account");
+        let response = await fetch("/account")
+            .catch(error => error);
         //if response status is Ok, redirect to home page 
-        if(response.status === 200 ) {
+        if(response.body == true ) {
             setUserAuthenticated(true);
         } else {
             setUserAuthenticated(false);
@@ -98,8 +99,9 @@ const Login = (props) => {
                         <input 
                             type="text" 
                             className="form-control" 
-                            id="user-name" aria-describedby="emailHelp" 
-                            placeholder="User Name" value={userName} 
+                            id="user-name" 
+                            placeholder="User Name" 
+                            value={userName} 
                             onChange={(e) => setUserName(e.target.value)}
                         />
                         <small className="error-message">

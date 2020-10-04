@@ -24,7 +24,6 @@ namespace ProjectManager.Models
         public string Status {get; set;}
 
         public string Urgency {get; set;}
-        public DateTime? Deadline {get; set;}
 
         //make tasktype nullable
         public int? TaskTypeId {get; set;}
