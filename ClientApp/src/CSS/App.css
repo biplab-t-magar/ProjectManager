@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;900&display=swap');
- * {
-    font-family: 'Noto Sans JP', sans-serif;
-    
-}
+@import url('https://fonts.googleapis.com/css2?family=Piazzolla:wght@300&display=swap');
 
+*{
+    font-family: 'Piazzolla', serif;
+}
 
 .page-description {
     margin: 2% 0;
@@ -22,6 +21,11 @@
 
 .page-description span {
     margin-left: 3px;
+}
+
+.spinner {
+    margin-top: 200px;
+    margin-left: 25%;
 }
 
 body {

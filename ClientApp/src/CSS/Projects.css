@@ -39,7 +39,7 @@ div.projects-content {
     flex-direction: row;
     padding: 20px;
     margin: 0px;
-    height: 75px;
+    /* height: 75px; */
     border-radius: 10px;
 }
 

@@ -17,6 +17,7 @@ import CreateNewProject from '../Pages/CreateNewProject';
 import EditProject from '../Pages/EditProject';
 import DeleteProject from '../Pages/DeleteProject';
 import Header from './Header';
+import ManageProjectUsers from '../Pages/ManageProjectUsers';
 
 //Add notes to tags
 
@@ -49,6 +50,7 @@ const App = () => {
                     <Route path="/projects/:projectId/tasks" exact component={ProjectTasks} />
                     <Route path="/projects/:projectId/edit" exact component={EditProject} />
                     <Route path="/projects/:projectId/delete" exact component={DeleteProject} />
+                    <Route path="/projects/:projectId/users" exact component={ManageProjectUsers} />
                     <Route path="*" component ={() => "This page does not existThis page does not existThis page does not existThis page does not existThis page does not exist"} />
                 </Switch>
             </BrowserRouter>

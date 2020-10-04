@@ -2,14 +2,29 @@ import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/CreateNewProject.css"; //use same css as for create new project page because they look very similar
-import ProjectDetails from "./ProjectDetails.js";
 
 
 const EditProject = ({match, location}) => {
-    const [newProjectName, setNewProjectName] = useState(location.name);
+    const [projectDetails, setProjectDetails] = useState({});
+    const [newProjectName, setNewProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
-    const [newProjectDescription, setNewProjectDescription] = useState(location.description);
+    const [newProjectDescription, setNewProjectDescription] = useState("");
     const [projectDescriptionError, setProjectDescriptionError] = useState("");
+
+    useEffect(() => {
+        fetchProjectData();
+    }, []);
+
+    useEffect(() => {
+        setNewProjectName(projectDetails.name);
+        setNewProjectDescription(projectDetails.description);
+    }, [projectDetails]);
+
+    const fetchProjectData = async () => {
+        const res = await fetch(`/project/${match.params.projectId}`);
+        const data = await res.json();
+        setProjectDetails(data);
+    };
 
     const handleSubmit = async (e) => {
         let errorsExist = false;
@@ -67,7 +82,10 @@ const EditProject = ({match, location}) => {
     return(
         <div className="page">
             <div className="edit-project">
-                <PageDescription title={`Edit ${location.name}`} description="Changing the details for this project"></PageDescription>
+                <PageDescription 
+                    title={`Edit ${(newProjectName ? newProjectName : "")}`} 
+                    description="Changing the details for this project" 
+                />
                 <div className="project-form">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
