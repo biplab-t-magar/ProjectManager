@@ -5,47 +5,43 @@ import "../CSS/CreateNewProject.css"; //use same css as for create new project p
 import ProjectDetails from "./ProjectDetails.js";
 
 
-const EditProject = ({match}) => {
-    const [projectDetails, setProjectDetails] = useState({});
-    const [newProjectName, setNewProjectName] = useState("");
+const EditProject = ({match, location}) => {
+    const [newProjectName, setNewProjectName] = useState(location.name);
     const [projectNameError, setProjectNameError] = useState("");
-    const [newProjectDescription, setNewProjectDescription] = useState("");
-
-    //load up project data
-    useEffect(() => {
-        fetchProjectData();
-        
-    }, [])
-
-    useEffect(() => {
-        setNewProjectName(projectDetails.name);
-        setNewProjectDescription(projectDetails.description);
-    }, [projectDetails]);
-
-    const fetchProjectData = async () => {
-        const res = await fetch(`/project/${match.params.projectId}`);
-        const data = await res.json();
-        setProjectDetails(data);
-    };
+    const [newProjectDescription, setNewProjectDescription] = useState(location.description);
+    const [projectDescriptionError, setProjectDescriptionError] = useState("");
 
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
         e.preventDefault();
-        //check project name error
-        if(newProjectName.length == 0) {
+        //check project name 
+        if(newProjectName.length === 0) {
             setProjectNameError("You must include a name for your project");
             errorsExist = true;
-        } else {
+        } else if(newProjectName.length > 100) {
+            setProjectNameError("Your project name should be no more than 100 characters.");
+            errorsExist = true;
+        } 
+        else {
             setProjectNameError("");
+        }
+
+        //check projectDescriptionError
+        if(newProjectDescription.length > 500) {
+            setProjectDescriptionError("Your project description should be no more than 500 characters.");
+            errorsExist = true;
+        } 
+        else {
+            setProjectDescriptionError("");
         }
 
         if(errorsExist == false) {
             const payload = {
-                ProjectId: projectDetails.projectId,
+                ProjectId: location.id,
                 Name: newProjectName,
                 Description: newProjectDescription,
-                TimeCreated: projectDetails.timeCreated
+                TimeCreated: location.timeCreated
             }
             //making post request to server
             const response = await fetch("/project/edit" , {
@@ -71,7 +67,7 @@ const EditProject = ({match}) => {
     return(
         <div className="page">
             <div className="edit-project">
-                <PageDescription title={`Edit ${projectDetails.name}`} description="Changing the details for this project"></PageDescription>
+                <PageDescription title={`Edit ${location.name}`} description="Changing the details for this project"></PageDescription>
                 <div className="project-form">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -98,6 +94,9 @@ const EditProject = ({match}) => {
                                 value={newProjectDescription || ""} 
                                 onChange={(e) => setNewProjectDescription(e.target.value)}
                             />
+                            <small className="error-message">
+                                {projectDescriptionError ? projectDescriptionError : ""}
+                            </small>
                         </div>
                         <button type="submit" className="btn btn-primary create">Update Project</button>
                         <Link to={`/projects/${match.params.projectId}`}>

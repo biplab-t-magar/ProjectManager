@@ -121,12 +121,21 @@ const ProjectDetails = ({match}) => {
                         Created on: {ConvertDate(projectDetails.timeCreated)} at {ConvertTime(projectDetails.timeCreated)}
                     </div>
                 </div>
-                <Link to={`/projects/${match.params.projectId}/edit`}>
+                <Link to={{
+                    pathname: `/projects/${match.params.projectId}/edit`,
+                    name: projectDetails.name,
+                    description: projectDetails.description,
+                    id: projectDetails.projectId,
+                    timeCreated: projectDetails.timeCreated
+                }}>
                     <button type="button" className="btn btn-lg create-button">Edit Project</button>
                 </Link>
                 <button type="button" className="btn btn-lg create-button">View Project History</button>
                 <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
-                <Link to={`/projects/${match.params.projectId}/delete`}>
+                <Link to={{
+                    pathname: `/projects/${match.params.projectId}/delete`,
+                    name: projectDetails.name
+                }}>
                     <button type="button" className="btn btn-lg btn-danger delete-button">Delete Project</button>
                 </Link>
                 <div className="project-body">

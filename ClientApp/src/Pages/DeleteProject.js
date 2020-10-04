@@ -2,21 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "../CSS/DeleteProject.css";
 
-const DeleteProject = ({match}) => {
-    const [projectDetails, setProjectDetails] = useState({});
-
-    //load up project data
-    useEffect(() => {
-        fetchProjectData();
-        
-    }, [])
-
-    const fetchProjectData = async () => {
-        const res = await fetch(`/project/${match.params.projectId}`);
-        const data = await res.json();
-        setProjectDetails(data);
-    };
-
+const DeleteProject = ({match, location}) => {
     const onDelete = async (e) => {
         //prevent default action
         e.preventDefault();
@@ -36,7 +22,7 @@ const DeleteProject = ({match}) => {
         <div className="page">
             <div className="delete-project">
                 <h1>
-                    Are you sure you want to delete <span className="project-name">{projectDetails.name}</span>?
+                    Are you sure you want to delete <span className="project-name">{location.name}</span>?
                 </h1>
                 <h3>This action cannot be reversed</h3>
 

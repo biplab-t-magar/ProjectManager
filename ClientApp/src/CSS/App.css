@@ -15,14 +15,10 @@
     border: solid 1px gray;
     /* border-style: inset; */
     z-index: 0;
+    box-shadow: 9px 4px 47px -17px rgba(0,0,0,0.75);
+
 }
 
-button.create-button {
-    /* float: right;
-    clear: right; */
-    margin: 20px;
-    margin-top: 10px;
-}
 
 .page-description span {
     margin-left: 3px;

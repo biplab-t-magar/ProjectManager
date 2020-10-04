@@ -26,11 +26,11 @@ namespace ProjectManager.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return Ok(true);
+                return Ok();
             } 
             else 
             {
-                return Ok(false);
+                return Unauthorized();
             }
         }
 
@@ -59,7 +59,7 @@ namespace ProjectManager.Controllers
             }
         }
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> LogOut()
         {
             //sign user out

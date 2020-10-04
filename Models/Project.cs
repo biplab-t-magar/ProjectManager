@@ -10,12 +10,12 @@ namespace ProjectManager.Models
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        [MaxLength(250)]
+        [MaxLength(100)]
         public string Name {get; set;}
         [Required]
         public DateTime TimeCreated {get; set;}
 
-        [MaxLength(300)]
+        [MaxLength(500)]
         public string Description {get; set;}
 
         [JsonIgnore]

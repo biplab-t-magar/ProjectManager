@@ -19,6 +19,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    box-shadow: 9px 4px 40px -27px rgba(0,0,0,0.75);
     /* float: left; */
 }
 

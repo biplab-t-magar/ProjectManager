@@ -9,7 +9,6 @@ const Login = (props) => {
     const [passwordError, setPasswordError] = useState("");
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
-    const history = useHistory();
     //on first render, check if user has already been authenticated
     useEffect(() => {
         checkAuthentication();
@@ -23,7 +22,7 @@ const Login = (props) => {
         let response = await fetch("/account")
             .catch(error => error);
         //if response status is Ok, redirect to home page 
-        if(response.body == true ) {
+        if(response.ok) {
             setUserAuthenticated(true);
         } else {
             setUserAuthenticated(false);

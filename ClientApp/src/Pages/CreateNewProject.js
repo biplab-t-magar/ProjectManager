@@ -6,21 +6,34 @@ const CreateNewProject = () => {
     const [projectName, setProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
+    const [projectDescriptionError, setProjectDescriptionError] = useState("");
 
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
         e.preventDefault();
         //check project name error
-        if(projectName.length == 0) {
+        if(projectName.length === 0) {
             setProjectNameError("You must include a name for your project");
             errorsExist = true;
-        } else {
+        } else if(projectName.length > 100) {
+            setProjectNameError("Your project name should be no more than 100 characters.");
+            errorsExist = true;
+        } 
+        else {
             setProjectNameError("");
         }
 
+        //check projectDescriptionError
+        if(projectDescription.length > 500) {
+            setProjectDescriptionError("Your project description should be no more than 500 characters.");
+            errorsExist = true;
+        } 
+        else {
+            setProjectDescriptionError("");
+        }
 
-        if(errorsExist == false) {
+        if(errorsExist === false) {
             const payload = {
                 name: projectName,
                 description: projectDescription,
@@ -74,6 +87,9 @@ const CreateNewProject = () => {
                                 value={projectDescription} 
                                 onChange={(e) => setProjectDescription(e.target.value)}
                             />
+                            <small className="error-message">
+                                {projectDescriptionError ? projectDescriptionError : ""}
+                            </small>
                         </div>
                         <button type="submit" className="btn btn-primary create">Create Project</button>
                         <Link to={`/projects`}>

@@ -16,13 +16,19 @@ import Register from "../Pages/Register";
 import CreateNewProject from '../Pages/CreateNewProject';
 import EditProject from '../Pages/EditProject';
 import DeleteProject from '../Pages/DeleteProject';
+import Header from './Header';
 
 //Add notes to tags
 
 const App = () => {
     const renderNavBars = () => {
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
-            return (<NavBar/>);
+            return (
+            <div>
+                <Header/>
+                <NavBar/>
+            </div>
+            );
         }
     }
 
