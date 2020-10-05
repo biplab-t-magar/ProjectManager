@@ -1,8 +1,9 @@
 namespace ProjectManager.Models.UtilityModels
 {
     //represents a user model for model binding during user registration and login
-    public class UtilityTaskModel
+    public class UtilityTaskEditModel
     {
+        public int TaskId {get; set;}
         public int ProjectId {get; set;}
         public string Name {get; set;}
 

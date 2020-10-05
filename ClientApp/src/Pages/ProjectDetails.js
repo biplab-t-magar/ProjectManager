@@ -70,9 +70,9 @@ const ProjectDetails = ({match}) => {
         }
     }
 
-    const renderProjectUser = (member) => {
+    const renderProjectUser = (member, index) => {
         return(
-            <li key={member.userId} className="subsection-row">
+            <li key={index} className="subsection-row">
                 <div className="user-name subsection-column">
                     <Link to={`/user/${member.userId}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
                 </div>
@@ -143,8 +143,8 @@ const ProjectDetails = ({match}) => {
                             </Link>
                         </div>
                         <ul>
-                            {projectMembers.map((member) => {
-                                return(renderProjectUser(member));
+                            {projectMembers.map((member, index) => {
+                                return(renderProjectUser(member, index));
                             })}
                         </ul>
                     </div>

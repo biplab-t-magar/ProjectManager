@@ -50,12 +50,28 @@
 
 .task-details .task-users .task-users-row .column {
     display: inline-block;
+    width: 100px;
     padding: 0px;
     vertical-align: top;
 }
 
+.task-details .task-users .task-users-row {
+    padding: 5px;
+}
+
+
 .task-details .task-users .task-user-name {
-    margin-left: 50px;
+    margin-left: 50px
 } 
-.task-details .task-users .assigned {
+.task-details .task-users .assign-button {
+
+}
+
+.categorical-details {
+    margin-top: 75px;
+}
+
+.urgency {
+    width: 150px;
+    margin-left: -40px;
 }

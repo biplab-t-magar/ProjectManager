@@ -10,6 +10,8 @@ const CreateTask = ({match}) => {
     const [taskDescription, setTaskDescription] = useState("");
     const [taskDescriptionError, setTaskDescriptionError] = useState("");
     const [projectTaskTypes, setProjectTaskTypes] = useState([]);
+    const [urgency, setUrgency] = useState("Medium");
+    const [taskType, setTaskType] = useState("none");
 
     useEffect(() => {
         fetchProjectData();
@@ -63,8 +65,8 @@ const CreateTask = ({match}) => {
 
         if(errorsExist === false) {
             let taskTypeId = -1;
-            if(projectTaskTypes.length != 0) {
-                taskTypeId = findTaskTypeId(document.querySelector("#task-type").value);
+            if(projectTaskTypes.length != 0 && taskType !== "none") {
+                taskTypeId = findTaskTypeId(taskType);
             }
             
             const payload = {
@@ -72,7 +74,7 @@ const CreateTask = ({match}) => {
                 Name: taskName,
                 Description: taskDescription,
                 TaskStatus: "Open",
-                Urgency: document.querySelector("#urgency").value,
+                Urgency: urgency,
                 TaskTypeId: taskTypeId
             }
             //making post request to server
@@ -101,7 +103,7 @@ const CreateTask = ({match}) => {
                     description={(`This task will be added to the project ${projectDetails.name ? projectDetails.name : ""}`)} />
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="project-name">Task Name</label>
+                        <label htmlFor="task-name">Task Name</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -130,7 +132,7 @@ const CreateTask = ({match}) => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="select-urgency">Task Urgency</label>
-                        <select className="select-urgency" id="urgency">
+                        <select className="select-urgency" id="urgency" value={urgency} onChange={(e) => setUrgency(e.target.value)}>
                             <option>Medium</option>
                             <option>Low</option>
                             <option>High</option>
@@ -143,7 +145,8 @@ const CreateTask = ({match}) => {
                                 You have not specified any task types for this project yet
                             </div>        
                             :
-                            <select className="select-task-type" id="task-type">
+                            <select className="select-task-type" id="task-type" value={taskType} onChange={(e) => setTaskType(e.target.value)}>
+                                <option value="none" disabled hidden>None</option>
                                 {projectTaskTypes.map((taskType, index) => {
                                     return (
                                         <option key={index}>{taskType.name}</option>

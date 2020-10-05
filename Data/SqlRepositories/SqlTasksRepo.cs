@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ProjectManager.Data.Interfaces;
 using ProjectManager.Models;
 using System.Linq;
+using System;
 
 namespace ProjectManager.Data.SqlRepositories
 {
@@ -54,6 +55,58 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.TaskUserUpdates.Where(tuu => tuu.TaskId == taskId).ToList();
         }
 
+        public Task UpdateTask(Task task)
+        {
+            if(task == null) 
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
+
+            var taskToUpdate = _context.Tasks.Find(task.TaskId);
+
+            _context.Entry(taskToUpdate).CurrentValues.SetValues(task);
+
+            return task;
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
+
+        public bool IsAssignedToTask(int taskId, string userId)
+        {
+            var taskUsers = _context.TaskUsers.Where(tu => tu.TaskId == taskId && tu.AppUserId == userId).ToList();
+            if(taskUsers.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void AssignUserToTask(TaskUser taskUser)
+        {
+            if(taskUser == null)
+            {   
+                throw new ArgumentNullException(nameof(taskUser)); 
+            }
+
+            _context.Add(taskUser);
+
+        }
+
+        public bool RemoveUserFromTask(int taskId, string userId)
+        {
+            var taskUser = _context.TaskUsers.Where(tu => tu.TaskId == taskId && tu.AppUserId == userId).ToList();
+            if(taskUser.Count != 0)
+            {
+                _context.TaskUsers.Remove(taskUser[0]); 
+                return true;
+            }
+            return false;
+        }
+
 
 
         // public List<Task> GetTasksByProject(int projectId)
@@ -77,12 +130,12 @@ namespace ProjectManager.Data.SqlRepositories
         //     return _context.Tasks.Where(t => t.ProjectId == projectId && t.Urgency == urgency).ToList();
         // }
 
-        
-        
-        
 
-        
 
-        
+
+
+
+
+
     }
 }

@@ -1,0 +1,74 @@
+.edit-task form {
+    width: 40%;
+    display: inline-block;
+}
+
+.edit-task textarea {
+    height: 170px;
+}
+
+.edit-task button {
+    float: right;
+}
+
+.edit-task label.category {
+    display: inline-block !;
+    width: 100px;
+}
+.edit-task select {
+    margin-left: 50px;
+    height: 40px;
+    width: 200px;
+    font-size: medium;
+    display: inline-block;
+}
+
+.edit-task .no-task-types {
+    background-color: rgb(226, 225, 225);
+    display:inline-block;
+    margin: 10px 40px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.edit-task .users-list {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 100px;
+    width: 250px;
+}
+
+
+.edit-task .users-list-header {
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+
+}
+
+
+.edit-task .assigned-users .users-list-header {
+    background-color: #a3a3c2;
+}
+
+.edit-task .unassigned-users .users-list-header {
+    background-color: #d6868a;
+}
+
+.edit-task .unassigned-users .users-list-row {
+    background-color: rgb(245, 240, 240);
+    padding: 20px;
+    text-align: center;
+}
+
+.edit-task .unassigned-users .users-list-row .users-list-column {
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+}
+
+.edit-task .users-list .no-content {
+    text-align: center;
+    padding: 10px;
+    
+}

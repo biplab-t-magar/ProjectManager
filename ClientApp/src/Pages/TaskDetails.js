@@ -4,26 +4,24 @@ import PageDescription from "../Components/PageDescription"
 import "../CSS/TaskDetails.css";
 import ConvertDate from "../Utilities/ConvertDate";
 import ConvertTime from "../Utilities/ConvertTime";
+import "../CSS/TaskUrgency.css";
 
 
 const TaskDetails = ({match}) => {
     const [taskDetails, setTaskDetails] = useState({});
     const [taskUsers, setTaskUsers] = useState([]);
     const [taskTypes, setTaskTypes] = useState([]);
-    const [projectUsers, setProjectUsers] = useState([]);
 
     useEffect(() => {
         fetchTaskData();
         fetchTaskUsers();
         fetchTaskTypes();
-        fetchProjectUsers();
     }, []);
 
     const fetchTaskData = async () => {
         const res = await fetch(`/project/task/${match.params.taskId}`);
         const data = await res.json();
         setTaskDetails(data);
-        console.log(data);
     };
 
     const fetchTaskUsers = async () => {
@@ -37,11 +35,6 @@ const TaskDetails = ({match}) => {
         setTaskTypes(data);
     }
 
-    const fetchProjectUsers = async() => {
-        const res = await fetch(`/project/${match.params.projectId}/users`);
-        const data = await res.json();
-        setProjectUsers(data);
-    };
 
     const getTaskTypeName = (typeId) => {
         for(let i = 0; i < taskTypes.length; i++) {
@@ -72,54 +65,59 @@ const TaskDetails = ({match}) => {
                         {taskDetails.description}
                     </div>
                     <Link to={`/projects/${match.params.projectId}/task/${match.params.taskId}/edit`}>
-                        <button type="button" className="btn btn-lg create-button">Edit Project</button>
+                        <button type="button" className="btn btn-lg create-button">Edit Task</button>
                     </Link>
-                    <div className="task-status row">
-                        <div className="field">
-                            Task Status: 
+                    <div className="categorical-details">
+                        <div className="task-urgency row">
+                            <div className="field">
+                                Task Urgency: 
+                            </div>
+                            <div className="entry urgency">
+                                <div className={`${taskDetails.urgency}`}>
+                                    {taskDetails.urgency}
+                                </div>
+                                
+                            </div>
                         </div>
-                        <div className="entry">
-                            {taskDetails.taskStatus}
+                        <div className="task-status row">
+                            <div className="field">
+                                Task Status: 
+                            </div>
+                            <div className="entry">
+                                {taskDetails.taskStatus}
+                            </div>
                         </div>
-                    </div>
-                    <div className="task-urgency row">
-                        <div className="field">
-                            Task Urgency: 
+                        <div className="time-created row">
+                            <div className="field">
+                                Time Created:
+                            </div>
+                            <div className="entry">
+                                {ConvertDate(taskDetails.timeCreated)} at {ConvertTime(taskDetails.timeCreated)}
+                            </div>
                         </div>
-                        <div className="entry">
-                            {taskDetails.urgency}
-                        </div>
-                    </div>
-                    <div className="time-created row">
-                        <div className="field">
-                            Time Created:
-                        </div>
-                        <div className="entry">
-                            {ConvertDate(taskDetails.timeCreated)} at {ConvertTime(taskDetails.timeCreated)}
-                        </div>
-                    </div>
-                    <div className="task-type row">
-                        <div className="field">
-                            Task Type:
-                        </div>
-                        <div className="entry">
-                            {getTaskTypeName(taskDetails.taskTypeId)}
+                        <div className="task-type row">
+                            <div className="field">
+                                Task Type:
+                            </div>
+                            <div className="entry">
+                                {getTaskTypeName(taskDetails.taskTypeId)}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="task-users">
                     <div className="task-users-header">
-                        Project Members
+                        Assigned Personnel
                     </div>
                     <div className="task-users-list">
-                        {projectUsers.map((user, index) => {
+                        {taskUsers.map((user, index) => {
                             return(
                                 <div key={index} className="task-users-row">
                                     <div className="task-user-name column">
                                         {user.firstName} {user.lastName}
                                     </div>
-                                    <div>
-                                        <button className="assigned column">
+                                    <div className="assign-button column">
+                                        <button>
                                             {userIsAssignedToTask(user.id) ? "Unassign" : "Assign"}
                                         </button>
                                     </div>

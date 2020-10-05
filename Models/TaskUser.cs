@@ -15,8 +15,6 @@ namespace ProjectManager.Models
         [Required]
         public DateTime TimeAdded {get; set;}
 
-        //this should be nullabe because value is only entered once a user is removed from a task
-        public DateTime? TimeRemoved {get; set;}
 
         [JsonIgnore]
         public AppUser AppUser {get; set;}

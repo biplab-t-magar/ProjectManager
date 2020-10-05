@@ -15,6 +15,15 @@ namespace ProjectManager.Data.Interfaces
 
         TaskUserUpdate GetTaskUserUpdate(int taskUserUpdateId);
         List<TaskUserUpdate> GetTaskUserUpdatesByTask(int taskId);
+
+        bool IsAssignedToTask(int taskId, string userId);
+
+        void AssignUserToTask(TaskUser taskUser);
+
+        bool RemoveUserFromTask(int taskId, string userId);
+
+        Task UpdateTask(Task task);
+        bool SaveChanges();
     
 
     }
