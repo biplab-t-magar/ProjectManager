@@ -55,13 +55,13 @@
     background-color: #d6868a;
 }
 
-.edit-task .unassigned-users .users-list-row {
+.edit-task .users-list .users-list-row {
     background-color: rgb(245, 240, 240);
     padding: 20px;
     text-align: center;
 }
 
-.edit-task .unassigned-users .users-list-row .users-list-column {
+.edit-task .users-list .users-list-row .users-list-column {
     display: inline-block;
     width: 100px;
     vertical-align: top;

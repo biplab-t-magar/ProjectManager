@@ -18,10 +18,15 @@ const Projects = () => {
     const fetchAllProjects = async () => {
         const res = await fetch("/user/projects")
                         .catch(error => console.log(error));
+        
         const jsonData = await res.json();
+        if(!res.ok) {
+            console.log(res);
+        }
         //for hiding loading icon
         setContentLoaded(true);
         setProjectsList(jsonData);
+        console.log(projectsList);
 
     };
 

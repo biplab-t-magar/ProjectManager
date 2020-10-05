@@ -135,12 +135,51 @@ const EditTask = ({match}) => {
         }
     }
 
-    const assignUserToTask = async () => {
+    const assignUserToTask = async (userId) => {
+        const payload = {
+            TaskId: taskDetails.taskId,
+            AppUserId: userId
+        }
 
+        const response = await fetch("/project/assign-task-user" , {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+
+        if(!response.ok) {
+            console.log(data);
+        } else {
+            fetchAssignedUsers();
+            fetchUnassignedUsers();
+        }
     }
 
-    const unassignUserFromTask = async() => {
-        
+    const unassignUserFromTask = async(userId) => {
+        const payload = {
+            TaskId: taskDetails.taskId,
+            AppUserId: userId
+        }
+        const response = await fetch("/project/unassign-task-user" , {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+
+        if(!response.ok) {
+            console.log(data);
+        } else {
+            fetchAssignedUsers();
+            fetchUnassignedUsers();
+        }
     }
 
     return(
@@ -221,7 +260,7 @@ const EditTask = ({match}) => {
                         <button className="btn btn-secondary cancel">Cancel</button>
                     </Link>
                 </form>
-                <div className="assigned-users users-list users-list-row">
+                <div className="assigned-users users-list">
                     <div className="users-list-header">
                         Users assigned to this task
                     </div>
@@ -234,17 +273,16 @@ const EditTask = ({match}) => {
                                         {user.firstName} {user.lastName}
                                     </div>
                                     <div className="users-list-column">
-                                        <button onClick={unassignUserFromTask} className="btn btn-primary create">
+                                        <button onClick={() => unassignUserFromTask(user.id)} className="btn btn-primary create">
                                             Unassign
                                         </button>
                                     </div>
                                 </div>
                             );
                     })}
-
                 </div>
                 <div className="unassigned-users users-list">
-                <div className="users-list-header">
+                    <div className="users-list-header">
                         Users not assigned to this task
                     </div>
                     {unassignedUsers.length == 0 ? 
@@ -256,15 +294,13 @@ const EditTask = ({match}) => {
                                         {user.firstName} {user.lastName}
                                     </div>
                                     <div className="users-list-column">
-                                        <button onClick={assignUserToTask} className="btn btn-primary create">
+                                        <button onClick={() => assignUserToTask(user.id)} className="btn btn-primary create">
                                             Assign
                                         </button>
                                     </div>
-                                    
                                 </div>
                             );
                     })}
-
                 </div>
                 
             </div>

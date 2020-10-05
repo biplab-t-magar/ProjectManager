@@ -531,10 +531,15 @@ namespace ProjectManager.Controllers
             //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            //make sure the user who is making the request is a project administrator
+            if(task == null)
+            {
+                return NotFound("The given task id is invalid.");
+            }
+
+            //make sure the user who is making the request is a project member
             if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
             {
-                return Unauthorized("User is not a project administrator");
+                return Unauthorized("User is not a project member");
             }
 
             //make sure the user to be assigned is a part of the project
@@ -556,6 +561,7 @@ namespace ProjectManager.Controllers
             taskUser.TimeAdded = DateTime.Now;
 
             _tasksRepo.AssignUserToTask(taskUser);
+            _tasksRepo.SaveChanges();
 
             return Ok(taskUser);
         }
@@ -588,9 +594,11 @@ namespace ProjectManager.Controllers
                 return BadRequest("This user has not been assigned to the task");
             }
 
-            _tasksRepo.RemoveUserFromTask();
+            _tasksRepo.RemoveUserFromTask(taskUserModel.TaskId, taskUserModel.AppUserId);
 
-            return Ok(taskUser);
+            _tasksRepo.SaveChanges();
+
+            return Ok(_tasksRepo.GetTaskUsers(taskUserModel.TaskId));
         }
 
 
