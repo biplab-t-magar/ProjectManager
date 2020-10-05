@@ -1,0 +1,26 @@
+.create-task form {
+    width: 50%;
+}
+
+.create-task textarea {
+    height: 100px;
+}
+
+.create-task button {
+    float: right;
+}
+
+.create-task select {
+    margin-left: 50px;
+    height: 40px;
+    width: 200px;
+    font-size: medium;
+}
+
+.create-task .no-task-types {
+    background-color: rgb(226, 225, 225);
+    display:inline-block;
+    margin: 10px 40px;
+    padding: 10px;
+    border-radius: 5px;
+}

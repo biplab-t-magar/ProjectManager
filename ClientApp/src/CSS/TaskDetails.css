@@ -1,0 +1,61 @@
+.task-details .task-description {
+    border-radius: 4px;
+    margin-top: -10px;
+    padding: 15px;
+    height: 200px;
+    /* width: 30%; */
+    background-color: #f0f0f5;
+    border-radius: 7px;
+    border: solid 1px lightgray;
+    color: #666666;
+}
+
+.task-details .details {
+    display: inline-block;
+}
+
+.task-details .details button {
+    float: right;
+}
+
+
+.task-details .details .row{
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    color: rgb(99, 79, 79);
+}
+
+.task-details .field {
+    display:inline-block;
+    width: 170px;
+}
+
+.task-details .entry {
+    display: inline-block;
+}
+
+.task-details .task-users {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 100px;
+    background-color: rgb(236, 234, 234);
+}
+
+.task-details .task-users .task-users-header {
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+}
+
+.task-details .task-users .task-users-row .column {
+    display: inline-block;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.task-details .task-users .task-user-name {
+    margin-left: 50px;
+} 
+.task-details .task-users .assigned {
+}

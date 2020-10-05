@@ -244,5 +244,20 @@ namespace ProjectManager.Data.SqlRepositories
             // _context.Entry(projectUser).Property("Role").IsModified = true;
             return projectUser;
         }
+
+        public Task CreateTask(Task task)
+        {
+            if(task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
+            task.TimeCreated = DateTime.Now;
+
+            //create the task
+            _context.Add(task);
+            return task;
+
+        }
     }
 }

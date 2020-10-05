@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using ProjectManager.Models.UtilityModels;
 using ProjectManager.Data.Services;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ProjectManager.Controllers 
 {
@@ -17,6 +18,7 @@ namespace ProjectManager.Controllers
         private readonly IProjectsRepo _projectsRepo;
         private readonly IAppUsersRepo _usersRepo;
         private readonly ITaskTypesRepo _taskTypesRepo;
+        private readonly ITasksRepo _tasksRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly ProjectMemberValidation _validation;
 
@@ -24,13 +26,16 @@ namespace ProjectManager.Controllers
             IProjectsRepo projectsRepo, 
             IAppUsersRepo usersRepo, 
             ITaskTypesRepo taskTypesRepo,
+            ITasksRepo tasksRepo,
             UserManager<AppUser> userManager, 
             ProjectMemberValidation validation
         )
         {
+
             _projectsRepo = projectsRepo;
             _usersRepo = usersRepo;
             _taskTypesRepo = taskTypesRepo;
+            _tasksRepo = tasksRepo;
             _userManager = userManager;
             _validation = validation;
         }
@@ -106,8 +111,8 @@ namespace ProjectManager.Controllers
         }
 
         [Authorize]
-        [HttpGet("{projectId}/tasks/{numOfTasks:int}")]
-        public async Task<IActionResult> GetProjectTasks(int projectId, [FromQuery(Name = "numOfTasks")] int numOfTasks)
+        [HttpGet("{projectId}/tasks/recent/{numOfTasks}")]
+        public async Task<IActionResult> GetProjectTasks(int projectId, int numOfTasks)
         {
             //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -119,7 +124,18 @@ namespace ProjectManager.Controllers
             }
 
             var projectTasks = _projectsRepo.GetProjectTasks(projectId);
-            return Ok(projectTasks);
+
+            if(projectTasks.Count <= numOfTasks) 
+            {
+                return Ok(projectTasks);
+            } 
+            else
+            {
+                //take only as many entries as specified in numOfTasks
+                projectTasks = projectTasks.GetRange(0, numOfTasks);
+                return Ok(projectTasks); 
+            }
+            
         }
 
         [HttpGet("{projectId}/task-types")]
@@ -363,8 +379,81 @@ namespace ProjectManager.Controllers
             {
                 return BadRequest("Cannot delete a task type that has already been assigned to a task");
             }
-            
-            
         }   
+
+        [Authorize]
+        [HttpPost("create-task")]
+        public async Task<IActionResult> CreateProjectTask([FromBody]UtilityTaskModel taskModel)
+        {   
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project member
+            if(!_validation.userIsProjectMember(user.Id, taskModel.ProjectId))
+            {
+                return Unauthorized();
+            }
+
+            //create the task object
+            Models.Task task = new Models.Task();
+            task.ProjectId = taskModel.ProjectId;
+            task.Name = taskModel.Name;
+            task.Description = taskModel.Description;
+            task.TaskStatus = taskModel.TaskStatus;
+            task.Urgency = taskModel.Urgency;
+            //if task type was specified
+            if(taskModel.TaskTypeId != -1)
+            {
+                task.TaskTypeId = taskModel.TaskTypeId;
+            }
+            task = _projectsRepo.CreateTask(task);
+            _projectsRepo.SaveChanges();
+
+            return Ok(task);
+        }   
+
+
+        [Authorize]
+        [HttpGet("task/{taskId}")]
+        public async Task<IActionResult> GetTaskDetails(int taskId)
+        {   
+            
+            //retrieve the task from the database
+            var task = _tasksRepo.GetTaskById(taskId);
+
+            //now, check if the user has access to the task
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project administrator
+            if(!_validation.userIsProjectAdministrator(user.Id, task.ProjectId))
+            {
+                return Unauthorized();
+            }
+            //return the task
+            return Ok(task);
+        }
+
+        // [Authorize]
+        // [HttpGet("task/{taskId}/users")]
+        // public async Task<IActionResult> GetTaskDetails(int taskId)
+        // {   
+            
+        //     //retrieve the task from the database
+        //     var task = _tasksRepo.GetTaskById(taskId);
+
+        //     //now, check if the user has access to the task
+        //     //get the current user
+        //     var user = await _userManager.GetUserAsync(HttpContext.User);
+
+        //     //make sure the user who is making the request is a project administrator
+        //     if(!_validation.userIsProjectAdministrator(user.Id, task.ProjectId))
+        //     {
+        //         return Unauthorized();
+        //     }
+        //     //return the task
+        //     return Ok(task);
+        // }
+
     }
 }

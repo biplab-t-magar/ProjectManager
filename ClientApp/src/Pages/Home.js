@@ -3,8 +3,8 @@ import {Redirect} from "react-router-dom"
 
 const Home = () => {
     return (
-        <div>
-            <h1>Home</h1>
+        <div className="page">
+ 
         </div>
     );
 }

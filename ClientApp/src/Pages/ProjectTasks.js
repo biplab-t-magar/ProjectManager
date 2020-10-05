@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import "../CSS/ProjectTasks.css";
 import "../CSS/TaskUrgency.css";
+import ConvertDate from "../Utilities/ConvertDate.js";
+import ConvertTime from "../Utilities/ConvertTime.js";
+
 
 const ProjectTasks = ({match}) => {
     const [projectInfo, setProjectInfo] = useState({});
@@ -27,7 +30,7 @@ const ProjectTasks = ({match}) => {
     }
 
     const fetchTaskTypes = async () => {
-        const res = await fetch(`/project/${match.params.projectId}/taskTypes`);
+        const res = await fetch(`/project/${match.params.projectId}/task-types`);
         const data = await res.json();
         setProjectTaskTypes(data);
     };
@@ -50,7 +53,9 @@ const ProjectTasks = ({match}) => {
                     </h1>
                     <span>Here are all the tasks created for this project</span>
                 </div>
-                <button type="button" className="btn btn-lg create-button create-button">+ Create New Task</button>
+                <Link to={`/projects/${projectInfo.projectId}/tasks/new`} >
+                    <button type="button" className="btn btn-lg create-button create-button">+ Create New Task</button>
+                </Link>
                 <div className="tasks-list">
                     {/*headers*/}
                     <div className="tasks-list-header task-list-row">
@@ -66,12 +71,12 @@ const ProjectTasks = ({match}) => {
                             <Link to={`/projects/${match.params.projectId}/task/${task.taskId}`} key={task.taskId}>
                                 <div  className="task-entry task-list-row">
                                     <div className="name column">{task.name}</div>
-                                    <div className="task-type column">{getTaskTypeName(task.taskId)}</div>
+                                    <div className="task-type column">{getTaskTypeName(task.taskTypeId)}</div>
                                     <div className="task-status column">{task.taskStatus}</div>
                                     <div className="urgency column">
                                         <div className={`${task.urgency}`}>{task.urgency}</div>
                                     </div>
-                                    <div className="time-created column">{task.timeCreated}</div>
+                                    <div className="time-created column">{ConvertDate(task.timeCreated)} at {ConvertTime(task.timeCreated)}</div>
                                     <div className="description column">{task.description}</div>
                                 </div>
                             </Link>

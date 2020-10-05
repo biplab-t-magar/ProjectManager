@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/ManageTaskTypes.css";
+import {Link} from "react-router-dom";
 
 const ManageTaskTypes = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
@@ -100,6 +101,9 @@ const ManageTaskTypes = ({match}) => {
                         {taskTypeNameError ? taskTypeNameError : ""}
                     </small>
                     <button onClick={createNewTaskType} className="btn btn-lg create-button">Create Task Type </button>
+                    <Link to={`/projects/${projectDetails.projectId}`}>
+                        <button className="btn btn-secondary cancel">Cancel</button>
+                    </Link>
                 </div>
                 <div className="task-types-list">
                     <div className="task-types-list-header">Project Task Types</div>

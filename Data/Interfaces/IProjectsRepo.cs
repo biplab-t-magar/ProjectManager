@@ -18,6 +18,7 @@ namespace ProjectManager.Data.Interfaces
 
         void AddProjectInvite(ProjectInvitation projectInvitation);
 
+        Task CreateTask(Task task);
 
         List<AppUser> GetProjectUsersByRole(int projectId, string role);
 
@@ -36,6 +37,7 @@ namespace ProjectManager.Data.Interfaces
         // List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, int updaterId);
 
         void AddUserToProject(ProjectUser projectUser);
+
 
         Project UpdateProject(Project project);
 

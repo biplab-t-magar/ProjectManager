@@ -79,6 +79,7 @@ button.create-button {
     border-radius: 2px;
     padding: 4px;
     text-decoration: none;
+    background-color: rgb(241, 236, 236);
 }
 
 .project-details .subsection .subsection-row.subsection-header a:hover{

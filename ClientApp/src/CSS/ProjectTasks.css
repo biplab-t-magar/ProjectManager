@@ -55,8 +55,12 @@ button.create-button {
     flex: 4;
 }
 .task-list-row .column.name {
-    flex: 2;
+    flex: 1;
 }
+.task-list-row .column.created-on {
+    flex: 3;
+}
+
 .task-list-row .column.task-type {
     text-align: center;
 }

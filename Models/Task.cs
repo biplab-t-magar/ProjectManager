@@ -30,9 +30,7 @@ namespace ProjectManager.Models
         [Required]
         public DateTime TimeCreated {get; set;}
 
-        [Required]
-        public int TaskTypeId {get; set;}
-        [Required]
+        public int? TaskTypeId {get; set;}
         
         [JsonIgnore]
         public TaskType TaskType {get; set;}

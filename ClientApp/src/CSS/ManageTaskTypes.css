@@ -45,3 +45,9 @@ button.delete-button{
     margin-left: 20px;
     text-align: center;
 }
+
+.manage-task-types button.cancel {
+    margin-left: 0px;
+    height: 48px;
+    width: 100px;
+}

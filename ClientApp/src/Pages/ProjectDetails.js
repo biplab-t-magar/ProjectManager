@@ -44,13 +44,13 @@ const ProjectDetails = ({match}) => {
 
     const fetchRecentProjectTasks = async () => {
         //get latest 15 tasks from project
-        const res = await fetch(`/project/${match.params.projectId}/tasks?numOfTasks=15`);
+        const res = await fetch(`/project/${match.params.projectId}/tasks/recent/10`);
         const data = await res.json();
         setRecentProjectTasks(data);
     };
 
     const fetchTaskTypes = async () => {
-        const res = await fetch(`/project/${match.params.projectId}/taskTypes`);
+        const res = await fetch(`/project/${match.params.projectId}/task-types`);
         const data = await res.json();
         setProjectTaskTypes(data);
     };
@@ -88,7 +88,7 @@ const ProjectDetails = ({match}) => {
         );
     }
 
-    const renderRecentProjectTasks = (task) => {
+    const renderRecentProjectTask = (task) => {
         // console.log(task);
 
         return(
@@ -99,10 +99,10 @@ const ProjectDetails = ({match}) => {
                     </div>                                    
                     {/* <Link to={`projects/${match.params.projectId}/users/${member.userId}`}> */}
                     <div className="task-type subsection-column">
-                        {getTaskTypeName(task.taskId)}
+                        {getTaskTypeName(task.taskTypeId)}
                     </div>
                     <div className="task-urgency subsection-column">
-                        {task.taskUrgency}
+                        {task.urgency}
                     </div>
                 </li>
             </Link>
@@ -157,7 +157,7 @@ const ProjectDetails = ({match}) => {
                         </div>
                         <ul>
                             {recentProjectTasks.map((task) => {
-                                return(renderRecentProjectTasks(task));
+                                return(renderRecentProjectTask(task));
                             })}
                         </ul>
                     </div>
