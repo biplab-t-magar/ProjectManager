@@ -8,8 +8,18 @@ namespace ProjectManager.Data.Interfaces
         Project GetProjectById(int projectId);
         List<AppUser> GetProjectUsers(int projectId);
 
-        List<AppUser> GetProjectUsersByRole(int projectId, string role);
+        List<ProjectInvitation> GetProjectInvitations(int projectId);
 
+        bool HasUserBeenInvited(int projectId, string userId);
+
+        List<AppUser> GetProjectInvitees(int projectId);
+
+        bool DeleteProjectInvite(int projectId, string inviteeId);
+
+        void AddProjectInvite(ProjectInvitation projectInvitation);
+
+
+        List<AppUser> GetProjectUsersByRole(int projectId, string role);
 
         List<Task> GetProjectTasks(int projectId);
         List<Task> GetUserProjectTasks(int projectId, string userId);
@@ -28,6 +38,9 @@ namespace ProjectManager.Data.Interfaces
         void AddUserToProject(ProjectUser projectUser);
 
         Project UpdateProject(Project project);
+
+        ProjectUser SetProjectUserRole(ProjectUser projectUser, string role);
+
 
         void DeleteProject(int projectId);
 

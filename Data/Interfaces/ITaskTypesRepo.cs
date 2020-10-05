@@ -7,6 +7,10 @@ namespace ProjectManager.Data.Interfaces
     {
         TaskType GetTaskTypeById(int taskTypeId);
         
+        TaskType CreateTaskType(int projectId, string name);
+
+        void DeleteTaskType(int taskTypeId);
+        bool SaveChanges();
 
     }
 }

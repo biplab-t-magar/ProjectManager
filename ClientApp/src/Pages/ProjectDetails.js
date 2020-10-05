@@ -6,6 +6,7 @@ import "../CSS/ProjectDetails.css";
 import ConvertDate from '../Utilities/ConvertDate';
 import ConvertTime from '../Utilities/ConvertTime';
 
+
 const ProjectDetails = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
     const [projectMembers, setProjectMembers] = useState([]);
@@ -56,7 +57,7 @@ const ProjectDetails = ({match}) => {
 
     const getUserRole = (userId) => {
         for(let i = 0; i < projectUserRoles.length; i++) {
-            if(projectUserRoles[i].userId === userId) {
+            if(projectUserRoles[i].appUserId === userId) {
                 return projectUserRoles[i].role;
             }
         }
@@ -76,7 +77,7 @@ const ProjectDetails = ({match}) => {
                     <Link to={`/user/${member.userId}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
                 </div>
                 <div className="user-role subsection-column">
-                    {getUserRole(member.userId)}
+                    {getUserRole(member.id)}
                 </div>                                        
                 <Link to={`/projects/${match.params.projectId}/users/${member.userId}`}>
                     <div className="user-activity subsection-column">
@@ -124,8 +125,12 @@ const ProjectDetails = ({match}) => {
                 <Link to={`/projects/${match.params.projectId}/edit`}>
                     <button type="button" className="btn btn-lg create-button">Edit Project</button>
                 </Link>
-                <button type="button" className="btn btn-lg create-button">View Project History</button>
-                <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
+                <button type="button" className="btn btn-lg create-button">View Project Activity</button>
+
+                <Link to={`/projects/${match.params.projectId}/task-types`}>
+                    <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
+                </Link>
+
                 <Link to={`/projects/${match.params.projectId}/delete`}>
                     <button type="button" className="btn btn-lg btn-danger delete-button">Delete Project</button>
                 </Link>
@@ -147,7 +152,7 @@ const ProjectDetails = ({match}) => {
                         <div className="subsection-row subsection-header">
                             Recent Tasks
                             <Link to={`/projects/${match.params.projectId}/tasks`}>
-                                View All Tasks
+                                View And Manage Tasks
                             </Link>
                         </div>
                         <ul>

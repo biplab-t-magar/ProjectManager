@@ -16,9 +16,6 @@ namespace ProjectManager.Models
         public string InviterId {get; set;}
         [Required]
         public string InviteeId {get; set;}
-        [Required]
-        public DateTime Timestamp {get; set;}
-
         [JsonIgnore]
         public Project Project {get; set;}
         [JsonIgnore]

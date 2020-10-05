@@ -4,7 +4,7 @@ import PageDescription from "../Components/PageDescription.js";
 import "../CSS/CreateNewProject.css"; //use same css as for create new project page because they look very similar
 
 
-const EditProject = ({match, location}) => {
+const EditProject = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
     const [newProjectName, setNewProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
@@ -53,10 +53,10 @@ const EditProject = ({match, location}) => {
 
         if(errorsExist == false) {
             const payload = {
-                ProjectId: location.id,
+                ProjectId: projectDetails.projectId,
                 Name: newProjectName,
                 Description: newProjectDescription,
-                TimeCreated: location.timeCreated
+                TimeCreated: projectDetails.timeCreated
             }
             //making post request to server
             const response = await fetch("/project/edit" , {

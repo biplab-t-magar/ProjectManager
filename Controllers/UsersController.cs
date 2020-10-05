@@ -32,10 +32,10 @@ namespace ProjectManager.Controllers
              //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userProjects = _usersRepo.GetUserProjects(user.Id);
+
             return Ok(userProjects);
         }
 
-        
 
         // [HttpGet("{userid}/projects")]
         // public ActionResult <List<Project>> GetUserProjects(int userid) 

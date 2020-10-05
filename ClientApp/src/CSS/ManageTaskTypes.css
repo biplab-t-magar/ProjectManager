@@ -1,0 +1,47 @@
+.create-task-type {
+    display: inline-block;
+}
+
+.create-task-type input {
+    width: 500px;
+    
+}
+
+.create-task-type button {
+    float: left;
+}
+
+.task-types-list {
+    display: inline-block;
+    margin-left: 100px;
+    width: 250px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.task-types-list-header {
+    background-color: #a3a3c2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.task-types-list-row {
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 5px;
+    background-color: rgba(211, 211, 211, 0.199);
+    display: flex;
+}
+
+.task-type-name {
+    flex: 2;
+    margin-top: 15px;
+}
+
+button.delete-button{
+    flex: 2;
+    color: white;
+    background-color: red;
+    margin-left: 20px;
+    text-align: center;
+}

@@ -5,7 +5,9 @@ namespace ProjectManager.Data.Interfaces
 {
     public interface IAppUsersRepo
     {
-        AppUser GetUserById(string userId);        
+        AppUser GetUserById(string userId);   
+
+        AppUser GetUserByUserName(string userName);     
         List<Project> GetUserProjects(string userId);
 
         List<Task> GetUserTasks(string userId);
@@ -18,6 +20,7 @@ namespace ProjectManager.Data.Interfaces
         // List<TaskUserUpdate> GetTaskUserUpdatesByUpdater(int projectId, int taskId, int updaterId);
         // List<TaskUserUpdate> GetTaskUserUpdatesForUser(int projectId, int taskId, int userId);
 
+        // AppUser GetUser
         Project CreateUserProject(Project project, AppUser user);
         bool SaveChanges();
     }

@@ -35,7 +35,12 @@ namespace ProjectManager.Data.SqlRepositories
 
         public List<Task> GetProjectTasksByTaskType(int projectId, int taskTypeId)
         {
-            return _context.Tasks.Where(t => t.ProjectId == projectId && t.TaskTypeId == taskTypeId).ToList();
+            var tasks = _context.Tasks.Where(t => t.ProjectId == projectId && t.TaskTypeId == taskTypeId);
+            if(tasks == null) {
+                return new List<Task>();
+            } else {
+                return tasks.ToList();
+            }
         }
 
         public List<Task> GetProjectTasksByUrgency(int projectId, string urgency)
@@ -145,13 +150,26 @@ namespace ProjectManager.Data.SqlRepositories
                 throw new ArgumentNullException(nameof(project));
             }
 
-            // var projectToUpdate = _context.Projects.Find(project.ProjectId);
+
+            var projectToUpdate = _context.Projects.Find(project.ProjectId);
             // //make changes to entry
-            // projectToUpdate = project.ProjectDe;
-            _context.Attach(project);
-            _context.Entry(project).Property("Name").IsModified = true;
-            _context.Entry(project).Property("Description").IsModified = true;
+
+            _context.Entry(projectToUpdate).CurrentValues.SetValues(project);
+
+            // _context.Attach(project);
+            // _context.Entry(project).Property("Name").IsModified = true;
+            // _context.Entry(project).Property("Description").IsModified = true;
             return project;
+        }
+
+        public void AddProjectInvite(ProjectInvitation projectInvitation)
+        {
+            if(projectInvitation == null)
+            {
+                throw new ArgumentNullException(nameof(projectInvitation));
+            }
+            _context.Add(projectInvitation);
+
         }
 
         public void DeleteProject(int projectId)
@@ -165,6 +183,66 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.SaveChanges() >= 0;
         }
 
-        
+        public List<ProjectInvitation> GetProjectInvitations(int projectId)
+        {
+            var projectInvitations = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId).ToList();
+            return projectInvitations;
+        }
+
+        public List<AppUser> GetProjectInvitees(int projectId)
+        {
+            var projectInvitations = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId).ToList();
+            var users = new List<AppUser>();
+            
+            //store all the invitees
+            for(int i = 0; i < projectInvitations.Count; i++)
+            {
+                users.Add(_context.AppUsers.Find(projectInvitations[i].InviteeId));
+            }
+
+            return users;
+        }
+
+        public bool DeleteProjectInvite(int projectId, string inviteeId)
+        {
+            var projectInvitation = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId && pi.InviteeId == inviteeId).ToList();
+            if(projectInvitation.Count != 0)
+            {
+                _context.ProjectInvitations.Remove(projectInvitation[0]); 
+                return true;
+            }
+            return false;
+            
+        }
+
+        public bool HasUserBeenInvited(int projectId, string userId)
+        {
+            var userInvites = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId && pi.InviteeId == userId).ToList();
+            if(userInvites.Count == 0)
+            {
+                return false;
+            }
+            return true;
+            
+        }
+
+        public ProjectUser SetProjectUserRole(ProjectUser projectUser, string role)
+        {
+
+            if(projectUser == null) 
+            {
+                throw new ArgumentNullException(nameof(projectUser));
+            }
+
+            projectUser.Role = role;
+
+            var projectUserToUpdate = _context.ProjectUsers.Find(projectUser.ProjectId, projectUser.AppUserId);
+            // //make changes to entry
+
+            _context.Entry(projectUserToUpdate).CurrentValues.SetValues(projectUser);
+            
+            // _context.Entry(projectUser).Property("Role").IsModified = true;
+            return projectUser;
+        }
     }
 }

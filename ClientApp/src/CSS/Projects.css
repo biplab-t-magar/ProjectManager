@@ -43,8 +43,6 @@ div.projects-content {
     border-radius: 10px;
 }
 
-
-
 .project-entry.project-list-row:hover {
     cursor: pointer;
     background-color: #cce6ff;

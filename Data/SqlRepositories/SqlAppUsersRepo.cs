@@ -45,7 +45,18 @@ namespace ProjectManager.Data.SqlRepositories
 
         public AppUser GetUserById(string userId)
         {
-            return _context.Users.Find(userId);
+            return _context.AppUsers.Find(userId);
+        }
+
+        public AppUser GetUserByUserName(string userName)
+        {
+            var user = _context.AppUsers.Where(u => u.UserName == userName).ToList();
+            if(user.Count == 0) 
+            {
+                return null;
+            }
+            //it is ensured that there is only one user per username
+            return user[0];
         }
 
         public List<Project> GetUserProjects(string userId)

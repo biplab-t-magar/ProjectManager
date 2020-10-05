@@ -75,7 +75,7 @@ namespace ProjectManager.Controllers
             var checkUser = await _userManager.FindByNameAsync(rUser.userName);
             if(checkUser != null) 
             {
-                return Unauthorized("Email has already been used to create an account.");
+                return Unauthorized("Username has already been used to create an account.");
             }
             // create the user model
             var user = new AppUser

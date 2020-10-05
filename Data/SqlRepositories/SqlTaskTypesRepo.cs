@@ -19,5 +19,23 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.TaskTypes.Find(taskTypeId);
         }
         
+
+        public TaskType CreateTaskType(int projectId, string name)
+        {
+            TaskType taskType = new TaskType() {ProjectId = projectId, Name = name};
+            _context.Add(taskType);
+            return taskType;
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
+
+        public void DeleteTaskType(int taskTypeId)
+        {
+            var taskType = GetTaskTypeById(taskTypeId);
+            _context.TaskTypes.Remove(taskType);
+        }
     }   
 }

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "../CSS/DeleteProject.css";
 
-const DeleteProject = ({match, location}) => {
+const DeleteProject = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
     useEffect(() => {
         fetchProjectData();

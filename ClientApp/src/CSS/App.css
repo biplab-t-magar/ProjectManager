@@ -18,15 +18,18 @@
 
 }
 
+.navigation {
+    z-index: 2;
+}
+
+.header{
+    z-index: 0;
+}
 
 .page-description span {
     margin-left: 3px;
 }
 
-.spinner {
-    margin-top: 200px;
-    margin-left: 25%;
-}
 
 body {
     background: #f3f5f9;

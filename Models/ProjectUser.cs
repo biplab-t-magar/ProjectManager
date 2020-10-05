@@ -20,7 +20,6 @@ namespace ProjectManager.Models
         public DateTime TimeAdded {get; set;}
 
         [JsonIgnore]
-        [Required]
         public AppUser AppUser {get; set;}
 
         [JsonIgnore]

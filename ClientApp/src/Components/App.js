@@ -18,6 +18,8 @@ import EditProject from '../Pages/EditProject';
 import DeleteProject from '../Pages/DeleteProject';
 import Header from './Header';
 import ManageProjectUsers from '../Pages/ManageProjectUsers';
+import Alerts from "../Pages/Alerts.js";
+import ManageTaskTypes from '../Pages/ManageTaskType';
 
 //Add notes to tags
 
@@ -44,8 +46,10 @@ const App = () => {
                     <Route path="/projects" exact component={Projects}/>
                     <Route path="/reports" exact component={Reports}/>
                     <Route path="/tasks" exact component={UserTasks}/>
+                    <Route path="/alerts" exact component={Alerts} />
                     <Route path="/projects/new" exact component={CreateNewProject} />
                     <Route path="/projects/:projectId" exact component={ProjectDetails} />
+                    <Route path="/projects/:projectId/task-types" exact component={ManageTaskTypes} />
                     <Route path="/projects/:projectId/users/:userId" exact component={ProjectUserActivity} />
                     <Route path="/projects/:projectId/tasks" exact component={ProjectTasks} />
                     <Route path="/projects/:projectId/edit" exact component={EditProject} />

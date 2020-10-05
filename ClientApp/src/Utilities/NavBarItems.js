@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiFillHome, AiOutlineProject } from "react-icons/ai"; 
+import { AiFillHome, AiOutlineProject, AiOutlineAlert} from "react-icons/ai"; 
 import { GoTasklist } from "react-icons/go";
 import { HiDocumentReport } from "react-icons/hi";
 
@@ -28,6 +28,12 @@ export  const NavBarItems = [
         path: '/reports',
         icon: <HiDocumentReport />,
         className: 'nav-text',
+    }, 
+    {
+        title: 'Alerts',
+        path: '/alerts',
+        icon: <AiOutlineAlert />,
+        className: 'nav-text'
     }
     
 ]

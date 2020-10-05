@@ -27,12 +27,12 @@ div.projects-content {
 button.manage-user {
     display: inline-block;
     margin: 0;
-    height: 10px;
 }
 
 .users-list {
     display: inline-block;
     width: 60%;
+    vertical-align: top;
 }
 
 .spinner {
@@ -77,9 +77,11 @@ button.manage-user {
 .invite-users {
     background-color: #a3a3c2;
     padding: 10px;
-    margin-left: 100px;
+    margin-left: 40px;
     margin-top: 0px;
     width: 350px;
+    border-radius: 5px;
+
 }
 
 .invite-users-header {
@@ -98,13 +100,35 @@ button.manage-user {
     font-size: 15px;
 }
 
-.users-invited {
-    margin-left: 100px;
+.pending-invitations {
+    margin-left: 40px;
     margin-top: 20px;
     text-align: center;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+
 }
 
 .pending-invitations-header {
     background-color:  #a3a3c2;
     padding: 10px 0;
+}
+
+.pending-invitations-list {
+    width: 300px;
+}
+
+
+.invitation-column {
+    display: inline-block;
+}
+
+.invitee-username {
+    width: 100px
+}
+
+small.error-message {
+    display: inline-block;
+    font-size: 15px;
+    float: right;
 }

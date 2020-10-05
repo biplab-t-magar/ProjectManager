@@ -12,7 +12,7 @@ const Header = () => {
 
     return (
         <div>
-            <header>
+            <header className="header">
                 <Link to="/">
                     <h1>ProjectManager</h1>
                 </Link>
