@@ -104,6 +104,9 @@ const UserProfile = ({match}) => {
         });
         if(!response.ok) {
             console.log(response);
+        } else {
+            const data = await response.json();
+            console.log(data);
         }
         fetchProjectInvitations();
         fetchProjectInviters();
@@ -140,7 +143,7 @@ const UserProfile = ({match}) => {
                     return(
                         <div key={index} className="invitation">
                             <strong>
-                                <Link to={`/user/${invitation.inviterId}`}>{getUserNameFromId(invitation.inviterId)}</Link>
+                                <Link to={`/profile/${invitation.inviterId}`}>{getUserNameFromId(invitation.inviterId)}</Link>
                             </strong> invited you to <strong>{getProjectNameFromId(invitation.projectId)}</strong>
                             <br />
                             <button onClick={() => acceptInvite(invitation)} id="accept-button" className="btn btn-success">Accept</button>

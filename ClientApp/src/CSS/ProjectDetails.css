@@ -185,3 +185,7 @@ button.create-button {
     color: rgb(146, 176, 216);
     display: inline-block;
 }
+
+.only-for-administrator {
+    display: inline-block;
+}

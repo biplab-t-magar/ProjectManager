@@ -55,7 +55,7 @@ namespace ProjectManager.Controllers
             } 
             //if sign in was successful, return Ok
             else {
-                return Ok();
+                return Ok("logged in");
             }
         }
 
@@ -99,7 +99,7 @@ namespace ProjectManager.Controllers
                 } 
                 //if sign in was successful, return Ok
                 else {
-                    return Ok();
+                    return Ok("registered");
                 }
             } 
             return Unauthorized("Unable to register user using the given credentials.");

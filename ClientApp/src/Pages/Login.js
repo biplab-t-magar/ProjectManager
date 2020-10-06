@@ -60,7 +60,7 @@ const Login = (props) => {
                 password: userPassword
             }
             //making post request to server
-            await fetch("/account/login" , {
+            const response = await fetch("/account/login" , {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -68,17 +68,24 @@ const Login = (props) => {
                 },
                 body: JSON.stringify(payload)
             })
-            .then((response) => {
-                if(!response.ok) {
-                    console.log(response.statusText)
-                    console.log(response.status);
-                } 
-                //redirect to home page
-                else {
-                    setUserAuthenticated(true);
-                }
-            })
-            .catch(error => console.log(error));
+
+            const data= await response.json();
+            if(!response.ok) {
+                setPasswordError(data);
+            } else {
+                setUserAuthenticated(true);
+            }
+            // .then((response) => {
+            //     if(!response.ok) {
+            //         console.log(response.statusText)
+            //         console.log(response.status);
+            //     } 
+            //     //redirect to home page
+            //     else {
+                    
+            //     }
+            // })
+            // .catch(error => console.log(error));
         }
     }
 

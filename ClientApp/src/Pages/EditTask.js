@@ -266,7 +266,7 @@ const EditTask = ({match}) => {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary create">Update Task</button>
-                    <Link to={`/projects/${taskDetails.projectId}`}>
+                    <Link to={`/projects/${taskDetails.projectId}/task/${taskDetails.taskId}`}>
                         <button className="btn btn-secondary cancel">Cancel</button>
                     </Link>
                 </form>
@@ -280,7 +280,7 @@ const EditTask = ({match}) => {
                             return(
                                 <div className="users-list-row" key={index}>
                                     <div className="user-name users-list-column">
-                                        <Link to={`/user/${user.id}`}>
+                                        <Link to={`/profile/${user.id}`}>
                                             {user.firstName} {user.lastName}
                                         </Link>
                                     </div>
@@ -303,7 +303,7 @@ const EditTask = ({match}) => {
                             return(
                                 <div className="users-list-row" key={index}>
                                     <div className="user-name users-list-column">
-                                        <Link to={`/user/${user.id}`}>
+                                        <Link to={`/profile/${user.id}`}>
                                             {user.firstName} {user.lastName}
                                         </Link>
                                     </div>

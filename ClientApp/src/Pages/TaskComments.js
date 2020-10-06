@@ -114,7 +114,7 @@ const TaskComments = ({match}) => {
                             return (
                                 <div key={index} className="comments-listing-row">
                                     <div className="name column">
-                                        <Link to={`/user/${comment.appUserId}`}>
+                                        <Link to={`/profile/${comment.appUserId}`}>
                                             {getUserNameById(comment.appUserId)}
                                         </Link>
                                     </div>

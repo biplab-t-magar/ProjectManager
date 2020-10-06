@@ -26,10 +26,11 @@ const ProjectDetails = ({match}) => {
     }, []);
 
     const getCurrentUserRole = async () => {
+        console.log(match.params.projectId);
+
         const res = await fetch(`/user/${match.params.projectId}/user-role`);
         const data = await res.json();
-        setCurrentUserRole(data);
-        console.log(data);
+        setCurrentUserRole(data.role);
     }
 
     const fetchProjectData = async () => {
@@ -85,7 +86,7 @@ const ProjectDetails = ({match}) => {
         return(
             <li key={index} className="subsection-row">
                 <div className="user-name subsection-column">
-                    <Link to={`/user/${member.id}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
+                    <Link to={`/profile/${member.id}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
                 </div>
                 <div className="user-role subsection-column">
                     {getUserRole(member.id)}
@@ -138,7 +139,7 @@ const ProjectDetails = ({match}) => {
                 
                 {/* Show this option only to the administrator */}
                 {currentUserRole == "Administrator" ? 
-                    <div>
+                    <div className="only-for-administrator">
                         <Link to={`/projects/${match.params.projectId}/edit`}>
                             <button type="button" className="btn btn-lg create-button">Edit Project</button>
                         </Link>
@@ -158,9 +159,14 @@ const ProjectDetails = ({match}) => {
                     <div className="project-users subsection">
                         <div className="subsection-row subsection-header">
                             Project Team
+                            {/* only show manage button to administrators */}
+                            {currentUserRole == "Administrator" ?
                             <Link to={`/projects/${match.params.projectId}/users`}>
                                 Manage
                             </Link>
+                            : ""
+                            }
+                            
                         </div>
                         <ul>
                             {projectMembers.map((member, index) => {

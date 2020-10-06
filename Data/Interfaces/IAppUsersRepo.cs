@@ -12,7 +12,7 @@ namespace ProjectManager.Data.Interfaces
         AppUser GetUserByUserName(string userName);     
         List<Project> GetUserProjects(string userId);
 
-        string GetUserRoleInProject(string userId, int projectId);
+        ProjectUser GetUserRoleInProject(string userId, int projectId);
 
         List<Task> GetUserTasks(string userId);
 

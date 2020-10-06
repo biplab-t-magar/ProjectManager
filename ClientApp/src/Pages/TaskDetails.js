@@ -69,7 +69,10 @@ const TaskDetails = ({match}) => {
                         {taskDetails.description}
                     </div>
                     <Link to={`/projects/${match.params.projectId}/task/${match.params.taskId}/edit`}>
-                        <button type="button" className="btn btn-lg create-button">Edit Task</button>
+                        <button id="task-edit" type="button" className="btn btn-lg create-button">Edit Task</button>
+                    </Link>
+                    <Link to={`/projects/${match.params.projectId}/tasks/`}>
+                        <button id ="cancel-task-edit" type="button" className="btn btn-lg btn-secondary">Cancel</button>
                     </Link>
                     <div className="categorical-details">
                         <div className="task-urgency row">
@@ -120,7 +123,7 @@ const TaskDetails = ({match}) => {
                             return(
                                 <div key={index} className="task-users-row">
                                     <div className="task-user-name">
-                                        <Link to={`/user/${user.id}`}>
+                                        <Link to={`/profile/${user.id}`}>
                                             {user.firstName} {user.lastName}
                                         </Link>
                                     </div>    
@@ -144,7 +147,7 @@ const TaskDetails = ({match}) => {
                             : taskComments.map((comment, index) => {
                             return (
                                 <div key={index} className="task-comments-row">
-                                        {comment.comment}
+                                    {comment.comment}
                                 </div>
                             );
                         }) )

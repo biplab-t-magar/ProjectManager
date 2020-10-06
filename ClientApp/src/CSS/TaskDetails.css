@@ -15,7 +15,15 @@
 }
 
 .task-details .details button {
-    float: right;
+    display: inline-block;
+}
+
+#task-edit {
+    margin-left: 200px;
+}
+#cancel-task-edit {
+    margin-left: 0px;
+    margin-top: -10px;
 }
 
 

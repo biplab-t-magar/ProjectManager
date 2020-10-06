@@ -74,13 +74,13 @@ namespace ProjectManager.Controllers
             //get the current user object
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            var role = _usersRepo.GetUserRoleInProject(user.Id, projectId);
-            if(role == null)
+            var projectUser = _usersRepo.GetUserRoleInProject(user.Id, projectId);
+            if(projectUser == null)
             {
                 return BadRequest("User is not a part of project");
             }
 
-            return Ok(role);
+            return Ok(projectUser);
 
         }
 
@@ -169,7 +169,7 @@ namespace ProjectManager.Controllers
             _projectsRepo.DeleteProjectInvite(projectInvitation.ProjectId, projectInvitation.InviteeId);
             _projectsRepo.SaveChanges();
 
-            return Ok();
+            return Ok(projectUser);
         }
 
         [Authorize]

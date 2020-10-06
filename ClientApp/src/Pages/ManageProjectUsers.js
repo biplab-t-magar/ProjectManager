@@ -165,7 +165,7 @@ const ManageProjectUsers = ({match}) => {
                             projectMembers.map((member, index ) => {
                                 return (
                                     <div key={index} className="user-entry user-list-row" >
-                                        <Link to={`/user/${member.id}`} className="user-name column">
+                                        <Link to={`/profile/${member.id}`} className="user-name column">
                                             {member.userName}
                                         </Link>
                                         <div className="user-full-name column">{member.firstName} {member.lastName}</div>
@@ -211,7 +211,7 @@ const ManageProjectUsers = ({match}) => {
                             {pendingInvitees.map((invitee, index) => {
                                     return (
                                         <div  className="invitation" key={index}>
-                                            <Link to={`/user/${invitee.userName}`}>
+                                            <Link to={`/profile/${invitee.userName}`}>
                                                 <div className="invitee-username invitation-column">{invitee.userName}</div>
                                             </Link>
                                             <div className="cancel-invitation invitation-column">
