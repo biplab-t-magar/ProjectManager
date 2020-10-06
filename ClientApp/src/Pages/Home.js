@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Redirect} from "react-router-dom"
+import CheckAuthentication from '../Utilities/CheckAuthentication';
 
 const Home = () => {
+    useEffect(() => {
+        CheckAuthentication();
+    }, []);
+
     return (
         <div className="page">
  

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/EditTask.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 
 
 const EditTask = ({match}) => {
@@ -18,6 +19,7 @@ const EditTask = ({match}) => {
     const [unassignedUsers, setUnassignedUsers] = useState([]);
 
     useEffect(() => {
+        CheckAuthentication();
         fetchTaskData();
         fetchTaskTypes();
         fetchAssignedUsers();
@@ -29,7 +31,9 @@ const EditTask = ({match}) => {
         setNewTaskDescription(taskDetails.description);
         setNewUrgency(taskDetails.urgency);
         setNewTaskStatus(taskDetails.taskStatus);
-        if(taskDetails.taskTypeId) {
+        console.log(taskDetails.taskTypeId);
+        if(taskDetails.taskTypeId == undefined || taskDetails.taskType == null) {
+            console.log(getTaskTypeName(taskDetails.taskTypeId));
             setNewTaskType(getTaskTypeName(taskDetails.taskTypeId));
         } else {
             setNewTaskType("none");
@@ -72,6 +76,7 @@ const EditTask = ({match}) => {
     const getTaskTypeName = (typeId) => {
         for(let i = 0; i < projectTaskTypes.length; i++) {
             if(projectTaskTypes[i].taskTypeId === typeId) {
+                console.log(projectTaskTypes[i].name)
                 return projectTaskTypes[i].name;
             }
         }
@@ -104,8 +109,11 @@ const EditTask = ({match}) => {
 
         if(errorsExist === false) {
             let taskTypeId = -1;
+            console.log(projectTaskTypes);
+            console.log(newTaskType);
             if(projectTaskTypes.length != 0 && newTaskType !== "none") {
                 taskTypeId = findTaskTypeId(newTaskType);
+                console.log(taskTypeId);
             }
             
             const payload = {
@@ -115,8 +123,10 @@ const EditTask = ({match}) => {
                 Description: newTaskDescription,
                 TaskStatus: newTaskStatus,
                 Urgency: newUrgency,
-                TaskTypeId: taskTypeId
+                TaskTypeId: taskTypeId,
+                TimeCreated: taskDetails.timeCreated
             }
+            console.log(payload);
             //making post request to server
             const response = await fetch("/project/edit-task" , {
                 method: "POST",
@@ -128,7 +138,7 @@ const EditTask = ({match}) => {
             });
             const data = await response.json();
             if(response.ok) {
-                window.location.pathname = `/projects/${taskDetails.projectId}/tasks/${data.taskId}`;
+                window.location.pathname = `/projects/${taskDetails.projectId}/task/${data.taskId}`;
             } else {    
                 console.log(data);
             }
@@ -270,7 +280,9 @@ const EditTask = ({match}) => {
                             return(
                                 <div className="users-list-row" key={index}>
                                     <div className="user-name users-list-column">
-                                        {user.firstName} {user.lastName}
+                                        <Link to={`/user/${user.id}`}>
+                                            {user.firstName} {user.lastName}
+                                        </Link>
                                     </div>
                                     <div className="users-list-column">
                                         <button onClick={() => unassignUserFromTask(user.id)} className="btn btn-primary create">
@@ -291,7 +303,9 @@ const EditTask = ({match}) => {
                             return(
                                 <div className="users-list-row" key={index}>
                                     <div className="user-name users-list-column">
-                                        {user.firstName} {user.lastName}
+                                        <Link to={`/user/${user.id}`}>
+                                            {user.firstName} {user.lastName}
+                                        </Link>
                                     </div>
                                     <div className="users-list-column">
                                         <button onClick={() => assignUserToTask(user.id)} className="btn btn-primary create">

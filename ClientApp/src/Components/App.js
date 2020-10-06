@@ -23,7 +23,7 @@ import ManageTaskTypes from '../Pages/ManageTaskType';
 import CreateTask from "../Pages/CreateTask";
 import TaskDetails from '../Pages/TaskDetails';
 import EditTask from "../Pages/EditTask.js";
-
+import TaskComments from '../Pages/TaskComments';
 //Add notes to tags
 
 const App = () => {
@@ -52,6 +52,7 @@ const App = () => {
                     <Route path="/alerts" exact component={Alerts} />
                     <Route path="/projects/new" exact component={CreateNewProject} />
                     <Route path="/projects/:projectId/task/:taskId" exact component={TaskDetails} />
+                    <Route path="/projects/:projectId/task/:taskId/comments" exact component={TaskComments} />
                     <Route path="/projects/:projectId/task/:taskId/edit" exact component={EditTask} />
                     <Route path="/projects/:projectId" exact component={ProjectDetails} />
                     <Route path="/projects/:projectId/task-types" exact component={ManageTaskTypes} />

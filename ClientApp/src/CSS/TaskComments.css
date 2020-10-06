@@ -1,0 +1,62 @@
+.task-comment .comments-listing{
+    width: 62%;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.task-comment .comments-listing .comments-listing-row{
+    display: flex;
+    padding: 10px;
+    min-height: 100px;
+    margin: 5px;
+    border: 1px solid rgb(173, 165, 165);
+    background-color: rgb(240, 232, 232);
+
+}
+
+.task-comment .comments-listing .comments-listing-header {
+    background-color: rgb(163, 175, 216);
+    border-radius: 5px;
+    height: 50px;
+}
+
+.task-comment .comments-listing .comments-listing-row .column {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.task-comment .comments-listing .comments-listing-row .column.name {
+    flex: 2;
+}
+
+.task-comment .comments-listing .comments-listing-row .column.date {
+    flex: 2;
+}
+
+.task-comment .comments-listing .comments-listing-row .column.comment {
+    flex: 6;
+}
+
+.task-comment .add-comment {
+    width: 35%;
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 20px;
+}
+
+.task-comment .add-comment label {
+    background-color: lightsteelblue;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+}
+.task-comment .add-comment textarea {
+    height: 200px;
+}
+
+.task-comment .add-comment button {
+    float: right;
+    width: 200px;
+    margin-top: 10px
+}

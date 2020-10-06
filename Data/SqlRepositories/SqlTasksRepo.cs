@@ -107,6 +107,29 @@ namespace ProjectManager.Data.SqlRepositories
             return false;
         }
 
+        public List<TaskComment> GetTaskComments(int taskId)
+        {
+            var taskComments = _context.TaskComments.Where(tc => tc.TaskId == taskId).ToList();
+            //if no taskcomments were found, return an empty list
+            if(taskComments == null)
+            {
+                return new List<TaskComment>();
+            } 
+            else 
+            {
+                return taskComments;
+            }
+        }
+
+        public void AddTaskComment(TaskComment taskComment)
+        {
+            if(taskComment == null)
+            {
+                throw new ArgumentNullException(nameof(taskComment));
+            }
+            _context.Add(taskComment);
+        }
+
 
 
         // public List<Task> GetTasksByProject(int projectId)

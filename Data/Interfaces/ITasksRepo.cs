@@ -22,6 +22,10 @@ namespace ProjectManager.Data.Interfaces
 
         bool RemoveUserFromTask(int taskId, string userId);
 
+        List<TaskComment> GetTaskComments(int taskId);
+
+        void AddTaskComment(TaskComment taskComment);
+
         Task UpdateTask(Task task);
         bool SaveChanges();
     

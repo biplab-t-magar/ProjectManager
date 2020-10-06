@@ -81,7 +81,7 @@ button.manage-user {
     margin-top: 0px;
     width: 350px;
     border-radius: 5px;
-
+    height: 150px;
 }
 
 .invite-users-header {
@@ -110,7 +110,7 @@ button.manage-user {
 }
 
 .pending-invitations-header {
-    background-color:  #a3a3c2;
+    background-color:  #c5c5da;
     padding: 10px 0;
 }
 

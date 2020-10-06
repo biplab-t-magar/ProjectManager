@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription";
 import LoadingSpinner from '../Utilities/LoadingSpinner';
 import "../CSS/ManageProjectUsers.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
 
 const ManageProjectUsers = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
@@ -14,6 +15,7 @@ const ManageProjectUsers = ({match}) => {
     const [pendingInvitees, setPendingInvitees] = useState([]);
     const [changeRoleError, setChangeRoleError] = useState("");
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
         fetchUserData();
         fetchPendingInvitees();
@@ -105,6 +107,7 @@ const ManageProjectUsers = ({match}) => {
             const data = await response.json();
             
             if(!response.ok) {
+                console.log(data);
                 setUserToInviteError(data);
             } else {
                 let updatedInvitees = [...pendingInvitees];
@@ -192,11 +195,11 @@ const ManageProjectUsers = ({match}) => {
                             value={userNameToInvite} 
                             onChange={(e) => setUserNameToInvite(e.target.value)}
                         />
-                        
-                        <button onClick={inviteUser} className="btn btn-lg create-button">Invite </button>
                         <small className="error-message">
                             {userToInviteError ? userToInviteError : ""}
                         </small>
+                        <button onClick={inviteUser} className="btn btn-lg create-button">Invite </button>
+                        
                     </div>
                     
                     <div className="pending-invitations">

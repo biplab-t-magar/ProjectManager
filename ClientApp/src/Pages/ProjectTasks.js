@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import "../CSS/ProjectTasks.css";
 import "../CSS/TaskUrgency.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
 import ConvertDate from "../Utilities/ConvertDate.js";
 import ConvertTime from "../Utilities/ConvertTime.js";
 
@@ -12,6 +13,7 @@ const ProjectTasks = ({match}) => {
     const [projectTaskTypes, setProjectTaskTypes] = useState([]);
 
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectInfo();
         fetchTaskList();
         fetchTaskTypes();

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/ManageTaskTypes.css";
 import {Link} from "react-router-dom";
+import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 
 const ManageTaskTypes = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
@@ -11,6 +12,7 @@ const ManageTaskTypes = ({match}) => {
     const [deleteError, setDeleteError] = useState("");
 
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
         fetchTaskTypes();
     }, []);

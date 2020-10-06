@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -18,10 +19,12 @@ namespace ProjectManager.Models
         [MaxLength(300)]
         public string Comment {get; set;}
 
+        [Required]
+        public DateTime TimeAdded {get; set;}
+
         [JsonIgnore]
         public AppUser AppUser {get; set;}
-        [JsonIgnore]
-        public Project Project {get; set;}
+
         [JsonIgnore]
         public Task Task {get; set;}
     }

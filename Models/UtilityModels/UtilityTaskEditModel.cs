@@ -1,3 +1,5 @@
+using System;
+
 namespace ProjectManager.Models.UtilityModels
 {
     //represents a user model for model binding during user registration and login
@@ -14,6 +16,7 @@ namespace ProjectManager.Models.UtilityModels
         public string Urgency {get; set;}
 
         public int TaskTypeId {get; set;}
+        public DateTime TimeCreated {get; set;}
         
     }
 }

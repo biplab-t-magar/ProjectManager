@@ -44,7 +44,7 @@
 
 .task-details .task-users .task-users-header {
     padding: 20px;
-    width: 400px;
+    width: 200px;
     text-align: center;
 }
 
@@ -56,15 +56,12 @@
 }
 
 .task-details .task-users .task-users-row {
-    padding: 5px;
+    padding: 10px;
 }
 
-
-.task-details .task-users .task-user-name {
-    margin-left: 50px
-} 
-.task-details .task-users .assign-button {
-
+.task-details .task-users-header  {
+    background-color:  #a3a3c2;
+    border-radius: 5px;
 }
 
 .categorical-details {
@@ -74,4 +71,49 @@
 .urgency {
     width: 150px;
     margin-left: -40px;
+}
+
+.task-users-list {
+    text-align: center;
+}
+
+.task-details .task-comments {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 40px;
+    width: 40%;
+}
+
+
+.task-details .task-comments .task-comments-row {
+    padding: 10px;
+    width: 100%;
+    background-color: lightsteelblue;
+    margin: 5px;
+
+}
+
+.task-details .task-comments .task-comments-header {
+    height: 50px;
+    background-color: rgb(125, 165, 218);
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: x-large;
+}
+
+.task-details .task-comments .task-comments-header .more-comments {
+    font-size: medium;
+    float: right;
+    border: 1px solid gray;
+    padding: 5px;
+    margin-right: 40px;
+    background-color: rgb(175, 218, 238);
+    border-radius: 4px;
+}
+
+.task-details .task-comments .task-comments-header .more-comments:hover {
+    cursor: pointer;
+    background-color: rgb(212, 229, 236);
+    box-shadow: 3px 11px 32px -46px rgba(0,0,0,0.75);
+
 }

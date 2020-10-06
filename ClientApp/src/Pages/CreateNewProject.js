@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/CreateNewProject.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 const CreateNewProject = () => {
     const [projectName, setProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectDescriptionError, setProjectDescriptionError] = useState("");
+
+    useEffect(() => {
+        CheckAuthentication();
+    }, []);
 
     const handleSubmit = async (e) => {
         let errorsExist = false;

@@ -12,6 +12,7 @@ using System;
 
 namespace ProjectManager.Controllers 
 {
+    
     [Route("/project")]
     [ApiController]
     public class ProjectsController : ControllerBase
@@ -42,6 +43,7 @@ namespace ProjectManager.Controllers
         }
 
         [HttpGet("{projectId}")]
+        [Authorize]
         public async Task<IActionResult> GetProject(int projectId)
         {
             //get the current user
@@ -460,6 +462,8 @@ namespace ProjectManager.Controllers
             task.Description = taskModel.Description;
             task.TaskStatus = taskModel.TaskStatus;
             task.Urgency = taskModel.Urgency;
+            task.TimeCreated = taskModel.TimeCreated;
+
             //if task type was specified
             if(taskModel.TaskTypeId != -1)
             {
@@ -601,27 +605,127 @@ namespace ProjectManager.Controllers
             return Ok(_tasksRepo.GetTaskUsers(taskUserModel.TaskId));
         }
 
+        [Authorize]
+        [HttpGet("{taskId}/comments")]
+        public async Task<IActionResult> GetTaskComments(int taskId)
+        {
+            //retrieve the task from the database
+            var task = _tasksRepo.GetTaskById(taskId);
 
-        // [Authorize]
-        // [HttpGet("task/{taskId}/users")]
-        // public async Task<IActionResult> GetTaskDetails(int taskId)
-        // {   
+            if(task == null) 
+            {
+                return BadRequest("The task with the given task id does not exist");
+            }
+
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project administrator
+            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
+            {
+                return Unauthorized();
+            }
             
-        //     //retrieve the task from the database
-        //     var task = _tasksRepo.GetTaskById(taskId);
+            return Ok(_tasksRepo.GetTaskComments(taskId));
+        }
 
-        //     //now, check if the user has access to the task
-        //     //get the current user
-        //     var user = await _userManager.GetUserAsync(HttpContext.User);
+        [Authorize]
+        [HttpGet("{taskId}/comments/recent/{numOfComments}")]
+        public async Task<IActionResult> GetRecentTaskComments(int taskId, int numOfComments)
+        {
+            //retrieve the task from the database
+            var task = _tasksRepo.GetTaskById(taskId);
 
-        //     //make sure the user who is making the request is a project administrator
-        //     if(!_validation.userIsProjectAdministrator(user.Id, task.ProjectId))
-        //     {
-        //         return Unauthorized();
-        //     }
-        //     //return the task
-        //     return Ok(task);
-        // }
+            if(task == null) 
+            {
+                return BadRequest("The task with the given task id does not exist");
+            }
+
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project administrator
+            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
+            {
+                return Unauthorized();
+            }
+            
+            //get all tasks
+            var taskComments = _tasksRepo.GetTaskComments(taskId);
+            //reverse the order of tasks
+            taskComments.Reverse();
+
+            if(taskComments.Count <= numOfComments)
+            {
+                return Ok(taskComments);
+            }
+            else{
+                taskComments = taskComments.GetRange(0, numOfComments);
+            }
+
+            return Ok(taskComments);
+        }
+
+        [Authorize]
+        [HttpPost("task/{taskId}/comments")]
+        public async Task<IActionResult> AddCommentToTask(int taskId)
+        {
+            //retrieve the task from the database
+            var task = _tasksRepo.GetTaskById(taskId);
+
+            if(task == null) 
+            {
+                return BadRequest("The task with the given task id does not exist");
+            }
+
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project administrator
+            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
+            {
+                return Unauthorized();
+            }
+            
+            return Ok(_tasksRepo.GetTaskComments(taskId));
+        }
+
+        [Authorize]
+        [HttpPost("task/comment/add")]
+        public async Task<IActionResult> AddCommentToTask(UtilityTaskCommentModel taskCommentModel)
+        {
+            //retrieve the task from the database
+            var task = _tasksRepo.GetTaskById(taskCommentModel.TaskId);
+
+            if(task == null) 
+            {
+                return BadRequest("The task with the given task id does not exist");
+            }
+
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project administrator
+            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
+            {
+                return Unauthorized();
+            }
+            
+            //build the true TaskCommend object
+            TaskComment taskComment = new TaskComment();
+            taskComment.TaskId = taskCommentModel.TaskId;
+            taskComment.AppUserId = user.Id;
+            taskComment.Comment = taskCommentModel.Comment;
+            taskComment.TimeAdded = DateTime.Now;
+
+            //add to repository
+            _tasksRepo.AddTaskComment(taskComment);
+            _tasksRepo.SaveChanges();
+
+            return Ok(taskComment);
+
+        }
+
 
     }
 }

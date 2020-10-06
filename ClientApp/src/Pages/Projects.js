@@ -4,6 +4,7 @@ import PageDescription from "../Components/PageDescription";
 import {Link} from "react-router-dom";
 import ConvertDate from "../Utilities/ConvertDate.js"
 import LoadingSpinner from '../Utilities/LoadingSpinner';
+import CheckAuthentication from '../Utilities/CheckAuthentication';
 
 const Projects = () => {
     // const [numOfEntries, setNumOfEntries] = useState(10);
@@ -12,22 +13,23 @@ const Projects = () => {
 
     //on intial render, fetch project list from server
     useEffect(() => {
+        CheckAuthentication();
         fetchAllProjects();
     }, []);
     
+
+    
     const fetchAllProjects = async () => {
-        const res = await fetch("/user/projects")
-                        .catch(error => console.log(error));
         
+        const res = await fetch("/user/projects");
         const jsonData = await res.json();
         if(!res.ok) {
-            console.log(res);
-        }
+            window.pathname.location = "/login";
+        } 
         //for hiding loading icon
         setContentLoaded(true);
         setProjectsList(jsonData);
-        console.log(projectsList);
-
+        
     };
 
     return (

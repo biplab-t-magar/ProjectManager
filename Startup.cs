@@ -65,6 +65,7 @@ namespace ProjectManager
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/login";
+                
             });
 
             services.AddControllersWithViews();

@@ -5,17 +5,23 @@ import "../CSS/TaskDetails.css";
 import ConvertDate from "../Utilities/ConvertDate";
 import ConvertTime from "../Utilities/ConvertTime";
 import "../CSS/TaskUrgency.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
+import LoadingSpinner from "../Utilities/LoadingSpinner";
 
 
 const TaskDetails = ({match}) => {
     const [taskDetails, setTaskDetails] = useState({});
+    const [taskComments, setTaskComments] = useState([]);
     const [taskUsers, setTaskUsers] = useState([]);
     const [taskTypes, setTaskTypes] = useState([]);
+    const [commentsLoaded, setCommentsLoaded] = useState(false);
 
     useEffect(() => {
+        CheckAuthentication();
         fetchTaskData();
         fetchTaskUsers();
         fetchTaskTypes();
+        fetchTaskComments();
     }, []);
 
     const fetchTaskData = async () => {
@@ -24,8 +30,15 @@ const TaskDetails = ({match}) => {
         setTaskDetails(data);
     };
 
+    const fetchTaskComments = async () => {
+        const res = await fetch(`/project/${match.params.taskId}/comments/recent/15`);
+        const data = await res.json();
+        setTaskComments(data);
+        setCommentsLoaded(true);
+    }
+
     const fetchTaskUsers = async () => {
-        const res = await fetch(`/project/task/${match.params.taskId}/users`);
+        const res = await fetch(`/project/${match.params.projectId}/task/${match.params.taskId}/assigned-users`);
         const data = await res.json();
         setTaskUsers(data);
     }
@@ -42,15 +55,6 @@ const TaskDetails = ({match}) => {
                 return taskTypes[i].name;
             }
         }
-    }
-
-    const userIsAssignedToTask = (userId) => {
-        for(let i = 0; i < taskUsers.length; i++) {
-            if(taskUsers[i].appUserId == userId) {
-                return true;
-            }
-        }
-        return false;
     }
 
     return(
@@ -110,22 +114,43 @@ const TaskDetails = ({match}) => {
                         Assigned Personnel
                     </div>
                     <div className="task-users-list">
-                        {taskUsers.map((user, index) => {
+                        {taskUsers.length == 0 ?
+                        <div>No users assigned to this task</div>
+                        : taskUsers.map((user, index) => {
                             return(
                                 <div key={index} className="task-users-row">
-                                    <div className="task-user-name column">
-                                        {user.firstName} {user.lastName}
-                                    </div>
-                                    <div className="assign-button column">
-                                        <button>
-                                            {userIsAssignedToTask(user.id) ? "Unassign" : "Assign"}
-                                        </button>
-                                    </div>
-                                    
+                                    <div className="task-user-name">
+                                        <Link to={`/user/${user.id}`}>
+                                            {user.firstName} {user.lastName}
+                                        </Link>
+                                    </div>    
                                 </div>
                             );
                         })}
                     </div>
+                </div>
+                <div className="task-comments">
+                    <div className="task-comments-header task-comments-row">
+                        Recent Comments for this task
+                        <Link to={`/projects/${match.params.projectId}/task/${match.params.taskId}/comments`}> 
+                            <div className="more-comments">View and Add Comments</div>
+                        </Link>
+                        
+                    </div>
+                    <div className="comments-listing">
+                        {commentsLoaded ? 
+                        (taskComments.length == 0 ?
+                            <div className="no-comments">No comments on this task so far</div>
+                            : taskComments.map((comment, index) => {
+                            return (
+                                <div key={index} className="task-comments-row">
+                                        {comment.comment}
+                                </div>
+                            );
+                        }) )
+                        : <div className="spinner"><LoadingSpinner/> </div>}
+                    </div>
+                    
                 </div>
             </div>
 

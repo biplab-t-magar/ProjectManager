@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "../CSS/DeleteProject.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
 
 const DeleteProject = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
     }, []);
 

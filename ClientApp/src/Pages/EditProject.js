@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/CreateNewProject.css"; //use same css as for create new project page because they look very similar
+import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 
 
 const EditProject = ({match}) => {
@@ -12,6 +13,7 @@ const EditProject = ({match}) => {
     const [projectDescriptionError, setProjectDescriptionError] = useState("");
 
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
     }, []);
 

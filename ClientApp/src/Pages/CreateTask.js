@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import PageDescription from "../Components/PageDescription";
 import {Link} from "react-router-dom";
 import "../CSS/CreateTask.css";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
 
 const CreateTask = ({match}) => {
     const [projectDetails, setProjectDetails] = useState({});
@@ -14,6 +15,7 @@ const CreateTask = ({match}) => {
     const [taskType, setTaskType] = useState("none");
 
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
         fetchTaskTypes();
     }, []);
@@ -88,7 +90,7 @@ const CreateTask = ({match}) => {
             });
             const data = await response.json();
             if(response.ok) {
-                window.location.pathname = `/projects/${projectDetails.projectId}/tasks/${data.taskId}`;
+                window.location.pathname = `/projects/${projectDetails.projectId}/task/${data.taskId}`;
             } else {    
                 console.log(data);
             }
@@ -100,7 +102,8 @@ const CreateTask = ({match}) => {
             <div className="create-task">
                 <PageDescription 
                     title={`Create a new task`} 
-                    description={(`This task will be added to the project ${projectDetails.name ? projectDetails.name : ""}`)} />
+                    description={(`This task will be added to the project ${projectDetails.name ? projectDetails.name : ""}`)} 
+                />
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="task-name">Task Name</label>

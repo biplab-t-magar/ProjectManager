@@ -5,6 +5,7 @@ import PageDescription from '../Components/PageDescription';
 import "../CSS/ProjectDetails.css";
 import ConvertDate from '../Utilities/ConvertDate';
 import ConvertTime from '../Utilities/ConvertTime';
+import CheckAuthentication from '../Utilities/CheckAuthentication';
 
 
 const ProjectDetails = ({match}) => {
@@ -15,6 +16,7 @@ const ProjectDetails = ({match}) => {
     const [projectTaskTypes, setProjectTaskTypes] = useState([]);
 
     useEffect(() => {
+        CheckAuthentication();
         fetchProjectData();
         fetchUserData();
         fetchRecentProjectTasks();

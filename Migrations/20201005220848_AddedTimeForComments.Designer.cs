@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManager.Data;
@@ -9,9 +10,10 @@ using ProjectManager.Data;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerContext))]
-    partial class ProjectManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20201005220848_AddedTimeForComments")]
+    partial class AddedTimeForComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -364,15 +366,20 @@ namespace ProjectManager.Migrations
                         .HasColumnType("character varying(300)")
                         .HasMaxLength(300);
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("TaskId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("TimeAdded")
+                    b.Property<DateTime>("timeAdded")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("TaskCommentId");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TaskId");
 
@@ -600,6 +607,10 @@ namespace ProjectManager.Migrations
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ProjectManager.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
 
                     b.HasOne("ProjectManager.Models.Task", "Task")
                         .WithMany()

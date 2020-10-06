@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import CheckAuthentication from "../Utilities/CheckAuthentication";
 
 const Alerts = () => {
+
+    useEffect(() => {
+        CheckAuthentication();
+    }, []);
+
     return(
         <div className="page">
             <div className="alerts">
