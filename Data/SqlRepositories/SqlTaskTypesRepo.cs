@@ -27,15 +27,17 @@ namespace ProjectManager.Data.SqlRepositories
             return taskType;
         }
 
-        public bool SaveChanges()
-        {
-            return _context.SaveChanges() >= 0;
-        }
 
         public void DeleteTaskType(int taskTypeId)
         {
             var taskType = GetTaskTypeById(taskTypeId);
             _context.TaskTypes.Remove(taskType);
         }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
+
     }   
 }

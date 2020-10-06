@@ -18,7 +18,7 @@ namespace ProjectManager.Data.Interfaces
 
         void AddProjectInvite(ProjectInvitation projectInvitation);
 
-        Task CreateTask(Task task);
+        Task CreateTask(Task task, string creatorId);
 
         List<AppUser> GetProjectUsersByRole(int projectId, string role);
 

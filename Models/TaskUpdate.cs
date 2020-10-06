@@ -18,10 +18,10 @@ namespace ProjectManager.Models
         public DateTime TimeStamp {get; set;}
 
         [Required]
-        public int UpdaterId {get; set;}
+        public string UpdaterId {get; set;}
         [MaxLength(50)]
         public string Name {get; set;}
-        public string Status {get; set;}
+        public string TaskStatus {get; set;}
 
         public string Urgency {get; set;}
 

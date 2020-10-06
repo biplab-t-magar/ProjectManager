@@ -178,10 +178,7 @@ namespace ProjectManager.Data.SqlRepositories
             _context.Projects.Remove(project);
         }
 
-        public bool SaveChanges()
-        {
-            return _context.SaveChanges() >= 0;
-        }
+
 
         public List<ProjectInvitation> GetProjectInvitations(int projectId)
         {
@@ -245,19 +242,36 @@ namespace ProjectManager.Data.SqlRepositories
             return projectUser;
         }
 
-        public Task CreateTask(Task task)
+        public Task CreateTask(Task task, string creatorId)
         {
             if(task == null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
 
-            task.TimeCreated = DateTime.Now;
-
-            //create the task
+            //add the new task to the context
             _context.Add(task);
+
+            //build a TaskUpdate model
+            TaskUpdate taskUpdate = new TaskUpdate{
+                Task = task,
+                TimeStamp = DateTime.Now,
+                UpdaterId = creatorId,
+                Name = task.Name,
+                TaskStatus = task.TaskStatus,
+                Urgency = task.Urgency,
+                TaskTypeId = task.TaskTypeId
+            };
+            
+            _context.Add(taskUpdate);
+
             return task;
 
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
         }
     }
 }

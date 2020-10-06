@@ -202,15 +202,17 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
+
+        public ProjectUser GetUserRoleInProject(string userId, int projectId)
+        {
+            return _context.ProjectUsers.Find(projectId, userId);
+        }
+
         public bool SaveChanges()
         {
             //save all the changes to the database
             return _context.SaveChanges() >= 0;
         }
 
-        public ProjectUser GetUserRoleInProject(string userId, int projectId)
-        {
-            return _context.ProjectUsers.Find(projectId, userId);
-        }
     }
 }

@@ -13,17 +13,13 @@ namespace ProjectManager.Models
         public int TaskId {get; set;}
         
         [Required]
-        public string UserId {get; set;}
+        public string AppUserId {get; set;}
         
         [Required]
-        public int UpdaterId {get; set;}
-        [Required]
-        public DateTime TimeStamp {get; set;}
+        public string UpdaterId {get; set;}
+        public DateTime? TimeAdded {get; set;}
         //make TimeRemoved nullable
         public DateTime? TimeRemoved {get; set;}
-        [JsonIgnore]
-        public TaskUser TaskUser {get; set;}
-
 
     }
 }

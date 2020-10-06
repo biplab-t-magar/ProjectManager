@@ -31,9 +31,7 @@ const EditTask = ({match}) => {
         setNewTaskDescription(taskDetails.description);
         setNewUrgency(taskDetails.urgency);
         setNewTaskStatus(taskDetails.taskStatus);
-        console.log(taskDetails.taskTypeId);
-        if(taskDetails.taskTypeId == undefined || taskDetails.taskType == null) {
-            console.log(getTaskTypeName(taskDetails.taskTypeId));
+        if(taskDetails.taskTypeId !== undefined && taskDetails.taskTypeId !== null) {
             setNewTaskType(getTaskTypeName(taskDetails.taskTypeId));
         } else {
             setNewTaskType("none");

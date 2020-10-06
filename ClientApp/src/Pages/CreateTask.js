@@ -149,7 +149,7 @@ const CreateTask = ({match}) => {
                             </div>        
                             :
                             <select className="select-task-type" id="task-type" value={taskType} onChange={(e) => setTaskType(e.target.value)}>
-                                <option value="none" disabled hidden>None</option>
+                                <option value="none">None</option>
                                 {projectTaskTypes.map((taskType, index) => {
                                     return (
                                         <option key={index}>{taskType.name}</option>

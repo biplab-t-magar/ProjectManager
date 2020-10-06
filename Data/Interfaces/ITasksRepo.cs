@@ -18,15 +18,18 @@ namespace ProjectManager.Data.Interfaces
 
         bool IsAssignedToTask(int taskId, string userId);
 
-        void AssignUserToTask(TaskUser taskUser);
+        void AssignUserToTask(TaskUser taskUser, string updaterId);
 
-        bool RemoveUserFromTask(int taskId, string userId);
+        void RemoveUserFromTask(TaskUser taskUser, string updaterId);
 
         List<TaskComment> GetTaskComments(int taskId);
 
         void AddTaskComment(TaskComment taskComment);
 
-        Task UpdateTask(Task task);
+        Task UpdateTask(Task task, string updaterId);
+
+        void AddTaskUpdate(TaskUpdate taskUpdate);
+        void AddTaskUserUpdate(TaskUserUpdate taskUserUpdate);
         bool SaveChanges();
     
 

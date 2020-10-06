@@ -73,6 +73,7 @@ namespace ProjectManager.Data
 
             modelBuilder.Entity<TaskUserUpdate>()
                 .HasKey(tuu => new {tuu.TaskUserUpdateId});
+
             
             modelBuilder.Entity<TaskUserUpdate>()
                 .Property(tuu => tuu.TaskUserUpdateId)

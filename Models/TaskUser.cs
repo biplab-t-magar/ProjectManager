@@ -12,10 +12,6 @@ namespace ProjectManager.Models
         [Required]
         public string AppUserId {get; set;}
 
-        [Required]
-        public DateTime TimeAdded {get; set;}
-
-
         [JsonIgnore]
         public AppUser AppUser {get; set;}
         [JsonIgnore]

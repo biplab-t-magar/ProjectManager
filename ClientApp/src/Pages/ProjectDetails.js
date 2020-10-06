@@ -26,8 +26,6 @@ const ProjectDetails = ({match}) => {
     }, []);
 
     const getCurrentUserRole = async () => {
-        console.log(match.params.projectId);
-
         const res = await fetch(`/user/${match.params.projectId}/user-role`);
         const data = await res.json();
         setCurrentUserRole(data.role);

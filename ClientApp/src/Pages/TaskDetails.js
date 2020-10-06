@@ -24,6 +24,7 @@ const TaskDetails = ({match}) => {
         fetchTaskComments();
     }, []);
 
+
     const fetchTaskData = async () => {
         const res = await fetch(`/project/task/${match.params.taskId}`);
         const data = await res.json();

@@ -327,13 +327,16 @@ namespace ProjectManager.Controllers
 
             if(projectUser.Role == "Administrator")
             {
+                //switch the user's role
                 projectUser = _projectsRepo.SetProjectUserRole(projectUser, "Member");
+
                 _projectsRepo.SaveChanges();
             }
             else 
             {
                 projectUser =  _projectsRepo.SetProjectUserRole(projectUser, "Administrator");
                 _projectsRepo.SaveChanges();
+
             }
 
             return Ok(projectUser);
@@ -407,12 +410,13 @@ namespace ProjectManager.Controllers
             task.Description = taskModel.Description;
             task.TaskStatus = taskModel.TaskStatus;
             task.Urgency = taskModel.Urgency;
+            task.TimeCreated = DateTime.Now;
             //if task type was specified
             if(taskModel.TaskTypeId != -1)
             {
                 task.TaskTypeId = taskModel.TaskTypeId;
             }
-            task = _projectsRepo.CreateTask(task);
+            task = _projectsRepo.CreateTask(task, user.Id);
             _projectsRepo.SaveChanges();
 
             return Ok(task);
@@ -469,7 +473,7 @@ namespace ProjectManager.Controllers
             {
                 task.TaskTypeId = taskModel.TaskTypeId;
             }
-            task = _tasksRepo.UpdateTask(task);
+            task = _tasksRepo.UpdateTask(task, user.Id);
             _tasksRepo.SaveChanges();
 
             return Ok(task);
@@ -527,10 +531,10 @@ namespace ProjectManager.Controllers
 
         [Authorize]
         [HttpPost("assign-task-user")]
-        public async Task<IActionResult> AssignTaskUser([FromBody]UtilityTaskUserModel taskUserModel)
+        public async Task<IActionResult> AssignTaskUser([FromBody]TaskUser taskUser)
         {   
             //retrieve the task from the database
-            var task = _tasksRepo.GetTaskById(taskUserModel.TaskId);
+            var task = _tasksRepo.GetTaskById(taskUser.TaskId);
 
             //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -547,24 +551,19 @@ namespace ProjectManager.Controllers
             }
 
             //make sure the user to be assigned is a part of the project
-            if(!_validation.userIsProjectMember(taskUserModel.AppUserId, task.ProjectId))
+            if(!_validation.userIsProjectMember(taskUser.AppUserId, task.ProjectId))
             {
                 return BadRequest("This user is not a member of the project");
             }
 
             //make sure user is not already a task user
-            if(_tasksRepo.IsAssignedToTask(taskUserModel.TaskId, taskUserModel.AppUserId) == true)
+            if(_tasksRepo.IsAssignedToTask(taskUser.TaskId, taskUser.AppUserId) == true)
             {
                 return BadRequest("This user has already been assigned to the task");
             }
-
-            //create task user object
-            var taskUser = new TaskUser();
-            taskUser.AppUserId = taskUserModel.AppUserId;
-            taskUser.TaskId = taskUserModel.TaskId;
-            taskUser.TimeAdded = DateTime.Now;
-
-            _tasksRepo.AssignUserToTask(taskUser);
+            
+            //add the task user entry
+            _tasksRepo.AssignUserToTask(taskUser, user.Id);
             _tasksRepo.SaveChanges();
 
             return Ok(taskUser);
@@ -572,10 +571,10 @@ namespace ProjectManager.Controllers
 
         [Authorize]
         [HttpPost("unassign-task-user")]
-        public async Task<IActionResult> UnassignTaskUser([FromBody]UtilityTaskUserModel taskUserModel)
+        public async Task<IActionResult> UnassignTaskUser([FromBody]TaskUser taskUser)
         {   
             //retrieve the task from the database
-            var task = _tasksRepo.GetTaskById(taskUserModel.TaskId);
+            var task = _tasksRepo.GetTaskById(taskUser.TaskId);
 
             //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -587,22 +586,22 @@ namespace ProjectManager.Controllers
             }
 
             //make sure the user to be assigned is a part of the project
-            if(!_validation.userIsProjectMember(taskUserModel.AppUserId, task.ProjectId))
+            if(!_validation.userIsProjectMember(taskUser.AppUserId, task.ProjectId))
             {
                 return BadRequest("This user is not a member of the project");
             }
 
             //make sure user is currently a task user
-            if(_tasksRepo.IsAssignedToTask(taskUserModel.TaskId, taskUserModel.AppUserId) == false)
+            if(_tasksRepo.IsAssignedToTask(taskUser.TaskId, taskUser.AppUserId) == false)
             {
                 return BadRequest("This user has not been assigned to the task");
             }
 
-            _tasksRepo.RemoveUserFromTask(taskUserModel.TaskId, taskUserModel.AppUserId);
+            _tasksRepo.RemoveUserFromTask(taskUser, user.Id);
 
             _tasksRepo.SaveChanges();
 
-            return Ok(_tasksRepo.GetTaskUsers(taskUserModel.TaskId));
+            return Ok(_tasksRepo.GetTaskUsers(taskUser.TaskId));
         }
 
         [Authorize]

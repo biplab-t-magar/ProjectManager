@@ -3,6 +3,7 @@ using ProjectManager.Data.Interfaces;
 using ProjectManager.Models;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectManager.Data.SqlRepositories
 {
@@ -55,7 +56,7 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.TaskUserUpdates.Where(tuu => tuu.TaskId == taskId).ToList();
         }
 
-        public Task UpdateTask(Task task)
+        public Task UpdateTask(Task task, string updaterId)
         {
             if(task == null) 
             {
@@ -65,14 +66,49 @@ namespace ProjectManager.Data.SqlRepositories
 
             var taskToUpdate = _context.Tasks.Find(task.TaskId);
 
+            //now, for each changed value, store a TaskUpdate record with the updated value 
+            
+            //time of task update
+            var timeStamp = DateTime.Now;            
+
+            //for every updateable field in the Task object, if there was a change, then add a TaskUpdate entry            
+            //if the name of the task was changed
+            if(task.Name != taskToUpdate.Name)
+            {
+                //add the updated name to the taskUpdate object
+                var taskNameUpdate = new TaskUpdate{TaskId = task.TaskId, TimeStamp = timeStamp, UpdaterId = updaterId};
+                taskNameUpdate.Name = task.Name;
+                _context.Add(taskNameUpdate);
+            }
+            //if the taskstatus of the task was changed
+            if(task.TaskStatus != taskToUpdate.TaskStatus)
+            {
+                //add the updated TaskStatus to the taskUpdate object
+                var taskStatusUpdate = new TaskUpdate{TaskId = task.TaskId, TimeStamp = timeStamp, UpdaterId = updaterId};
+                taskStatusUpdate.TaskStatus = task.TaskStatus;
+                _context.Add(taskStatusUpdate);
+            }
+            //if the Urgency of the task was changed
+            if(task.Urgency != taskToUpdate.Urgency)
+            {
+                //add the updated Urgency to the taskUpdate object
+                var taskUrgencyUpdate = new TaskUpdate{TaskId = task.TaskId, TimeStamp = timeStamp, UpdaterId = updaterId};
+                taskUrgencyUpdate.Urgency = task.Urgency;
+                _context.Add(taskUrgencyUpdate);
+            }
+            //if the TaskTypeId of the task was changed
+            if(task.TaskTypeId != taskToUpdate.TaskTypeId)
+            {
+                //add the updated TaskTypeId to the taskUpdate object
+                var taskTypeUpdate = new TaskUpdate{TaskId = task.TaskId, TimeStamp = timeStamp, UpdaterId = updaterId};
+                taskTypeUpdate.TaskTypeId = task.TaskTypeId;
+                _context.Add(taskTypeUpdate);
+            }
+
+             //update the task
             _context.Entry(taskToUpdate).CurrentValues.SetValues(task);
 
             return task;
-        }
-
-        public bool SaveChanges()
-        {
-            return _context.SaveChanges() >= 0;
         }
 
         public bool IsAssignedToTask(int taskId, string userId)
@@ -82,29 +118,45 @@ namespace ProjectManager.Data.SqlRepositories
             {
                 return false;
             }
+            _context.Entry(taskUsers[0]).State = EntityState.Detached;
             return true;
         }
 
-        public void AssignUserToTask(TaskUser taskUser)
+        public void AssignUserToTask(TaskUser taskUser, string updaterId)
         {
             if(taskUser == null)
             {   
                 throw new ArgumentNullException(nameof(taskUser)); 
             }
 
+            //create a TaskUserUpdate entry as well
+            var TaskUserUpdate = new TaskUserUpdate{
+                TaskId = taskUser.TaskId,
+                AppUserId = taskUser.AppUserId,
+                UpdaterId = updaterId,
+                TimeAdded = DateTime.Now
+            };
+
             _context.Add(taskUser);
+            AddTaskUserUpdate(TaskUserUpdate);
+
 
         }
 
-        public bool RemoveUserFromTask(int taskId, string userId)
+        public void RemoveUserFromTask(TaskUser taskUser, string updaterId)
         {
-            var taskUser = _context.TaskUsers.Where(tu => tu.TaskId == taskId && tu.AppUserId == userId).ToList();
-            if(taskUser.Count != 0)
-            {
-                _context.TaskUsers.Remove(taskUser[0]); 
-                return true;
-            }
-            return false;
+            
+            //create a TaskUserUpdate entry
+            var taskUserUpdate = new TaskUserUpdate{
+                TaskId = taskUser.TaskId,
+                AppUserId = taskUser.AppUserId,
+                UpdaterId = updaterId,
+                TimeRemoved = DateTime.Now
+            };
+            _context.TaskUsers.Remove(taskUser); 
+            
+            AddTaskUserUpdate(taskUserUpdate);
+
         }
 
         public List<TaskComment> GetTaskComments(int taskId)
@@ -130,6 +182,27 @@ namespace ProjectManager.Data.SqlRepositories
             _context.Add(taskComment);
         }
 
+        public void AddTaskUpdate(TaskUpdate taskUpdate)
+        {
+            if(taskUpdate == null)
+            {
+                throw new ArgumentNullException(nameof(taskUpdate));
+            }
+            _context.Add(taskUpdate);
+        }
+
+        public void AddTaskUserUpdate(TaskUserUpdate taskUserUpdate)
+        {
+            if(taskUserUpdate == null)
+            {
+                throw new ArgumentNullException(nameof(taskUserUpdate));
+            }
+            _context.Add(taskUserUpdate);
+        }
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
 
 
         // public List<Task> GetTasksByProject(int projectId)
@@ -152,10 +225,6 @@ namespace ProjectManager.Data.SqlRepositories
         // {
         //     return _context.Tasks.Where(t => t.ProjectId == projectId && t.Urgency == urgency).ToList();
         // }
-
-
-
-
 
 
 

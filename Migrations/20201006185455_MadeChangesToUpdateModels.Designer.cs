@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManager.Data;
@@ -9,9 +10,10 @@ using ProjectManager.Data;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerContext))]
-    partial class ProjectManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20201006185455_MadeChangesToUpdateModels")]
+    partial class MadeChangesToUpdateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,10 +463,6 @@ namespace ProjectManager.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("TaskId")
                         .HasColumnType("integer");
 
@@ -481,6 +479,10 @@ namespace ProjectManager.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("UpdaterId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -645,7 +647,7 @@ namespace ProjectManager.Migrations
 
             modelBuilder.Entity("ProjectManager.Models.TaskUserUpdate", b =>
                 {
-                    b.HasOne("ProjectManager.Models.TaskUser", null)
+                    b.HasOne("ProjectManager.Models.TaskUser", "TaskUser")
                         .WithMany("TaskUserUpdates")
                         .HasForeignKey("TaskUserTaskId", "TaskUserAppUserId");
                 });
