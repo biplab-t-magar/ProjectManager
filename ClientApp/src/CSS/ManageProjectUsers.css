@@ -81,7 +81,7 @@ button.manage-user {
     margin-top: 0px;
     width: 350px;
     border-radius: 5px;
-    height: 150px;
+    min-height: 180px;
 }
 
 .invite-users-header {

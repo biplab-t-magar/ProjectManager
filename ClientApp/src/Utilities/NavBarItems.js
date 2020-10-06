@@ -1,6 +1,7 @@
 import React from 'react';
-import { AiFillHome, AiOutlineProject, AiOutlineAlert} from "react-icons/ai"; 
+import { AiFillHome, AiOutlineProject} from "react-icons/ai"; 
 import { GoTasklist } from "react-icons/go";
+import { GiEgyptianProfile } from "react-icons/gi";
 import { HiDocumentReport } from "react-icons/hi";
 
  
@@ -30,9 +31,9 @@ export  const NavBarItems = [
         className: 'nav-text',
     }, 
     {
-        title: 'Alerts',
-        path: '/alerts',
-        icon: <AiOutlineAlert />,
+        title: 'Profile',
+        path: '/profile',
+        icon: <GiEgyptianProfile />,
         className: 'nav-text'
     }
     

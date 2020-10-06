@@ -1,0 +1,30 @@
+.tasks .tasks-list-row {
+    width: 100%;
+    display: flex;
+    min-height: 50px;
+    padding: 10px;
+}
+
+.tasks .tasks-list-row.tasks-list-row {
+    background-color: rgb(132, 171, 255);
+
+}
+
+.tasks .tasks-list-row.tasks-list-entry {
+    background-color: rgb(229, 229, 235);
+    cursor: pointer;
+    margin: 0px;
+}
+
+.tasks .tasks-list-row.tasks-list-entry:hover {
+    background-color: rgb(187, 212, 241);
+}
+
+.tasks .tasks-list-row .column {
+    display: inline-block;
+    flex: 1;
+}
+
+.tasks .tasks-list-row .column.description {
+    flex: 3;
+}

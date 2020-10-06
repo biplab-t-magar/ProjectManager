@@ -22,6 +22,13 @@ namespace ProjectManager.Data.Interfaces
 
         // AppUser GetUser
         Project CreateUserProject(Project project, AppUser user);
+
+        List<ProjectInvitation> GetUserProjectInvitations(string userId);
+
+        List<AppUser> GetUserProjectInviters(string userId);
+
+        List<Project> GetUserProjectsInvitedTo(string userId);
+        
         bool SaveChanges();
     }
 }

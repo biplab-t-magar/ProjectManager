@@ -76,12 +76,12 @@ const ProjectDetails = ({match}) => {
         return(
             <li key={index} className="subsection-row">
                 <div className="user-name subsection-column">
-                    <Link to={`/user/${member.userId}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
+                    <Link to={`/user/${member.id}`}>{member.firstName} {member.middleName} {member.lastName}</Link>
                 </div>
                 <div className="user-role subsection-column">
                     {getUserRole(member.id)}
                 </div>                                        
-                <Link to={`/projects/${match.params.projectId}/users/${member.userId}`}>
+                <Link to={`/projects/${match.params.projectId}/users/${member.id}`}>
                     <div className="user-activity subsection-column">
                         User Activity
                     </div>

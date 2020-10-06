@@ -59,6 +59,29 @@ namespace ProjectManager.Data.SqlRepositories
             return user[0];
         }
 
+        public List<ProjectInvitation> GetUserProjectInvitations(string userId)
+        {
+            return _context.ProjectInvitations.Where(pi => pi.InviteeId == userId).ToList();
+        }
+
+        public List<AppUser> GetUserProjectInviters(string userId)
+        {
+            //first, get all the project invitations for the user
+            var projectInvitations = _context.ProjectInvitations.Where(pi => pi.InviteeId == userId).ToList();
+
+            List<AppUser> inviters = new List<AppUser>();
+
+            //now, collect a list of all the AppUser objects corresponding to the InviterId of the project invitations
+            for(int i = 0; i < projectInvitations.Count; i++)
+            {
+                inviters.Add(_context.AppUsers.Find(projectInvitations[i].InviterId));
+            }
+
+            return inviters;
+
+
+        }
+
         public List<Project> GetUserProjects(string userId)
         {
             //first get all the ProjectUser entries that are paired with the given user id
@@ -75,6 +98,22 @@ namespace ProjectManager.Data.SqlRepositories
 
             //return the queried values
             return projects;
+        }
+
+        public List<Project> GetUserProjectsInvitedTo(string userId)
+        {
+            //first, get all the project invitations for the user
+            var projectInvitations = _context.ProjectInvitations.Where(pi => pi.InviteeId == userId).ToList();
+
+            List<Project> projectsInvitedTo = new List<Project>();
+
+            //now, collect a list of all the AppUser objects corresponding to the InviterId of the project invitations
+            for(int i = 0; i < projectInvitations.Count; i++)
+            {
+                projectsInvitedTo.Add(_context.Projects.Find(projectInvitations[i].ProjectId));
+            }
+
+            return projectsInvitedTo;
         }
 
         public List<Task> GetUserTasks(string userId)

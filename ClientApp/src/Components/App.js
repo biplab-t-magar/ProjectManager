@@ -18,13 +18,13 @@ import EditProject from '../Pages/EditProject';
 import DeleteProject from '../Pages/DeleteProject';
 import Header from './Header';
 import ManageProjectUsers from '../Pages/ManageProjectUsers';
-import Alerts from "../Pages/Alerts.js";
 import ManageTaskTypes from '../Pages/ManageTaskType';
 import CreateTask from "../Pages/CreateTask";
 import TaskDetails from '../Pages/TaskDetails';
 import EditTask from "../Pages/EditTask.js";
 import TaskComments from '../Pages/TaskComments';
-//Add notes to tags
+import NotFoundPage from '../Pages/NotFountPage';
+import UserProfile from "../Pages/UserProfile";
 
 const App = () => {
     const renderNavBars = () => {
@@ -49,7 +49,8 @@ const App = () => {
                     <Route path="/projects" exact component={Projects}/>
                     <Route path="/reports" exact component={Reports}/>
                     <Route path="/tasks" exact component={UserTasks}/>
-                    <Route path="/alerts" exact component={Alerts} />
+                    <Route path="/profile" exact component={UserProfile} />
+                    <Route path="/profile/edit" exact component={UserProfile} />
                     <Route path="/projects/new" exact component={CreateNewProject} />
                     <Route path="/projects/:projectId/task/:taskId" exact component={TaskDetails} />
                     <Route path="/projects/:projectId/task/:taskId/comments" exact component={TaskComments} />
@@ -62,7 +63,7 @@ const App = () => {
                     <Route path="/projects/:projectId/edit" exact component={EditProject} />
                     <Route path="/projects/:projectId/delete" exact component={DeleteProject} />
                     <Route path="/projects/:projectId/users" exact component={ManageProjectUsers} />
-                    <Route path="*" component ={() => "This page does not existThis page does not existThis page does not existThis page does not existThis page does not exist"} />
+                    <Route path="*" component ={NotFoundPage} />
                 </Switch>
             </BrowserRouter>
         </div> 

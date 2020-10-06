@@ -12,7 +12,6 @@ namespace ProjectManager.Models
         [Required]
         public int ProjectId {get; set;}
         [Required]
-        [MaxLength(250)]
         public string InviterId {get; set;}
         [Required]
         public string InviteeId {get; set;}

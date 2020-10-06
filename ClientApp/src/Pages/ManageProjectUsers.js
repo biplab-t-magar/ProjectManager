@@ -47,6 +47,7 @@ const ManageProjectUsers = ({match}) => {
     const fetchPendingInvitees = async () => {
         const res = await fetch(`/project/${match.params.projectId}/invitees`);
         const data = await res.json();
+        console.log(data);
         setPendingInvitees(data);
     }
 
@@ -195,11 +196,11 @@ const ManageProjectUsers = ({match}) => {
                             value={userNameToInvite} 
                             onChange={(e) => setUserNameToInvite(e.target.value)}
                         />
+                        
+                        <button onClick={inviteUser} className="btn btn-lg create-button">Invite </button>
                         <small className="error-message">
                             {userToInviteError ? userToInviteError : ""}
                         </small>
-                        <button onClick={inviteUser} className="btn btn-lg create-button">Invite </button>
-                        
                     </div>
                     
                     <div className="pending-invitations">
