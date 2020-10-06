@@ -7,8 +7,12 @@ namespace ProjectManager.Data.Interfaces
     {
         AppUser GetUserById(string userId);   
 
+        AppUser UpdateUser(AppUser user);
+
         AppUser GetUserByUserName(string userName);     
         List<Project> GetUserProjects(string userId);
+
+        string GetUserRoleInProject(string userId, int projectId);
 
         List<Task> GetUserTasks(string userId);
 

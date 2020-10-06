@@ -67,3 +67,19 @@
     margin-top: 10px;
     margin-left: 10px;
 }
+
+.user-profile .edit-info {
+    display: inline-block;
+    width: 500px;
+}
+
+
+.user-profile button{
+    display: inline-block;
+    width: 150px;
+    margin-left: 10px;
+    vertical-align: top;
+}
+.user-profile textarea{
+    min-height: 150px;
+}

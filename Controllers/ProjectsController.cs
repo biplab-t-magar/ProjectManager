@@ -432,7 +432,7 @@ namespace ProjectManager.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
             //make sure the user who is making the request is a project administrator
-            if(!_validation.userIsProjectAdministrator(user.Id, task.ProjectId))
+            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
             {
                 return Unauthorized();
             }

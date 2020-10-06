@@ -14,14 +14,23 @@ const ProjectDetails = ({match}) => {
     const [projectUserRoles, setProjectUserRoles] = useState([]);
     const [recentProjectTasks, setRecentProjectTasks] = useState([]);
     const [projectTaskTypes, setProjectTaskTypes] = useState([]);
+    const [currentUserRole, setCurrentUserRole]= useState("");
 
     useEffect(() => {
         CheckAuthentication();
+        getCurrentUserRole();
         fetchProjectData();
         fetchUserData();
         fetchRecentProjectTasks();
         fetchTaskTypes();
     }, []);
+
+    const getCurrentUserRole = async () => {
+        const res = await fetch(`/user/${match.params.projectId}/user-role`);
+        const data = await res.json();
+        setCurrentUserRole(data);
+        console.log(data);
+    }
 
     const fetchProjectData = async () => {
         const res = await fetch(`/project/${match.params.projectId}`);
@@ -124,18 +133,27 @@ const ProjectDetails = ({match}) => {
                         Created on: {ConvertDate(projectDetails.timeCreated)} at {ConvertTime(projectDetails.timeCreated)}
                     </div>
                 </div>
-                <Link to={`/projects/${match.params.projectId}/edit`}>
-                    <button type="button" className="btn btn-lg create-button">Edit Project</button>
-                </Link>
+
                 <button type="button" className="btn btn-lg create-button">View Project Activity</button>
+                
+                {/* Show this option only to the administrator */}
+                {currentUserRole == "Administrator" ? 
+                    <div>
+                        <Link to={`/projects/${match.params.projectId}/edit`}>
+                            <button type="button" className="btn btn-lg create-button">Edit Project</button>
+                        </Link>
 
-                <Link to={`/projects/${match.params.projectId}/task-types`}>
-                    <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
-                </Link>
+                        <Link to={`/projects/${match.params.projectId}/task-types`}>
+                            <button type="button" className="btn btn-lg create-button ">Manage Task Types</button>
+                        </Link>
 
-                <Link to={`/projects/${match.params.projectId}/delete`}>
-                    <button type="button" className="btn btn-lg btn-danger delete-button">Delete Project</button>
-                </Link>
+                        <Link to={`/projects/${match.params.projectId}/delete`}>
+                            <button type="button" className="btn btn-lg btn-danger delete-button">Delete Project</button>
+                        </Link>
+                    </div>
+                    : ""
+                }
+                
                 <div className="project-body">
                     <div className="project-users subsection">
                         <div className="subsection-row subsection-header">

@@ -26,6 +26,7 @@ import TaskComments from '../Pages/TaskComments';
 import NotFoundPage from '../Pages/NotFountPage';
 import UserProfile from "../Pages/UserProfile";
 
+
 const App = () => {
     const renderNavBars = () => {
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
@@ -50,7 +51,7 @@ const App = () => {
                     <Route path="/reports" exact component={Reports}/>
                     <Route path="/tasks" exact component={UserTasks}/>
                     <Route path="/profile" exact component={UserProfile} />
-                    <Route path="/profile/edit" exact component={UserProfile} />
+                    <Route path="/user/:userId" exact component={UserProfile} />
                     <Route path="/projects/new" exact component={CreateNewProject} />
                     <Route path="/projects/:projectId/task/:taskId" exact component={TaskDetails} />
                     <Route path="/projects/:projectId/task/:taskId/comments" exact component={TaskComments} />

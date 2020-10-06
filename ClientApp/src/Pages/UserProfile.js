@@ -10,6 +10,13 @@ const UserProfile = ({match}) => {
     const [projectInvitations, setProjectInvitations] = useState([]);
     const [projectInviters, setProjectInviters] = useState([]);
     const [projectsInvitedTo, setProjectsInvitedTo] = useState([]);
+    const [editingProfile, setEditingProfile] = useState(false);
+    const [newFirstName, setNewFirstName] = useState("");
+    const [newLastName, setNewLastName] = useState(""); 
+    const [newBio, setNewBio] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [bioError, setBioError] = useState("");
 
     useEffect(() => {
         CheckAuthentication();
@@ -27,6 +34,12 @@ const UserProfile = ({match}) => {
         }
     }, [user, currentUser])
 
+    useEffect(() => {
+        setNewFirstName(user.FirstName);
+        setNewLastName(user.LastName);
+        setNewBio(user.Bio);
+    }, [user]);
+
     const fetchUserInfo = async () => {
         if(match.params.userId) {
             const response = await fetch(`/user/${match.params.userId}`);
@@ -37,6 +50,7 @@ const UserProfile = ({match}) => {
             const data = await response.json();
             setUser(data);
         }
+        
     }
 
     const fetchCurrentUserInfo = async () => {
@@ -120,7 +134,9 @@ const UserProfile = ({match}) => {
                 <div className="project-invites-header">
                     Project Invitations
                 </div>  
-                {projectInvitations.map((invitation, index) => {
+                {projectInvitations.length == 0 ?
+                <div>You do not have any project invitations</div>
+                : projectInvitations.map((invitation, index) => {
                     return(
                         <div key={index} className="invitation">
                             <strong>
@@ -136,6 +152,133 @@ const UserProfile = ({match}) => {
 
         );
     }
+    const renderGeneralInfo = () => {
+        return (
+            <div className="general-info">
+                <div className="name">
+                    Name: {`${user.firstName} ${user.lastName}`}
+                </div>
+                <div className="bio">
+                    {user.bio ? user.bio : "No bio available"}
+                </div>
+                {/* Is this the current user's profile? If it is, show the Edit button */}
+                {currentUser.id === user.id ?
+                    <button onClick={() => setEditingProfile(true)} className="btn btn-primary edit-profile">Edit Profile</button>
+                    : ""
+                }
+            </div>
+        );
+    }
+
+    const renderEditForm = () => {
+        return (
+            <div className="edit-info">
+                <form onSubmit={changeUserInfo}>
+                    <div className="form-group">
+                        <label htmlFor="first-name">First Name</label>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            id="first-name" 
+                            placeholder="First Name" 
+                            value={newFirstName || ""} 
+                            onChange={(e) => setNewFirstName(e.target.value)}
+                        />
+                        <small className="error-message">
+                            {firstNameError ? firstNameError : ""}
+                        </small>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="last-name">Last Name</label>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            id="last-name" 
+                            placeholder="Last Name" 
+                            value={newLastName || ""} 
+                            onChange={(e) => setNewLastName(e.target.value)}
+                        />
+                        <small className="error-message">
+                            {lastNameError ? lastNameError : ""}
+                        </small>
+                        <label htmlFor="project-description">Bio (optional)</label>
+                        <textarea 
+                            type="text" 
+                            className="form-control" 
+                            id="bio" 
+                            placeholder="Bio" 
+                            value={newBio || ""} 
+                            onChange={(e) => setNewBio(e.target.value)}
+                        />
+                        <small className="error-message">
+                            {bioError ? bioError : ""}
+                        </small>
+                    </div>
+                    <button id="submit-update-info" type="submit" className="btn btn-primary create">Update Info</button>
+                    {/* //if cancel is clicked, then hide edit profile view */}
+                    <button id="cancel-update-info" onClick={ () => setEditingProfile(false)} className="btn btn-secondary create">Cancel</button>
+                </form>
+            </div>
+        );
+    }
+
+    const changeUserInfo = async (e) => {
+        let errorsExist = false;
+        //prevent default action
+        e.preventDefault();
+        //check project name 
+        if(newFirstName.length === 0) {
+            setFirstNameError("You must include your first name");
+            errorsExist = true;
+        } else if(newFirstName.length > 50) {
+            setFirstNameError("Your first name should be no more than 50 characters.");
+            errorsExist = true;
+        } 
+        else {
+            setFirstNameError("");
+        }
+
+        if(newLastName.length === 0) {
+            setLastNameError("You must include your first name");
+            errorsExist = true;
+        } else if(newLastName.length > 50) {
+            setLastNameError("Your first name should be no more than 50 characters.");
+            errorsExist = true;
+        } 
+        else {
+            setLastNameError("");
+        }
+
+        //check projectDescriptionError
+        if(newBio.length > 300) {
+            setBioError("Your bio should be no more than 300 characters.");
+            errorsExist = true;
+        } 
+        else {
+            setBioError("");
+        }
+
+        if(errorsExist == false) {
+            const payload = {
+                FirstName: newFirstName,
+                LastName: newLastName,
+                Bio: newBio
+            }
+            //making post request to server
+            const response = await fetch("/user/update-info" , {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            
+            const data = await response.json();
+            setEditingProfile(false);
+            fetchUserInfo();
+        }
+    }
 
     return(
         <div className="page">
@@ -144,21 +287,8 @@ const UserProfile = ({match}) => {
                     title={`${user.firstName}'s profile`}
                     description="Edit and view your profile info" 
                 />
-                <div className="general-info">
-                    <div className="name">
-                        Name: {`${user.firstName} ${user.lastName}`}
-                    </div>
-                    <div className="bio">
-                        {user.bio ? user.bio : "No bio available"}
-                    </div>
-                    {/* Is this the current user's profile? */}
-                    {currentUser.id === user.id ?
-                        <Link to="/profile/edit">
-                            <button className="btn btn-primary edit-profile">Edit Profile</button>
-                        </Link> 
-                        : ""
-                    }
-                </div>
+                {editingProfile ? renderEditForm() : renderGeneralInfo()}
+                
                 {/* Only show projet invites if this is the current user's profile */}
                 {currentUser.id === user.id ? renderProjectInvitations() : ""}
             </div>

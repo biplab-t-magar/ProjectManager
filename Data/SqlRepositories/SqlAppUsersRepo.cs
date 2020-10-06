@@ -188,10 +188,29 @@ namespace ProjectManager.Data.SqlRepositories
             return tasksByUrgency;
         }
 
+        public AppUser UpdateUser(AppUser user)
+        {
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            var userToUpdate = _context.Users.Find(user.Id);
+
+            _context.Entry(userToUpdate).CurrentValues.SetValues(user);
+            return user;
+
+        }
+
         public bool SaveChanges()
         {
             //save all the changes to the database
             return _context.SaveChanges() >= 0;
+        }
+
+        public string GetUserRoleInProject(string userId, int projectId)
+        {
+            return _context.ProjectUsers.Find(projectId, userId).Role;
         }
     }
 }

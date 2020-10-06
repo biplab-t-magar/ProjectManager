@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Data.Interfaces;
 using ProjectManager.Models;
+using ProjectManager.Models.UtilityModels;
 
 namespace ProjectManager.Controllers 
 {
@@ -40,12 +41,47 @@ namespace ProjectManager.Controllers
         }
 
         [Authorize]
+        [HttpPost("update-info")]
+        public async Task<IActionResult> UpdateUserInfo(UpdateUserModel userModel)
+        {
+            //get the current user object
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //update user values
+            user.FirstName = userModel.FirstName;
+            user.LastName = userModel.LastName;
+            user.Bio = userModel.Bio;
+
+            user = _usersRepo.UpdateUser(user);
+            _usersRepo.SaveChanges();
+
+            return Ok(user);
+        }
+
+        [Authorize]
         [HttpGet("{userId}")]
         public IActionResult GetUserById(string userId)
         {
             var user = _usersRepo.GetUserById(userId);
 
             return Ok(user);
+        }
+
+        [Authorize]
+        [HttpGet("{projectId}/user-role")]
+        public async Task<IActionResult> GetUserRoleInProject(int projectId)
+        {
+            //get the current user object
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var role = _usersRepo.GetUserRoleInProject(user.Id, projectId);
+            if(role == null)
+            {
+                return BadRequest("User is not a part of project");
+            }
+
+            return Ok(role);
+
         }
 
         [Authorize]
@@ -154,7 +190,7 @@ namespace ProjectManager.Controllers
 
             return Ok();
         }
-
+        
         
 
     }

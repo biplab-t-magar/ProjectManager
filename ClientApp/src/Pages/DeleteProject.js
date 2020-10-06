@@ -17,6 +17,7 @@ const DeleteProject = ({match}) => {
         setProjectDetails(data);
     };
 
+
     const onDelete = async (e) => {
         //prevent default action
         e.preventDefault();
