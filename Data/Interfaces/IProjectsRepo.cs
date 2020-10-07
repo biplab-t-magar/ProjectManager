@@ -34,7 +34,14 @@ namespace ProjectManager.Data.Interfaces
         List<ProjectUser> GetProjectUserRoles(int projectId);
 
         List<TaskUpdate> GetTaskUpdatesByProject(int projectId);
-        // List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, int updaterId);
+        List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, string updaterId);
+
+        List<TaskComment> GetProjectTaskComments(int projectId);
+        List<TaskComment> GetProjectTaskCommentsByUser(int projectId, string userId);
+
+        List<TaskUserUpdate> GetProjectTaskUserUpdates(int projectId);
+
+        List<TaskUserUpdate> GetProjectTaskUserUpdatesByUpdater(int projectId, string updaterId);
 
         void AddUserToProject(ProjectUser projectUser);
 

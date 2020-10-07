@@ -214,5 +214,19 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.SaveChanges() >= 0;
         }
 
+        public List<TaskComment> GetCommentsByUser(string userId)
+        {
+            return _context.TaskComments.Where(tc => tc.AppUserId == userId).ToList();
+        }
+
+        public List<TaskUpdate> GetTaskUpdatesByUpdater(string updaterId)
+        {
+            return _context.TaskUpdates.Where(tu => tu.UpdaterId == updaterId).ToList();
+        }
+
+        public List<TaskUserUpdate> GetTaskUserUpdatesByUpdater(string updaterId)
+        {
+            return _context.TaskUserUpdates.Where(tuu => tuu.UpdaterId == updaterId).ToList();
+        }
     }
 }

@@ -652,7 +652,7 @@ namespace ProjectManager.Controllers
             //get all tasks
             var taskComments = _tasksRepo.GetTaskComments(taskId);
             //reverse the order of tasks
-            taskComments.Reverse();
+            // taskComments.Reverse();
 
             if(taskComments.Count <= numOfComments)
             {

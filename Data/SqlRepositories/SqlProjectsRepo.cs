@@ -102,7 +102,7 @@ namespace ProjectManager.Data.SqlRepositories
             //first, get all the tasks in a project
             var projectTasks = _context.Tasks.Where(t => t.ProjectId == projectId).ToList();
 
-            //now, collect all the task updates in all the tasks of the project
+            //to collect all the task updates in all the tasks of the project
             List<TaskUpdate> taskUpdates = new List<TaskUpdate>();
             //loop through all the projectTasks and gather every task update associated with the each task
             for (int i = 0; i < projectTasks.Count; i++)
@@ -272,6 +272,101 @@ namespace ProjectManager.Data.SqlRepositories
         public bool SaveChanges()
         {
             return _context.SaveChanges() >= 0;
+        }
+
+        public List<TaskComment> GetProjectTaskComments(int projectId)
+        {
+            //first, get all the tasks in a project
+            var projectTasks = GetProjectTasks(projectId);
+
+            //to store all the task comments for the project
+            List<TaskComment> projectTaskComments = new List<TaskComment>();
+
+            //loop through all the project tasks
+            for(int i = 0; i < projectTasks.Count; i++)
+            {
+                //add all the comments for each task in the project
+                projectTaskComments.AddRange(_context.TaskComments.Where(tc => tc.TaskId == projectTasks[i].TaskId).ToList());
+            }
+
+            return projectTaskComments;
+        }
+
+        public List<TaskComment> GetProjectTaskCommentsByUser(int projectId, string userId)
+        {
+            //first, get all the task comments in a project
+            var projectTaskComments = GetProjectTaskComments(projectId);
+
+            //to store all the task comments
+            List<TaskComment> projectTaskCommentsByUser = new List<TaskComment>();
+
+            //loop through all the task comments in the project
+            for(int i = 0; i < projectTaskComments.Count; i++)
+            {
+                if(projectTaskComments[i].AppUserId == userId)
+                {
+                    projectTaskCommentsByUser.Add(projectTaskComments[i]);
+                }
+            }
+
+            return projectTaskCommentsByUser;
+        }
+
+        public List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, string updaterId)
+        {
+            //first, get all the task updates in the project
+            var projectTaskUpdates = GetTaskUpdatesByProject(projectId);
+
+            //to store all the task updates
+            List<TaskUpdate> projectTaskUpdatesByUser = new List<TaskUpdate>();
+
+            //loop through all the task updates
+            for(int i = 0; i < projectTaskUpdates.Count; i++)
+            {
+                if(projectTaskUpdates[i].UpdaterId == updaterId)
+                {
+                    projectTaskUpdatesByUser.Add(projectTaskUpdates[i]);
+                }
+            }
+
+            return projectTaskUpdatesByUser;
+        }
+
+        public List<TaskUserUpdate> GetProjectTaskUserUpdates(int projectId)
+        {
+            //get all the tasks in the project
+            var projectTasks = GetProjectTasks(projectId);
+
+            //collect all the task user update records corresponding to the above tasks
+            List<TaskUserUpdate> projectTaskUserUpdates = new List<TaskUserUpdate>();
+
+            for(int i = 0; i < projectTasks.Count; i++)
+            {
+                projectTaskUserUpdates.AddRange(_context.TaskUserUpdates.Where(tuu => tuu.TaskId == projectTasks[i].TaskId).ToList());
+            }
+
+            return projectTaskUserUpdates;
+        }
+
+        public List<TaskUserUpdate> GetProjectTaskUserUpdatesByUpdater(int projectId, string updaterId)
+        {
+            //get all the task user updates in the project
+            var projectTaskUserUpdates = GetProjectTaskUserUpdates(projectId);
+
+            //to store all the task user updates
+            List<TaskUserUpdate> projectTaskUpdatesByUpdater = new List<TaskUserUpdate>();
+
+            //loop through all the task updates
+            for(int i = 0; i < projectTaskUserUpdates.Count; i++)
+            {
+                if(projectTaskUserUpdates[i].UpdaterId == updaterId)
+                {
+                    projectTaskUpdatesByUpdater.Add(projectTaskUserUpdates[i]);
+                }
+            }
+
+            return projectTaskUpdatesByUpdater;
+
         }
     }
 }
