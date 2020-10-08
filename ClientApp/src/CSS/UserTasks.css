@@ -1,3 +1,9 @@
+/**/
+/* 
+ * CSS that applies to the UserTasks page
+ */
+/**/
+
 .tasks .tasks-list-row {
     width: 100%;
     display: flex;

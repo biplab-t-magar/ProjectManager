@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the NotFound page in the web application
+ * It consists of the NotFound functional component that handles the rendering of the page to display
+ * when the user tries to access an invalid route
+ * / 
+/**/
+
 import React from "react";
 
 const NotFoundPage = () => {

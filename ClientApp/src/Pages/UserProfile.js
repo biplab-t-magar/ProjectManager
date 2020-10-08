@@ -1,3 +1,12 @@
+/**/
+/*
+ * This file represents the UserProfile page in the web application
+ * It consists of the UserProfile functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive information on a user, along 
+ * with communication required for accepting and rejecting project invities
+ * / 
+/**/
+
 import React, {useState, useEffect} from "react";
 import PageDescription from "../Components/PageDescription";
 import CheckAuthentication from "../Utilities/CheckAuthentication.js";

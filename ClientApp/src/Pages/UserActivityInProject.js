@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the UserActivityInProject page in the web application
+ * It consists of the UserActivityInProject functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive information on a user's activities in a project
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react";
 import PageDescription from "../Components/PageDescription";
 import LoadingSpinner from "../Utilities/LoadingSpinner";

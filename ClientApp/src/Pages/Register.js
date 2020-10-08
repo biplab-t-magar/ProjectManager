@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the Register page in the web application
+ * It consists of the Register functional component that handles the rendering of the 
+ * page display, basic client-side verification, and also the communication with the server to register a user 
+ * / 
+/**/
+
 import React, {useEffect, useState} from 'react';
 import "../CSS/Register.css";
 import {Link, Redirect, withRouter} from "react-router-dom";

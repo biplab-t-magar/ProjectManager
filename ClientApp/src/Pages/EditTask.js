@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the EditTask page in the web application
+ * It consists of the EditTask functional component that handles the rendering of the 
+ * page display and also the communication with the server to update the information of a task
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react"
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";

@@ -1,3 +1,10 @@
+/**/
+/*
+ * This file represents the UserTasks page in the web application
+ * It consists of the UserTasks functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive information on every task that a user is assigned to
+ * / 
+/**/
 import React, { useEffect, useState } from 'react';
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";

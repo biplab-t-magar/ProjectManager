@@ -1,3 +1,12 @@
+/**/
+/*
+ * This file represents the ManageUserProjects page in the web application
+ * It consists of the ManageUserProjects functional component that handles the rendering of the 
+ * page display and also the communication with the server to invite users to a project and to change
+ * the roles of users in projects
+ * / 
+/**/
+
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription";

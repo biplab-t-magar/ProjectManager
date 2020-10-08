@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the DeleteProject page in the web application
+ * It consists of the DeleteProject functional component that handles the rendering of the 
+ * page display and also the communication with the server to delete the project
+ * / 
+/**/
+
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "../CSS/DeleteProject.css";

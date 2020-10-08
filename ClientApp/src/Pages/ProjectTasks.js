@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the ProjectTasks page in the web application
+ * It consists of the ProjectTasks functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive information on all the tasks of a project
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import "../CSS/ProjectTasks.css";

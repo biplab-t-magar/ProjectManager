@@ -1,3 +1,10 @@
+/**/
+/*
+ * This file is the main component that is mounted onto the HTML web application. It is this file that links together
+ * all the other components in the web application. It sets up routes and delineate the traversal of the web application.
+ * / 
+/**/
+
 import React from 'react';
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -26,8 +33,46 @@ import UserActivityInProject from '../Pages/UserActivityInProject';
 import ProjectActivities from '../Pages/ProjectActivities';
 
 
+/**/
+/*
+ * NAME:
+ *      App() - primary functional component in the web application, linking together all other components
+ * SYNOPSIS:
+ *      App()
+ * DESCRIPTION:
+ *      This function is a React functional component that makes use of the React router in order to 
+ *      set the routing for all the other components in the WebApplication. It holds all of the components, but
+ *      only renders them when the route specified matches the components.
+ * RETURNS
+ *      JSX to render component that corresponds to the route the application user is currently in
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      10/8/2020 
+ * /
+ /**/
+
 const App = () => {
+
+    /**/
+    /*
+    * NAME:
+    *      renderNavBars() - conditionally returns the JSX for the NavBar and Header
+    * SYNOPSIS:
+    *      renderNavBars()
+    * DESCRIPTION:
+    *      This function checks the current browser location and only returns NavBar and Header JSX if the user is not in the 
+    *      login or registration page
+    * RETURNS
+    *      The Header and NavBar components
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/8/2020 
+    * /
+    /**/
     const renderNavBars = () => {
+        //only render the navbar and header if the user is logged in
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
             return (
             <div>
@@ -38,6 +83,7 @@ const App = () => {
         }
     }
 
+    //return the component corresponding to the current route
     return(
         <div>
             <BrowserRouter>

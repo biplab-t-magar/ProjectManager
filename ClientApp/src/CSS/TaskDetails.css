@@ -1,3 +1,9 @@
+/**/
+/* 
+ * CSS that applies to the TaskDetails page
+ */
+/**/
+
 .task-details .task-description {
     border-radius: 4px;
     margin-top: -10px;

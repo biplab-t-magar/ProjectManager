@@ -1,8 +1,12 @@
+/**/
+/*
+ * This file contains all the information needed by the NavBar
+ * / 
+/**/
+
 import React from 'react';
 import { AiFillHome, AiOutlineProject} from "react-icons/ai"; 
 import { GoTasklist } from "react-icons/go";
-import { GiEgyptianProfile } from "react-icons/gi";
-import { HiDocumentReport } from "react-icons/hi";
 
  
 export  const NavBarItems = [

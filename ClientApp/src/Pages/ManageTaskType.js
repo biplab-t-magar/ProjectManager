@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the ManageTaskTypes page in the web application
+ * It consists of the ManageTaskTypes functional component that handles the rendering of the 
+ * page display and also the communication with the server to create and delete TaskTypes for the project
+ * / 
+/**/
+
 import React, { useState, useEffect } from "react";
 import PageDescription from "../Components/PageDescription.js";
 import "../CSS/ManageTaskTypes.css";

@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the TaskDetails page in the web application
+ * It consists of the TaskDetails functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive all information on a given task
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription"

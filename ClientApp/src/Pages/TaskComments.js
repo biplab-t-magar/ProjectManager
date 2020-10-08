@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the TaskComments page in the web application
+ * It consists of the TaskComments functional component that handles the rendering of the 
+ * page display and also the communication with the server to receive information on all the comments made on a task
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react"
 import PageDescription from "../Components/PageDescription";
 import CheckAuthentication from "../Utilities/CheckAuthentication";

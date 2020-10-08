@@ -1,3 +1,10 @@
+/**/
+/*
+ * This file represents the Login page in the web application
+ * It consists of the Login functional component that handles the rendering of the 
+ * page display and also the communication with the server to log a user in 
+ * / 
+/**/
 import React, {useState, useEffect} from 'react';
 import "../CSS/Login.css";
 import {Link, Redirect, useHistory} from "react-router-dom";

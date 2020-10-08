@@ -1,10 +1,39 @@
+/**/
+/*
+ * This file represents the CreateTask page in the web application
+ * It consists of the CreateTask functional component that handles the rendering of the 
+ * page display and also the communication with the server to create a new task for a project
+ * / 
+/**/
 import React, {useState, useEffect} from "react";
 import PageDescription from "../Components/PageDescription";
 import {Link} from "react-router-dom";
 import "../CSS/CreateTask.css";
 import CheckAuthentication from "../Utilities/CheckAuthentication";
 
+/**/
+/*
+ * NAME:
+ *      CreateTask() - React functional component corresponding to the CreateTask page
+ * SYNOPSIS:
+ *      CreateTask({match})
+ *          match.params --> the parameters passed by the Router component to this component. The parameters contained 
+ *                              in this object are retreived from the parameters in the specified route path for this page
+ *          match.params.projectId --> the id of the project that this task is a part of
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to create a new task.
+ *      This components handles the retrieval of data, generation of forms, and the sending of data to the 
+ *      server, thus handling the process of task creation
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      09/27/2020 
+ * /
+ /**/
 const CreateTask = ({match}) => {
+    //state hooks
     const [projectDetails, setProjectDetails] = useState({});
     const [taskName, setTaskName] = useState("");
     const [taskNameError, setTaskNameError] = useState("");
@@ -14,24 +43,77 @@ const CreateTask = ({match}) => {
     const [urgency, setUrgency] = useState("Medium");
     const [taskType, setTaskType] = useState("none");
 
+    //useEffect hook: called on first render
+    //first checks if user is authenticated
+    //then fetches relevant information
     useEffect(() => {
         CheckAuthentication();
         fetchProjectData();
         fetchTaskTypes();
     }, []);
 
+
+    /**/
+    /*
+    * NAME:
+    *      fetchProjectData() - async function to retrieve project data from server
+    * SYNOPSIS:
+    *      fetchProjectData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the project.
+    *      Sets the state corresponding to project data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const fetchProjectData = async () => {
         const res = await fetch(`/project/${match.params.projectId}`);
         const data = await res.json();
         setProjectDetails(data);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskTypes() - async function to retrieve the task types of a project from the server
+    * SYNOPSIS:
+    *      fetchTaskTypes()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on project task types
+    *      Sets the state accordingly
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const fetchTaskTypes = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task-types`);
         const data = await res.json();
         setProjectTaskTypes(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      findTaskTypeId() - find the id of a task type given its name
+    * SYNOPSIS:
+    *      findTaskTypeId(taskTypeName)
+    *             taskTypeName --> the name of the task type whose id is to be found
+    * DESCRIPTION:
+    *      Finds the id of a task type given its name
+    * RETURNS
+    *      The id of the task type with the given name
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const findTaskTypeId = (taskTypeName) => {
         for(let i = 0; i < projectTaskTypes.length; i++) {
             if(taskTypeName === projectTaskTypes[i].name) {
@@ -40,6 +122,25 @@ const CreateTask = ({match}) => {
         }
     }
 
+    /**/
+    /*
+    * NAME:
+    *      handleSubmit() - handles the submission of the create task form
+    * SYNOPSIS:
+    *      handleSubmit()
+    *           e --> the JavaScript event generated when submitting the form
+    * DESCRIPTION:
+    *      This function executes the action to be taken once the user has filled out the form and hit submits.
+    *      First it validates the user input in the forms, and sets the error message if user input is not valid.
+    *      If user input is valid, it sends a request to the server to create a new task with the given information in a project for the user
+    *      Finally, it redirects to the TaskDetails page corresponding to the newly created task
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
@@ -66,11 +167,13 @@ const CreateTask = ({match}) => {
         }
 
         if(errorsExist === false) {
+            //if the task type was not specified, set it to -1 so that the server can ignore it
             let taskTypeId = -1;
             if(projectTaskTypes.length != 0 && taskType !== "none") {
                 taskTypeId = findTaskTypeId(taskType);
             }
             
+            //build the payload for http request body
             const payload = {
                 ProjectId: projectDetails.projectId,
                 Name: taskName,
@@ -90,6 +193,7 @@ const CreateTask = ({match}) => {
             });
             const data = await response.json();
             if(response.ok) {
+                //redirect to task details page
                 window.location.pathname = `/projects/${projectDetails.projectId}/task/${data.taskId}`;
             } else {    
                 console.log(data);

@@ -1,3 +1,12 @@
+/**/
+/*
+ * This file represents the Projects page in the web application
+ * It consists of the Projects functional component that handles the rendering of the 
+ * page display and also the communication with the server to fetch the list of all Projects a user
+ * is involved in
+ * / 
+/**/
+
 import React, {useState, useEffect} from 'react';
 import '../CSS/Projects.css';
 import PageDescription from "../Components/PageDescription";

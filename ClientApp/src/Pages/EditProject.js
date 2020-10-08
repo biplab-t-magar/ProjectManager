@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the EditProject page in the web application
+ * It consists of the EditProject functional component that handles the rendering of the 
+ * page display and also the communication with the server to update the information of a project
+ * / 
+/**/
+
 import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription.js";

@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the ProjectDetails page in the web application
+ * It consists of the ProjectDetails functional component that handles the rendering of the 
+ * main page for a project and also the communication with the server to get all the information 
+ * for a particular project
+ * / 
+/**/
 import React, { useEffect } from 'react';
 import {Link} from "react-router-dom"
 import {useState} from "react";

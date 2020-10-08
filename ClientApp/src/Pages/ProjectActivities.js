@@ -1,3 +1,11 @@
+/**/
+/*
+ * This file represents the ProjectActivities page in the web application
+ * It consists of the ProjectActivities functional component that handles the rendering of the 
+ * page display and also the communication with the server to fetch all the activities in a project
+ * / 
+/**/
+
 import React, { useEffect, useState } from "react";
 import PageDescription from "../Components/PageDescription";
 import LoadingSpinner from "../Utilities/LoadingSpinner";

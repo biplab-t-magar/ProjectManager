@@ -1,3 +1,8 @@
+/**/
+/*
+ * This file contains the component to display a loading animation
+ * / 
+/**/
 import React from "react";
 import {Spinner} from "react-bootstrap"
 
