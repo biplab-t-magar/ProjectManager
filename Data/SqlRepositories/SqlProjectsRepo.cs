@@ -257,10 +257,6 @@ namespace ProjectManager.Data.SqlRepositories
                 Task = task,
                 TimeStamp = DateTime.Now,
                 UpdaterId = creatorId,
-                Name = task.Name,
-                TaskStatus = task.TaskStatus,
-                Urgency = task.Urgency,
-                TaskTypeId = task.TaskTypeId
             };
             
             _context.Add(taskUpdate);

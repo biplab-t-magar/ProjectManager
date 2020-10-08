@@ -3,13 +3,11 @@ import PageDescription from "../Components/PageDescription";
 import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 import "../CSS/UserProfile.css";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../Utilities/LoadingSpinner.js";
 
 const UserProfile = ({match}) => {
     const [user, setUser] = useState({});
     const [currentUser, setCurrentUser] = useState({});
-    const [projectInvitations, setProjectInvitations] = useState([]);
-    const [projectInviters, setProjectInviters] = useState([]);
-    const [projectsInvitedTo, setProjectsInvitedTo] = useState([]);
     const [editingProfile, setEditingProfile] = useState(false);
     const [newFirstName, setNewFirstName] = useState("");
     const [newLastName, setNewLastName] = useState(""); 
@@ -17,20 +15,28 @@ const UserProfile = ({match}) => {
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
     const [bioError, setBioError] = useState("");
+    const [usersOwnProfile, setUsersOwnProfile] = useState(false);
+    const [userActivity, setUserActivity] = useState([]);
+    const [contentLoaded, setContentLoaded] = useState(false);
+    const [projectInvitations, setProjectInvitations] = useState([]);
+    const [projectInviters, setProjectInviters] = useState([]);
+    const [projectsInvitedTo, setProjectsInvitedTo] = useState([]);
 
     useEffect(() => {
         CheckAuthentication();
         fetchUserInfo();
         fetchCurrentUserInfo();
+        fetchProjectInvitations();
+        fetchProjectInviters();
+        fetchProjectsInvitedTo();
+
     }, []);
 
     //only fetch project invitations if user and current user are the same
     //make this comparison only when both user and current user have been fetched from the server
     useEffect(() => {
-        if(user.id === currentUser.id) {
-            fetchProjectInvitations();
-            fetchProjectInviters();
-            fetchProjectsInvitedTo();
+        if(user.id !== undefined && user.id === currentUser.id) {
+            setUsersOwnProfile(true);
         }
     }, [user, currentUser])
 
@@ -45,12 +51,13 @@ const UserProfile = ({match}) => {
             const response = await fetch(`/user/${match.params.userId}`);
             const data = await response.json();
             setUser(data);
+            fetchUserActivity(data.id);
         } else {
             const response = await fetch(`/user`);
             const data = await response.json();
             setUser(data);
-        }
-        
+            fetchUserActivity(data.id);
+        }        
     }
 
     const fetchCurrentUserInfo = async () => {
@@ -77,84 +84,20 @@ const UserProfile = ({match}) => {
         setProjectsInvitedTo(data);
     }
 
-    const getUserNameFromId = (userId) => {
-        for(let i = 0; i < projectInviters.length; i++) {
-            if(projectInviters[i].id == userId) {
-                return projectInviters[i].firstName + " " + projectInviters[i].lastName;
-            }
+    const fetchUserActivity = async (userId) => {
+        const response = await fetch(`/user/${userId}/activity/15`);
+        if(!response.ok)
+        {
+            console.log(response.statusText);
         }
+        const data = await response.json();
+        setUserActivity(data);
+        setContentLoaded(true);
     }
 
-    const getProjectNameFromId = (projectId) => {
-        for(let i = 0; i < projectsInvitedTo.length; i++) {
-            if(projectsInvitedTo[i].projectId == projectId) {
-                return projectsInvitedTo[i].name;
-            }
-        }
-    }
+    
 
-    const acceptInvite = async (invitation) => {
-        const response = await fetch("/user/accept-invite" , {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(invitation)
-        });
-        if(!response.ok) {
-            console.log(response);
-        } else {
-            const data = await response.json();
-            console.log(data);
-        }
-        fetchProjectInvitations();
-        fetchProjectInviters();
-        fetchProjectsInvitedTo();
 
-    }
-
-    const declineInvite = async (invitation) => {
-        const response = await fetch("/user/decline-invite" , {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(invitation)
-        });
-        if(!response.ok) {
-            console.log(response);
-        }
-        fetchProjectInvitations();
-        fetchProjectInviters();
-        fetchProjectsInvitedTo();
-    }
-
-    const renderProjectInvitations = () => {
-        return(
-            <div className="project-invites">
-                <div className="project-invites-header">
-                    Project Invitations
-                </div>  
-                {projectInvitations.length == 0 ?
-                <div>You do not have any project invitations</div>
-                : projectInvitations.map((invitation, index) => {
-                    return(
-                        <div key={index} className="invitation">
-                            <strong>
-                                <Link to={`/profile/${invitation.inviterId}`}>{getUserNameFromId(invitation.inviterId)}</Link>
-                            </strong> invited you to <strong>{getProjectNameFromId(invitation.projectId)}</strong>
-                            <br />
-                            <button onClick={() => acceptInvite(invitation)} id="accept-button" className="btn btn-success">Accept</button>
-                            <button onClick={() => declineInvite(invitation)} id="decline-button" className="btn btn-danger">Decline</button>
-                        </div>
-                    );
-                })}
-            </div> 
-
-        );
-    }
     const renderGeneralInfo = () => {
         return (
             <div className="general-info">
@@ -165,7 +108,7 @@ const UserProfile = ({match}) => {
                     {user.bio ? user.bio : "No bio available"}
                 </div>
                 {/* Is this the current user's profile? If it is, show the Edit button */}
-                {currentUser.id === user.id ?
+                {usersOwnProfile ?
                     <button onClick={() => setEditingProfile(true)} className="btn btn-primary edit-profile">Edit Profile</button>
                     : ""
                 }
@@ -222,6 +165,53 @@ const UserProfile = ({match}) => {
                     <button id="cancel-update-info" onClick={ () => setEditingProfile(false)} className="btn btn-secondary create">Cancel</button>
                 </form>
             </div>
+        );
+    }
+
+    const renderRecentActivity = () => {
+        return (
+            <div className="user-activity">
+                <div className="user-activity-row user-activity-header">
+                    {usersOwnProfile ? 
+                    "Your Recent Activity"
+                    : `${user.firstName}'s Recent Activity`}
+                </div>
+                {!contentLoaded ? 
+                <div className="spinner"><LoadingSpinner /> </div>
+                :
+                userActivity.map((activity, index) => {
+                    return(
+                        <div className="user-activity-row" key={index}>
+                            {activity.activity}
+                        </div>
+                    );
+                })
+            }
+            </div>
+        );
+    }
+
+    const renderProjectInvitations = () => {
+        return(
+            <div className="project-invites">
+                <div className="project-invites-header">
+                    Project Invitations
+                </div>  
+                {projectInvitations.length == 0 ?
+                <div>You do not have any project invitations</div>
+                : projectInvitations.map((invitation, index) => {
+                    return(
+                        <div key={index} className="invitation">
+                            <strong>
+                                <Link to={`/profile/${invitation.inviterId}`}>{getUserNameFromId(invitation.inviterId)}</Link>
+                            </strong> invited you to <strong>{getProjectNameFromId(invitation.projectId)}</strong>
+                            <br />
+                            <button onClick={() => acceptInvite(invitation)} id="accept-button" className="btn btn-success">Accept</button>
+                            <button onClick={() => declineInvite(invitation)} id="decline-button" className="btn btn-danger">Decline</button>
+                        </div>
+                    );
+                })}
+            </div> 
         );
     }
 
@@ -283,6 +273,60 @@ const UserProfile = ({match}) => {
         }
     }
 
+    const getUserNameFromId = (userId) => {
+        for(let i = 0; i < projectInviters.length; i++) {
+            if(projectInviters[i].id == userId) {
+                return projectInviters[i].firstName + " " + projectInviters[i].lastName;
+            }
+        }
+    }
+
+    const getProjectNameFromId = (projectId) => {
+        for(let i = 0; i < projectsInvitedTo.length; i++) {
+            if(projectsInvitedTo[i].projectId == projectId) {
+                return projectsInvitedTo[i].name;
+            }
+        }
+    }
+
+    const acceptInvite = async (invitation) => {
+        const response = await fetch("/user/accept-invite" , {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(invitation)
+        });
+        if(!response.ok) {
+            console.log(response);
+        } else {
+            const data = await response.json();
+            console.log(data);
+        }
+        fetchProjectInvitations();
+        fetchProjectInviters();
+        fetchProjectsInvitedTo();
+
+    }
+
+    const declineInvite = async (invitation) => {
+        const response = await fetch("/user/decline-invite" , {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(invitation)
+        });
+        if(!response.ok) {
+            console.log(response);
+        }
+        fetchProjectInvitations();
+        fetchProjectInviters();
+        fetchProjectsInvitedTo();
+    }
+
     return(
         <div className="page">
             <div className="user-profile">
@@ -291,9 +335,9 @@ const UserProfile = ({match}) => {
                     description="Edit and view your profile info" 
                 />
                 {editingProfile ? renderEditForm() : renderGeneralInfo()}
-                
-                {/* Only show projet invites if this is the current user's profile */}
-                {currentUser.id === user.id ? renderProjectInvitations() : ""}
+                {usersOwnProfile ? renderProjectInvitations() : ""}
+                {renderRecentActivity()}
+
             </div>
         </div>
     )

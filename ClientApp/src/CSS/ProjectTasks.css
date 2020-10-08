@@ -16,6 +16,12 @@ button.create-button {
     margin-top: 10px;
 }
 
+button.cancel {
+    /* float: right;
+    clear: right; */
+    background-color: rgb(172, 172, 172);
+}
+
 .main-page-content {
     /* background: #a3a3c2; */
     margin-top: -70px;

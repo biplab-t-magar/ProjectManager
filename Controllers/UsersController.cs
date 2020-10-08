@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Data.Interfaces;
+using ProjectManager.Data.Services;
 using ProjectManager.Models;
 using ProjectManager.Models.UtilityModels;
 
@@ -22,12 +23,14 @@ namespace ProjectManager.Controllers
 
         //the manager for handling user creation, deletion, etc..
         private readonly UserManager<AppUser> _userManager;
+        private readonly ProjectActivity _projectActivity;
 
-        public UsersController(UserManager<AppUser> userManager, IAppUsersRepo usersRepo, IProjectsRepo projectsRepo)
+        public UsersController(UserManager<AppUser> userManager, IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, ProjectActivity projectActivity )
         {
             _usersRepo = usersRepo;
             _projectsRepo = projectsRepo;
             _userManager  = userManager;
+            _projectActivity = projectActivity;
         }
 
         [Authorize]
@@ -190,8 +193,61 @@ namespace ProjectManager.Controllers
 
             return Ok();
         }
-        
-        
+
+        [Authorize]
+        [HttpGet("{userId}/activity")]
+        public async Task<IActionResult> GetUserActivity(string userId)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return BadRequest("User is not logged in");
+            }
+            
+            var userActivities = _projectActivity.GenerateUserActivity(userId);
+
+            if(userActivities == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(userActivities);
+
+        }
+
+        [Authorize]
+        [HttpGet("{userId}/activity/{num}")]
+        public async Task<IActionResult> GetRecentUserActivity(string userId, int num)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return BadRequest("User is not logged in");
+            }
+            
+            var userActivities = _projectActivity.GenerateUserActivity(userId);
+
+            if(userActivities == null)
+            {
+                return NotFound();
+            }
+
+            if(userActivities.Count <= num) 
+            {
+                return Ok(userActivities);
+            } 
+            else
+            {
+                //take only as many entries as specified in numOfTasks
+                userActivities = userActivities.GetRange(0, num);
+                return Ok(userActivities); 
+            }
+
+        }
 
     }
 }

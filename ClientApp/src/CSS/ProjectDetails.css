@@ -141,13 +141,32 @@ button.create-button {
     color: inherit;
 }
 
-.project-details .project-body .recent-tasks.subsection a{
-    color: gray;
+.project-details .project-body .recent-tasks.subsection a.view-and-manage-tasks{
+    color: black;
+    
 }
 
 .project-details .project-body .recent-tasks.subsection a{
     color: gray;
-    background-color: lightgray;
+}
+
+.project-details .recent-activities {
+    width: 45%;
+}
+
+.project-details .recent-activities a{
+    text-decoration: none;
+    color: rgb(114, 112, 112);
+    margin: 0px;
+}
+
+.project-details .recent-activities .project-activity{
+    min-height: 40px;
+    padding: 4px;
+    margin: 1px;
+}
+.project-details .recent-activities .project-activity:hover{
+    background-color: rgba(173, 211, 247, 0.63);
 }
 
 

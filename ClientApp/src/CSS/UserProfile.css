@@ -5,6 +5,7 @@
 .user-profile .general-info {
     margin-left: 15px;
     display: inline-block;
+    vertical-align: top;
 }
 
 .user-profile .general-info .name{
@@ -33,6 +34,8 @@
     width: 400px;
     margin-left: 30px;
     text-align: center;
+    float: right;
+    margin-bottom: 0px;
 }
 
 .user-profile .project-invites-header {
@@ -69,6 +72,7 @@
 }
 
 .user-profile .edit-info {
+    vertical-align: top;
     display: inline-block;
     width: 500px;
 }
@@ -82,4 +86,23 @@
 }
 .user-profile textarea{
     min-height: 150px;
+}
+
+.user-profile .user-activity {
+    display: block;
+    margin-left: 20px;
+    margin-top: 30px;
+    /* margin- */
+}
+
+.user-profile .user-activity .user-activity-row {
+    padding: 10px;
+    margin: 2px;
+    background-color: rgb(207, 232, 253);
+    border-radius: 3px;
+}
+
+.user-profile .user-activity .user-activity-header {
+    padding: 20px;
+    background-color: rgb(104, 184, 250);
 }

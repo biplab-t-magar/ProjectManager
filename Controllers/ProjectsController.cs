@@ -23,6 +23,7 @@ namespace ProjectManager.Controllers
         private readonly ITasksRepo _tasksRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly ProjectMemberValidation _validation;
+        private readonly ProjectActivity _projectActivity;
 
         public ProjectsController(
             IProjectsRepo projectsRepo, 
@@ -30,16 +31,17 @@ namespace ProjectManager.Controllers
             ITaskTypesRepo taskTypesRepo,
             ITasksRepo tasksRepo,
             UserManager<AppUser> userManager, 
-            ProjectMemberValidation validation
+            ProjectMemberValidation validation,
+            ProjectActivity projectActivity
         )
         {
-
             _projectsRepo = projectsRepo;
             _usersRepo = usersRepo;
             _taskTypesRepo = taskTypesRepo;
             _tasksRepo = tasksRepo;
             _userManager = userManager;
             _validation = validation;
+            _projectActivity = projectActivity;
         }
 
         [HttpGet("{projectId}")]
@@ -704,7 +706,7 @@ namespace ProjectManager.Controllers
             //get the current user
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            //make sure the user who is making the request is a project administrator
+            //make sure the user who is making the request is a project member
             if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
             {
                 return Unauthorized();
@@ -722,6 +724,87 @@ namespace ProjectManager.Controllers
             _tasksRepo.SaveChanges();
 
             return Ok(taskComment);
+
+        }
+
+        [Authorize]
+        [HttpGet("{projectId}/user/{userId}/activity")]
+        public async Task<IActionResult> GetUserActivityInProject(int projectId, string userId)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project member
+            if(!_validation.userIsProjectMember(user.Id, projectId))
+            {
+                return Unauthorized();
+            }
+            
+            var userActivitiesInProject = _projectActivity.GenerateUserActivityInProject(projectId, userId);
+
+            if(userActivitiesInProject == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(userActivitiesInProject);
+
+        }
+
+        [Authorize]
+        [HttpGet("{projectId}/activity")]
+        public async Task<IActionResult> GetProjectActivity(int projectId)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project member
+            if(!_validation.userIsProjectMember(user.Id, projectId))
+            {
+                return Unauthorized();
+            }
+            
+            var projectActivities = _projectActivity.GenerateProjectActivity(projectId);
+
+            if(projectActivities == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(projectActivities);
+
+        }
+
+        [Authorize]
+        [HttpGet("{projectId}/activity/{num}")]
+        public async Task<IActionResult> GetProjectActivity(int projectId, int num)
+        {
+            //get the current user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //make sure the user who is making the request is a project member
+            if(!_validation.userIsProjectMember(user.Id, projectId))
+            {
+                return Unauthorized();
+            }
+            
+            var projectActivities = _projectActivity.GenerateProjectActivity(projectId);
+
+            if(projectActivities == null)
+            {
+                return NotFound();
+            }
+            
+            if(projectActivities.Count <= num) 
+            {
+                return Ok(projectActivities);
+            } 
+            else
+            {
+                //take only as many entries as specified in numOfTasks
+                projectActivities = projectActivities.GetRange(0, num);
+                return Ok(projectActivities); 
+            }
 
         }
 

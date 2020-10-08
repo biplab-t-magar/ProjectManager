@@ -58,6 +58,9 @@ const ProjectTasks = ({match}) => {
                 <Link to={`/projects/${projectInfo.projectId}/tasks/new`} >
                     <button type="button" className="btn btn-lg create-button create-button">+ Create New Task</button>
                 </Link>
+                <Link to={`/projects/${projectInfo.projectId}`} >
+                    <button type="button" className="btn btn-lg create-button cancel">Go back to Project</button>
+                </Link>
                 <div className="tasks-list">
                     {/*headers*/}
                     <div className="tasks-list-header task-list-row">

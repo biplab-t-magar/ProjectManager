@@ -53,12 +53,16 @@ namespace ProjectManager.Data.Services
             for(int i = 0; i < userTaskUpdates.Count; i++)
             {
                 updated = GetUpdatedAttributeAndValue(userTaskUpdates[i]);
-                if(updated.Count == 0)
+                if(updated == null)
                 {
-                    continue;
+                    activity = userFullName + " created a new task: " + GetTaskNameById(userTaskUpdates[i].TaskId);
                 }
-                activity = userFullName + " changed the " + updated[0] + " for " + 
+                else 
+                {
+                    activity = userFullName + " changed the " + updated[0] + " for " + 
                     GetTaskNameById(userTaskUpdates[i].TaskId) + " to " + updated[1];
+                }
+                
 
                 //create userActivity object
                 userActivities.Add(new UserActivity{
@@ -78,18 +82,25 @@ namespace ProjectManager.Data.Services
                 {
                     activity = userFullName + " assigned " + GetUserFullName(userTaskUserUpdates[i].AppUserId) 
                         + " to " + GetTaskNameById(userTaskUserUpdates[i].TaskId);
+                    //create userActivity object
+                    userActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = _tasksRepo.GetTaskById(userTaskUpdates[i].TaskId).ProjectId,
+                        TaskId=userTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) userTaskUserUpdates[i].TimeAdded
+                    });
                 } else 
                 {
                     activity = userFullName + " unassigned " + GetUserFullName(userTaskUserUpdates[i].AppUserId) 
                         + " from " + GetTaskNameById(userTaskUserUpdates[i].TaskId);
+                    //create userActivity object
+                    userActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = _tasksRepo.GetTaskById(userTaskUpdates[i].TaskId).ProjectId,
+                        TaskId=userTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) userTaskUserUpdates[i].TimeRemoved
+                    });
                 }
-                //create userActivity object
-                userActivities.Add(new UserActivity{
-                    Activity=activity,
-                    ProjectId = _tasksRepo.GetTaskById(userTaskUpdates[i].TaskId).ProjectId,
-                    TaskId=userTaskUserUpdates[i].TaskId,
-                    Time = (DateTime) userTaskUserUpdates[i].TimeAdded
-                });
             }
 
             //now sort the list of user activity by date
@@ -126,12 +137,16 @@ namespace ProjectManager.Data.Services
             for(int i = 0; i < projectTaskUpdates.Count; i++)
             {
                 updated = GetUpdatedAttributeAndValue(projectTaskUpdates[i]);
-                if(updated.Count == 0)
+                if(updated == null)
                 {
-                    continue;
+                    activity = GetUserFullName(projectTaskUpdates[i].UpdaterId) + " created a new task: " + GetTaskNameById(projectTaskUpdates[i].TaskId);
                 }
-                activity = GetUserFullName(projectTaskUpdates[i].UpdaterId) + " changed the " + updated[0] + " for " + 
+                else
+                {
+                    activity = GetUserFullName(projectTaskUpdates[i].UpdaterId) + " changed the " + updated[0] + " for " + 
                     GetTaskNameById(projectTaskUpdates[i].TaskId) + " to " + updated[1];
+                }
+                
 
                 //create userActivity object
                 projectActivities.Add(new UserActivity{
@@ -151,18 +166,27 @@ namespace ProjectManager.Data.Services
                 {
                     activity = GetUserFullName(projectTaskUserUpdates[i].UpdaterId) + " assigned " + GetUserFullName(projectTaskUserUpdates[i].AppUserId) 
                         + " to " + GetTaskNameById(projectTaskUserUpdates[i].TaskId);
+                    //create userActivity object
+                    projectActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = projectId,
+                        TaskId= projectTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) projectTaskUserUpdates[i].TimeAdded
+                    });
                 } else 
                 {
                     activity = GetUserFullName(projectTaskUserUpdates[i].UpdaterId) + " unassigned " + GetUserFullName(projectTaskUserUpdates[i].AppUserId) 
                         + " from " + GetTaskNameById(projectTaskUserUpdates[i].TaskId);
+
+                    //create userActivity object
+                    projectActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = projectId,
+                        TaskId= projectTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) projectTaskUserUpdates[i].TimeRemoved
+                    });
                 }
-                //create userActivity object
-                projectActivities.Add(new UserActivity{
-                    Activity=activity,
-                    ProjectId = projectId,
-                    TaskId= projectTaskUserUpdates[i].TaskId,
-                    Time = (DateTime) projectTaskUserUpdates[i].TimeAdded
-                });
+                
             }
 
             //now sort the list of user activity by date
@@ -200,12 +224,15 @@ namespace ProjectManager.Data.Services
             for(int i = 0; i < projectUserTaskUpdates.Count; i++)
             {
                 updated = GetUpdatedAttributeAndValue(projectUserTaskUpdates[i]);
-                if(updated.Count == 0)
+                if(updated == null)
                 {
-                    continue;
-                }
-                activity = userFullName + " changed the " + updated[0] + " for " + 
+                    activity = userFullName + " created a new task: " + GetTaskNameById(projectUserTaskUpdates[i].TaskId);
+                } else 
+                {
+                    activity = userFullName + " changed the " + updated[0] + " for " + 
                     GetTaskNameById(projectUserTaskUpdates[i].TaskId) + " to " + updated[1];
+                }
+                
 
                 //create userActivity object
                 projectUserActivities.Add(new UserActivity{
@@ -225,18 +252,27 @@ namespace ProjectManager.Data.Services
                 {
                     activity = userFullName + " assigned " + GetUserFullName(projectUserTaskUserUpdates[i].AppUserId) 
                         + " to " + GetTaskNameById(projectUserTaskUserUpdates[i].TaskId);
+                    //create userActivity object
+                    projectUserActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = projectId,
+                        TaskId=projectUserTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) projectUserTaskUserUpdates[i].TimeAdded
+                    });
                 } else 
                 {
                     activity = userFullName + " unassigned " + GetUserFullName(projectUserTaskUserUpdates[i].AppUserId) 
                         + " from " + GetTaskNameById(projectUserTaskUserUpdates[i].TaskId);
+
+                    //create userActivity object
+                    projectUserActivities.Add(new UserActivity{
+                        Activity=activity,
+                        ProjectId = projectId,
+                        TaskId=projectUserTaskUserUpdates[i].TaskId,
+                        Time = (DateTime) projectUserTaskUserUpdates[i].TimeRemoved
+                    });
                 }
-                //create userActivity object
-                projectUserActivities.Add(new UserActivity{
-                    Activity=activity,
-                    ProjectId = projectId,
-                    TaskId=projectUserTaskUserUpdates[i].TaskId,
-                    Time = (DateTime) projectUserTaskUserUpdates[i].TimeAdded
-                });
+                
             }
 
             //sort in descending order of time
@@ -267,7 +303,9 @@ namespace ProjectManager.Data.Services
             {
                 updated.Add("task type");
                 updated.Add(_taskTypesRepo.GetTaskTypeById((int)taskUpdate.TaskTypeId).Name);
-            } 
+            } else {
+                updated = null;
+            }
             return updated;
         }
 

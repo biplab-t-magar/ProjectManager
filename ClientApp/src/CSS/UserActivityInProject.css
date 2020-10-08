@@ -1,0 +1,24 @@
+.user-activity-in-project .user-activity-in-project-row{
+    padding: 10px;
+    background-color: rgb(228, 228, 228);
+    border-radius: 4px;
+    margin-bottom: 3px; 
+    min-height: 50px;
+}
+.user-activity-in-project .user-activity-in-project-row:hover{
+    background-color: rgb(179, 175, 175);
+}
+
+.user-activity-in-project .user-activity-in-project-header{
+    padding: 10px;
+    font-size: xx-large;
+    background-color: rgb(192, 207, 202);
+}
+
+
+.user-activity-in-project a  {
+    text-decoration: none;
+    color: black;
+    margin: 0; 
+}
+

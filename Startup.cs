@@ -81,6 +81,7 @@ namespace ProjectManager
             services.AddScoped<ITasksRepo, SqlTasksRepo>();
             services.AddScoped<ITaskTypesRepo, SqlTaskTypesRepo>();
             services.AddScoped<ProjectMemberValidation>();
+            services.AddScoped<ProjectActivity>();
             services.AddHttpContextAccessor();  
 
         }

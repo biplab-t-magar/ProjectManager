@@ -24,17 +24,5 @@ export  const NavBarItems = [
         icon: <GoTasklist />,
         className: 'nav-text'
     }, 
-    {
-        title: 'Reports',
-        path: '/reports',
-        icon: <HiDocumentReport />,
-        className: 'nav-text',
-    }, 
-    {
-        title: 'Profile',
-        path: '/profile',
-        icon: <GiEgyptianProfile />,
-        className: 'nav-text'
-    }
     
 ]

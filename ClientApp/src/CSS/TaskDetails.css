@@ -8,6 +8,7 @@
     border-radius: 7px;
     border: solid 1px lightgray;
     color: #666666;
+    width: 500px;
 }
 
 .task-details .details {

@@ -6,6 +6,7 @@ import "../CSS/ProjectDetails.css";
 import ConvertDate from '../Utilities/ConvertDate';
 import ConvertTime from '../Utilities/ConvertTime';
 import CheckAuthentication from '../Utilities/CheckAuthentication';
+import LoadingSpinner from '../Utilities/LoadingSpinner';
 
 
 const ProjectDetails = ({match}) => {
@@ -15,15 +16,19 @@ const ProjectDetails = ({match}) => {
     const [recentProjectTasks, setRecentProjectTasks] = useState([]);
     const [projectTaskTypes, setProjectTaskTypes] = useState([]);
     const [currentUserRole, setCurrentUserRole]= useState("");
+    const [projectActivities, setProjectActivities] = useState([]);
+    const [contentLoaded, setContentLoaded] = useState(false);
 
     useEffect(() => {
         CheckAuthentication();
+        fetchProjectActivity();
         getCurrentUserRole();
         fetchProjectData();
         fetchUserData();
         fetchRecentProjectTasks();
         fetchTaskTypes();
     }, []);
+
 
     const getCurrentUserRole = async () => {
         const res = await fetch(`/user/${match.params.projectId}/user-role`);
@@ -58,6 +63,13 @@ const ProjectDetails = ({match}) => {
         const data = await res.json();
         setRecentProjectTasks(data);
     };
+
+    const fetchProjectActivity = async () => {
+        const response = await fetch(`/project/${match.params.projectId}/activity/10`);
+        const data = await response.json();
+        setProjectActivities(data);
+        setContentLoaded(true);
+    }
 
     const fetchTaskTypes = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task-types`);
@@ -133,7 +145,6 @@ const ProjectDetails = ({match}) => {
                     </div>
                 </div>
 
-                <button type="button" className="btn btn-lg create-button">View Project Activity</button>
                 
                 {/* Show this option only to the administrator */}
                 {currentUserRole == "Administrator" ? 
@@ -175,7 +186,7 @@ const ProjectDetails = ({match}) => {
                     <div className="recent-tasks subsection">
                         <div className="subsection-row subsection-header">
                             Recent Tasks
-                            <Link to={`/projects/${match.params.projectId}/tasks`}>
+                            <Link to={`/projects/${match.params.projectId}/tasks`} className="view-and-manage-tasks">
                                 View And Manage Tasks
                             </Link>
                         </div>
@@ -184,6 +195,28 @@ const ProjectDetails = ({match}) => {
                                 return(renderRecentProjectTask(task));
                             })}
                         </ul>
+                    </div>
+                    <div className="recent-activities subsection">
+                        <div className="subsection-row subsection-header">
+                            Recent Project Activities
+                            <Link to={`/projects/${match.params.projectId}/activities`}>
+                                View All Project Activities
+                            </Link>
+                        </div>
+                        <div>
+                            {contentLoaded ? projectActivities.map((activity, index) => {
+                                return(
+                                    <Link to={`/projects/${activity.projectId}/task/${activity.taskId}`}>
+                                        <div className="project-activity" key={index}>
+                                            {activity.activity}
+                                        </div>
+                                    </Link>
+                                );
+                            })
+                            :
+                            <div className="spinner"><LoadingSpinner/></div>
+                        }
+                        </div> 
                     </div>
                 </div>
 
