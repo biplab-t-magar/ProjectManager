@@ -3,7 +3,7 @@ This file contains the TaskComment class.
 The TaskComment class is one of the Model classes used by the ProjectManager web application. Each model in the application represents one entity 
 in the application. This entity is used in the client side, on the server side, and is also used to define and create database schemes and relationships.
 
-The TaskComment class represents a comment made on a task by a user in the ProjectManager web application. 
+The TaskType class represents a category of tasks defined by an administrator in a project.
 */
 
 using System.Collections.Generic;

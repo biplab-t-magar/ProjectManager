@@ -3,7 +3,7 @@ This file contains the ProjectInvitation class.
 The ProjectInvitation class is one of the Model classes used by the ProjectManager web application. Each model in the application represents one entity 
 in the application. This entity is used in the client side, on the server side, and is also used to define and create database schemes and relationships.
 
-The ProjectManager class represents a invitation to a project by one AppUser to another in the ProjectManager web application. 
+The ProjectInvitation class represents a invitation to a project by one AppUser to another in the ProjectManager web application. 
 */
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
