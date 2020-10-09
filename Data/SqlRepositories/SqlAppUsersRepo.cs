@@ -40,6 +40,25 @@ namespace ProjectManager.Data.SqlRepositories
             _context = context;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      CreateUserProject - creates a new project for the user, making him/her an administrator for the project
+        * SYNOPSIS:
+                CreateUserProject(Project project, AppUser user)
+        *           project --> the Projectobject representing the project to be added 
+                    user --> the object representing the user who is creating the project
+        * DESCRIPTION:
+                Accesses the database context in order to add a new Project entry to the database. It also adds a ProjectUser entry
+                    that describes the relationship of the user the newly created project
+        * RETURNS
+                the Project object that was added
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/21/2020 
+        * /
+        /**/
         public Project CreateUserProject(Project project, AppUser user)
         {
             if(project == null)
@@ -68,11 +87,45 @@ namespace ProjectManager.Data.SqlRepositories
             return project;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserById - gets the AppUser entry associated with the given id
+        * SYNOPSIS:
+                GetUserById(string userId)
+        *           userId --> the id of the user whose entry is to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the user entry with the given id
+        * RETURNS
+                the User object with the given id
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/06/2020 
+        * /
+        /**/
         public AppUser GetUserById(string userId)
         {
             return _context.AppUsers.Find(userId);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserByUserName - gets the AppUser entry associated with the given username
+        * SYNOPSIS:
+                GetUserByUserName(string userName)
+        *           userName --> the username of the user whose entry is to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the user entry with the given username
+        * RETURNS
+                the User object with the given user name
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/06/2020 
+        * /
+        /**/
         public AppUser GetUserByUserName(string userName)
         {
             var user = _context.AppUsers.Where(u => u.UserName == userName).ToList();
@@ -84,11 +137,45 @@ namespace ProjectManager.Data.SqlRepositories
             return user[0];
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectInvitations - gets the list of all ProjectInvitation entries where the given user is an invitee
+        * SYNOPSIS:
+                GetUserProjectInvitations(string userId)
+        *           userId --> the id of the user whose project invitations are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all project invitation where the given user is an invitee
+        * RETURNS
+                the list of all ProjectInvitation objects where the given user is an invitee
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/21/2020 
+        * /
+        /**/
         public List<ProjectInvitation> GetUserProjectInvitations(string userId)
         {
             return _context.ProjectInvitations.Where(pi => pi.InviteeId == userId).ToList();
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectInviters - gets the list of all users who have invited the given user to projects
+        * SYNOPSIS:
+                GetUserProjectInviters(string userId)
+        *           userId --> the id of the user whose project invitaters are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all users who have invited the given user is a project
+        * RETURNS
+                the list of all AppUser objects who have invited the given user to a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/21/2020 
+        * /
+        /**/
         public List<AppUser> GetUserProjectInviters(string userId)
         {
             //first, get all the project invitations for the user
@@ -107,6 +194,23 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjects - gets the list of all project associated with a user
+        * SYNOPSIS:
+                GetUserProjects(string userId)
+        *           userId --> the id of the user whose projects are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all projects a user is involved in
+        * RETURNS
+                the list of all Project objects associated with a user
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/21/2020 
+        * /
+        /**/
         public List<Project> GetUserProjects(string userId)
         {
             //first get all the ProjectUser entries that are paired with the given user id
@@ -125,6 +229,24 @@ namespace ProjectManager.Data.SqlRepositories
             return projects;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectsInvitedTo - gets the list of all projects a user has been invited to
+        * SYNOPSIS:
+                GetUserProjectsInvitedTo(string userId)
+        *           userId --> the id of the user
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all projects to which the given user
+                    has been invited to
+        * RETURNS
+                the list of all Project objects a user has been invited to
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/21/2020 
+        * /
+        /**/
         public List<Project> GetUserProjectsInvitedTo(string userId)
         {
             //first, get all the project invitations for the user
@@ -132,7 +254,7 @@ namespace ProjectManager.Data.SqlRepositories
 
             List<Project> projectsInvitedTo = new List<Project>();
 
-            //now, collect a list of all the AppUser objects corresponding to the InviterId of the project invitations
+            //now, collect a list of all the Project objects corresponding to the project invitations
             for(int i = 0; i < projectInvitations.Count; i++)
             {
                 projectsInvitedTo.Add(_context.Projects.Find(projectInvitations[i].ProjectId));
@@ -141,6 +263,23 @@ namespace ProjectManager.Data.SqlRepositories
             return projectsInvitedTo;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserTasks - gets the list of all tasks assigned to a user
+        * SYNOPSIS:
+                GetUserTasks(string userId)
+        *           userId --> the id of the user
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all the tasks to which a user has been assigned
+        * RETURNS
+                the list of all Task objects a user has been assigned to
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/06/2020 
+        * /
+        /**/
         public List<Task> GetUserTasks(string userId)
         {
             //first get all the TaskUser entries that are paired with the given user id
@@ -159,60 +298,24 @@ namespace ProjectManager.Data.SqlRepositories
             return tasks;
         }
 
-        public List<Task> GetUserTasksByTaskStatus(string userId, string taskStatus)
-        {
-            //first get all the task entries that are paried with the given user id and taskStatus
-            List<Task> tasks = GetUserTasks(userId);
 
-            //now, output only those tasks that have the given taskStatus
-            List<Task> tasksBytaskStatus = new List<Task>();
-
-            for(int i = 0; i < tasks.Count; i++)
-            {
-                if(tasks[i].TaskStatus == taskStatus)
-                {
-                    tasksBytaskStatus.Add(tasks[i]);
-                }
-            }
-            return tasksBytaskStatus;
-        }
-
-        public List<Task> GetUserTasksByTaskType(string userId, int taskTypeId)
-        {
-            //first get all the task entries that are paried with the given user id and taskStatus
-            List<Task> tasks = GetUserTasks(userId);
-
-            //now, output only those tasks that have the given task type
-            List<Task> tasksBytaskType = new List<Task>();
-
-            for(int i = 0; i < tasks.Count; i++)
-            {
-                if(tasks[i].TaskTypeId == taskTypeId)
-                {
-                    tasksBytaskType.Add(tasks[i]);
-                }
-            }
-            return tasksBytaskType;
-        }
-
-        public List<Task> GetUserTasksByUrgency(string userId, string urgency)
-        {
-            //first get all the task entries that are paried with the given user id and taskStatus
-            List<Task> tasks = GetUserTasks(userId);
-
-            //now, output only those tasks that have the given task type
-            List<Task> tasksByUrgency = new List<Task>();
-
-            for(int i = 0; i < tasks.Count; i++)
-            {
-                if(tasks[i].Urgency == urgency)
-                {
-                    tasksByUrgency.Add(tasks[i]);
-                }
-            }
-            return tasksByUrgency;
-        }
-
+        /**/
+        /*
+        * NAME:
+        *      UpdateUser - updates a AppUser entry in the database using the given  App User object
+        * SYNOPSIS:
+                UpdateUser(AppUser user)
+        *           user --> the AppUser object with the updated attributes
+        * DESCRIPTION:
+                Accesses the database context in order to replace the old AppUser entry with the updated one
+        * RETURNS
+                the updated AppUser entry
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/29/2020 
+        * /
+        /**/
         public AppUser UpdateUser(AppUser user)
         {
             if(user == null)
@@ -227,23 +330,91 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
-
+        /**/
+        /*
+        * NAME:
+        *      GetUserRoleInProject - gets the role of a user in a project
+        * SYNOPSIS:
+                GetUserRoleInProject(string userId, int projectId)
+        *           userId --> the id of the user 
+                    projectId --> the id of the project
+        * DESCRIPTION:
+                Accesses the database context in order to get the ProjectUser entry for the given project and user and returns it
+        * RETURNS
+                the ProjectUser object representing the project-relationship
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/29/2020 
+        * /
+        /**/
         public ProjectUser GetUserRoleInProject(string userId, int projectId)
         {
             return _context.ProjectUsers.Find(projectId, userId);
         }
 
-       
+
+        /**/
+        /*
+        * NAME:
+        *      GetCommentsByUser - gets the list of all the comments by a user
+        * SYNOPSIS:
+                GetCommentsByUser(string userId)
+        *           userId --> the id of the user 
+        * DESCRIPTION:
+                Accesses the database context in order to get the all the TaskComment entries associated with the given user
+        * RETURNS
+                the list of all TaskComment objects associated with the given user
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/       
         public List<TaskComment> GetCommentsByUser(string userId)
         {
             return _context.TaskComments.Where(tc => tc.AppUserId == userId).ToList();
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskUpdatesByUpdater - gets the list of all the TaskUpdate entries where the given user is the updater
+        * SYNOPSIS:
+                GetTaskUpdatesByUpdater(string updaterId)
+        *           updaterId --> the id of the user who carried out the task updates
+        * DESCRIPTION:
+                Accesses the database context in order to get the all the TaskUpdate entries associated with the given user
+        * RETURNS
+                the list of all TaskUpdate objects where the given user is the updater
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/  
         public List<TaskUpdate> GetTaskUpdatesByUpdater(string updaterId)
         {
             return _context.TaskUpdates.Where(tu => tu.UpdaterId == updaterId).ToList();
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskUserUpdatesByUpdater - gets the list of all the TaskUserUpdate entries where the given user is the updater
+        * SYNOPSIS:
+                GetTaskUserUpdatesByUpdater(string updaterId)
+        *           updaterId --> the id of the user who carried out the task user updates
+        * DESCRIPTION:
+                Accesses the database context in order to get the all the TaskUserUpdate entries associated with the given user
+        * RETURNS
+                the list of all TaskUserUpdate objects where the given user is the updater
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/ 
         public List<TaskUserUpdate> GetTaskUserUpdatesByUpdater(string updaterId)
         {
             return _context.TaskUserUpdates.Where(tuu => tuu.UpdaterId == updaterId).ToList();

@@ -19,8 +19,12 @@ namespace ProjectManager.Models
         //the id of the project to which the user is invited
         [Required]
         public int ProjectId {get; set;}
+
+        //the id of the user who is inviting
         [Required]
         public string InviterId {get; set;}
+
+        //the id of the user who is invited
         [Required]
         public string InviteeId {get; set;}
         

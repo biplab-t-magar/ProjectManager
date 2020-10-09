@@ -136,6 +136,23 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.TaskTypes.Where(tt => tt.ProjectId == projectId).ToList();
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectUsers - gets the list of all the users in the project
+        * SYNOPSIS:
+                GetProjectUsers(int projectId)
+        *           projectId --> the id of the project whose list of users is to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of users in the given project
+        * RETURNS
+                The list of AppUser objects of a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<AppUser> GetProjectUsers(int projectId)
         {
             //first get all the ProjectUser entries that are paired with the given project id
@@ -154,6 +171,23 @@ namespace ProjectManager.Data.SqlRepositories
             return users;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectUserRoles - gets the list of all the ProjectUser entries asociated with a project
+        * SYNOPSIS:
+                GetProjectUserRoles(int projectId)
+        *           projectId --> the id of the project whose list of project-users relationships is to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of ProjectUsers entries associated with the given projet
+        * RETURNS
+                The list of ProjectUser objects of a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<ProjectUser> GetProjectUserRoles(int projectId)
         {
             var projectUsers = _context.ProjectUsers.Where(pu => pu.ProjectId == projectId).ToList();
@@ -163,6 +197,23 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskUpdatesByProject - gets the list of all the TaskUpdate entries asociated with a project
+        * SYNOPSIS:
+                GetTaskUpdatesByProject(int projectId)
+        *           projectId --> the id of the project whose task updates are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of TaskUpdate entries associated with the given projet
+        * RETURNS
+                The list of TaskUpdate objects of a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<TaskUpdate> GetTaskUpdatesByProject(int projectId)
         {
             //first, get all the tasks in a project
@@ -179,6 +230,24 @@ namespace ProjectManager.Data.SqlRepositories
             return taskUpdates;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectTasks - gets the list of all the tasks assigned to a user in the given project
+        * SYNOPSIS:
+                GetUserProjectTasks(int projectId, string userId)
+        *           projectId --> the id of the project whose user tasks are to be returned
+                    userId --> the id of the user whose tasks in the project are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of Task entries associated with the given project
+        * RETURNS
+                The list of TaskUpdate objects of a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<Task> GetUserProjectTasks(int projectId, string userId)
         {
             //first, get all the tasks by the given user
@@ -199,6 +268,23 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      AddUserToProject - adds a user to a project
+        * SYNOPSIS:
+                AddUserToProject(ProjectUser projectUser)
+        *           projectUser --> the ProjectUser object that represents the project-user relationship
+        * DESCRIPTION:
+                Accesses the database context in order to add the ProjectUser entry representing the user's 
+                    membership in the project
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public void AddUserToProject(ProjectUser projectUser)
         {
             if(projectUser == null) 
@@ -209,6 +295,25 @@ namespace ProjectManager.Data.SqlRepositories
             _context.Add(projectUser);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      UpdateProject - update a Project entry in the database
+        * SYNOPSIS:
+                UpdateProject(Project project)
+        *           project --> the updated Project object 
+        * DESCRIPTION:
+                Accesses the database context in order to find and update the Project entry whose projectId attribute 
+                    matches the id in the given Project object. The attribute values in the new Project object replaces 
+                    the previous attribute values in the database
+        * RETURNS
+                The object representing the updated project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public Project UpdateProject(Project project)
         {
             if(project == null) 
@@ -222,12 +327,25 @@ namespace ProjectManager.Data.SqlRepositories
 
             _context.Entry(projectToUpdate).CurrentValues.SetValues(project);
 
-            // _context.Attach(project);
-            // _context.Entry(project).Property("Name").IsModified = true;
-            // _context.Entry(project).Property("Description").IsModified = true;
             return project;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      AddProjectInvite - adds a ProjectInvitatoin object to the database
+        * SYNOPSIS:
+                AddProjectInvite(ProjectInvitation projectInvitation)
+        *           projectInvitation --> the projectInvitation object to be added to the database as an entry
+        * DESCRIPTION:
+                Accesses the database context in order to add the given ProjectInvitation entry
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public void AddProjectInvite(ProjectInvitation projectInvitation)
         {
             if(projectInvitation == null)
@@ -238,6 +356,22 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      DeleteProject - deletes a Project entry from the database
+        * SYNOPSIS:
+                DeleteProject(int projectId)
+        *           projectId --> the id of the project to be deleted
+        * DESCRIPTION:
+                Accesses the database context in order to remove the Project entry associated with the given projectId
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public void DeleteProject(int projectId)
         {
             var project = GetProjectById(projectId);
@@ -245,13 +379,46 @@ namespace ProjectManager.Data.SqlRepositories
         }
 
 
-
+        /**/
+        /*
+        * NAME:
+        *      GetProjectInvitations - gets the list of all the proejct invitations associated with a project
+        * SYNOPSIS:
+                GetProjectInvitations(int projectId)
+        *           projectId --> the id of the project to be deleted
+        * DESCRIPTION:
+                Accesses the database context in order to find and return the list of all ProjectInvitation entries associated with the project
+        * RETURNS
+                A list of all the ProjectInvitaton objects associated with the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         public List<ProjectInvitation> GetProjectInvitations(int projectId)
         {
             var projectInvitations = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId).ToList();
             return projectInvitations;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectInvitees - gets the list of all the proejct invitees associated with a project
+        * SYNOPSIS:
+                GetProjectInvitees(int projectId)
+        *           projectId --> the id of the project whose invitees are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the invitees associated with the given project
+        * RETURNS
+                A list of all the ProjectInvitaton objects associated with the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         public List<AppUser> GetProjectInvitees(int projectId)
         {
             var projectInvitations = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId).ToList();
@@ -266,6 +433,24 @@ namespace ProjectManager.Data.SqlRepositories
             return users;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      DeleteProjectInvite - deletes a project invite send to a user
+        * SYNOPSIS:
+                DeleteProjectInvite(int projectId, string inviteeId)
+        *           projectId --> the id of the project 
+                    inviteeId --> the id of the user who was invited
+        * DESCRIPTION:
+                Accesses the database context in order to delete the ProjectInvitation entry for the project and the user
+        * RETURNS
+                True if deletion was successful, false otherwise
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         public bool DeleteProjectInvite(int projectId, string inviteeId)
         {
             var projectInvitation = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId && pi.InviteeId == inviteeId).ToList();
@@ -278,6 +463,24 @@ namespace ProjectManager.Data.SqlRepositories
             
         }
 
+        /**/
+        /*
+        * NAME:
+        *      HasUserBeenInvited - checks whether a user has already been invited to a project
+        * SYNOPSIS:
+                HasUserBeenInvited(int projectId, string userId)
+        *           projectId --> the id of the project 
+                    inviteeId --> the id of the user 
+        * DESCRIPTION:
+                Accesses the database context in order to find out whether a ProjectInvitation entry exists for the user and the project
+        * RETURNS
+                true if a ProjectInvitation entry exists, false otherwise
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/15/2020 
+        * /
+        /**/
         public bool HasUserBeenInvited(int projectId, string userId)
         {
             var userInvites = _context.ProjectInvitations.Where(pi => pi.ProjectId == projectId && pi.InviteeId == userId).ToList();
@@ -289,6 +492,24 @@ namespace ProjectManager.Data.SqlRepositories
             
         }
 
+        /**/
+        /*
+        * NAME:
+        *      SetProjectUserRole - sets the role of a project user to the given value
+        * SYNOPSIS:
+                SetProjectUserRole(ProjectUser projectUser, string role)
+        *           projectUser --> the ProjectUser entry representing the relationship between a user and the project
+                    role --> the role of the user in the project
+        * DESCRIPTION:
+                Accesses the database context in order to set the role of a user in a project to the specified role
+        * RETURNS
+                the ProjectUser entry with the updated role
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/15/2020 
+        * /
+        /**/
         public ProjectUser SetProjectUserRole(ProjectUser projectUser, string role)
         {
 
@@ -308,6 +529,25 @@ namespace ProjectManager.Data.SqlRepositories
             return projectUser;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      CreateTask - adds a task entry to the database
+        * SYNOPSIS:
+                CreateTask(Task task, string creatorId)
+        *           task --> the task to be added 
+                    creatorId --> the id of the user who created the task
+        * DESCRIPTION:
+                Accesses the database context in order to add a new task entry. It also adds a TaskUpdate object
+                    that describes the creation of the Task, so the web application can keep track of all the created tasks
+        * RETURNS
+                the Task object that was added
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/15/2020 
+        * /
+        /**/
         public Task CreateTask(Task task, string creatorId)
         {
             if(task == null)
@@ -332,7 +572,24 @@ namespace ProjectManager.Data.SqlRepositories
         }
 
         
-
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTaskComments - gets all the task comments associated with a project
+        * SYNOPSIS:
+                GetProjectTaskComments(int projectId)
+        *           projectId --> the id of the project whose task comments are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the TaskComment entries in the database
+                    associated with the given projecct
+        * RETURNS
+                the list of TaskComment objects associated with the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/18/2020 
+        * /
+        /**/
         public List<TaskComment> GetProjectTaskComments(int projectId)
         {
             //first, get all the tasks in a project
@@ -351,6 +608,25 @@ namespace ProjectManager.Data.SqlRepositories
             return projectTaskComments;
         }
 
+         /**/
+        /*
+        * NAME:
+        *      GetProjectTaskCommentsByUser - gets all the task comments by a user in a project
+        * SYNOPSIS:
+                GetProjectTaskCommentsByUser(int projectId, string userId)
+        *           projectId --> the id of the project whose user's task comments are to be returned
+                    userId --> the id of the user whose task comments in the project are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the TaskComment entries in the database
+                    associated with the given project and the given user
+        * RETURNS
+                the list of TaskComment objects associated with the given project and user
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/18/2020 
+        * /
+        /**/
         public List<TaskComment> GetProjectTaskCommentsByUser(int projectId, string userId)
         {
             //first, get all the task comments in a project
@@ -371,6 +647,25 @@ namespace ProjectManager.Data.SqlRepositories
             return projectTaskCommentsByUser;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskUpdatesByUpdaterInProject - gets all the task updates instigated by a user in a project
+        * SYNOPSIS:
+                GetTaskUpdatesByUpdaterInProject(int projectId, string userId)
+        *           projectId --> the id of the relevant project
+                    updaterId --> the id of the user who carried out the updates
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the task updates by the specified user
+                    in the specified project
+        * RETURNS
+                the list of TaskUpdate objects associated with the given user and the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/18/2020 
+        * /
+        /**/
         public List<TaskUpdate> GetTaskUpdatesByUpdaterInProject(int projectId, string updaterId)
         {
             //first, get all the task updates in the project
@@ -391,6 +686,24 @@ namespace ProjectManager.Data.SqlRepositories
             return projectTaskUpdatesByUser;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTaskUserUpdates - gets all the task user updates in a project
+        * SYNOPSIS:
+                GetProjectTaskUserUpdates(int projectId)
+        *           projectId --> the id of the relevant project
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the task user updated associated with the given
+                    project
+        * RETURNS
+                the list of TaskUserUpdate objects associated with the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/18/2020 
+        * /
+        /**/
         public List<TaskUserUpdate> GetProjectTaskUserUpdates(int projectId)
         {
             //get all the tasks in the project
@@ -407,6 +720,25 @@ namespace ProjectManager.Data.SqlRepositories
             return projectTaskUserUpdates;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTaskUserUpdatesByUpdater - gets all the task user updates instigated by a user in a project
+        * SYNOPSIS:
+                GetProjectTaskUserUpdatesByUpdater(int projectId, string updaterId)
+        *           projectId --> the id of the relevant project
+                    updaterId --> the id of the user who carried out the updates
+        * DESCRIPTION:
+                Accesses the database context in order to find and return all the task user updates by the specified user
+                    in the specified project
+        * RETURNS
+                the list of TaskUserUpdate objects associated with the given user and the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/18/2020 
+        * /
+        /**/
         public List<TaskUserUpdate> GetProjectTaskUserUpdatesByUpdater(int projectId, string updaterId)
         {
             //get all the task user updates in the project

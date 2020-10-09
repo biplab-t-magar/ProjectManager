@@ -9,7 +9,9 @@ namespace ProjectManager.Data.Services
 {
     public class ProjectMemberValidation
     {
+        //a database context object needed to access the database and check for user's association to projects
         private readonly ProjectManagerContext _context;
+
 
         public ProjectMemberValidation(ProjectManagerContext context)
         {

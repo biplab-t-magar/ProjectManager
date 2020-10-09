@@ -22,15 +22,10 @@ namespace ProjectManager.Data.Interfaces
 
         List<Task> GetUserTasks(string userId);
 
-        List<Task> GetUserTasksByTaskStatus(string userId, string taskStatus);
-        List<Task> GetUserTasksByUrgency(string userId, string urgency);
-        List<Task> GetUserTasksByTaskType(string userId, int taskTypeId);
 
         List<TaskUpdate> GetTaskUpdatesByUpdater(string updaterId);
         List<TaskUserUpdate> GetTaskUserUpdatesByUpdater(string updaterId);
-        // List<TaskUserUpdate> GetTaskUserUpdatesForUser(int projectId, int taskId, int userId);
 
-        // AppUser GetUser
         Project CreateUserProject(Project project, AppUser user);
 
         List<ProjectInvitation> GetUserProjectInvitations(string userId);
