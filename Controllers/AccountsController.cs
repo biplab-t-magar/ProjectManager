@@ -47,7 +47,23 @@ namespace ProjectManager.Controllers
             _signInManager = signInManager;
         }
 
-        //simply returns status code 200 if the user is already athurized, returns 401 if not
+
+        /**/
+        /*
+        * NAME:
+        *      Index
+        * SYNOPSIS:
+                Index()
+        * DESCRIPTION:
+                This function simply returns HTTP status code 200 if the user is already authorized, returns 401 if not
+        * RETURNS
+                an HTTP response signalling success or unauthorized
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        */
+        /**/
         public IActionResult Index()
         {
             if(User.Identity.IsAuthenticated)
@@ -60,7 +76,25 @@ namespace ProjectManager.Controllers
             }
         }
 
-
+        /**/
+        /*
+        * NAME:
+        *      LogIn
+        * SYNOPSIS:
+                LogIn(RegisterUserModel rUser)
+                    rUser --> an instance of the RegisterUserModel class, which holds the information on the user that has
+                            registered for a ProjectManager account
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the RegisterUserModel object from the post request
+                    body, and then uses the values stores in the objet to sign the user in
+        * RETURNS
+                an HTTP response signalling success or failure
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        */
+        /**/
         [HttpPost("login")]
         public async Task<IActionResult> LogIn([FromBody]RegisterUserModel rUser)
         {
@@ -85,6 +119,22 @@ namespace ProjectManager.Controllers
             }
         }
 
+        /**/
+        /*
+        * NAME:
+        *      LogOut
+        * SYNOPSIS:
+                LogOut()
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and signs the user out
+        * RETURNS
+                an HTTP response signalling success 
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        */
+        /**/
         [HttpGet("logout")]
         public async Task<IActionResult> LogOut()
         {
@@ -92,6 +142,26 @@ namespace ProjectManager.Controllers
             await _signInManager.SignOutAsync();
             return Ok();
         }
+
+        /**/
+        /*
+        * NAME:
+        *      Register
+        * SYNOPSIS:
+                Register(RegisterUserModel rUser)
+                    rUser --> an instance of the RegisterUserModel class, which holds the information on the user that has
+                            registered for a ProjectManager account
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the RegisterUserModel object from the post request
+                    body, and then uses the object to create a user account, and then sign the user in
+        * RETURNS
+                an HTTP response signalling success or failure
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        */
+        /**/
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserModel rUser)
