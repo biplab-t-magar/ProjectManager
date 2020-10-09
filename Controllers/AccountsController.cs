@@ -22,6 +22,25 @@ namespace ProjectManager.Controllers
         //the manager for handling signing in and out for users
         private readonly SignInManager<AppUser> _signInManager;
 
+        /**/
+        /*
+        * NAME:
+        *      AccountsController - constructor for the AccountsController class
+        * SYNOPSIS:
+                AccountsController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+                    userManager --> an instance of the UserManager class, which is a class provided by Asp.Net Core Identity to handle
+                                    use registration and retrieval
+                    signInManager --> an instance of the SignInManager class, which is a class provided by Asp.Net Core Identity to handle
+                                    user sign in         
+        * DESCRIPTION:
+                Initializes the AccountsController class
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        * /
+        /**/
         public AccountsController (UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;

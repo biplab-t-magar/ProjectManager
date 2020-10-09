@@ -14,11 +14,34 @@ namespace ProjectManager.Data.Services
 {
     public class ProjectActivity
     {
+        //the ProjectManager application tasks repository
         private readonly ITasksRepo _tasksRepo;
+        //the ProjectManager application users repository
         private readonly IAppUsersRepo _usersRepo;
+        //the ProjectManager application projects repository
         private readonly IProjectsRepo _projectsRepo;
+        //the ProjectManager application task types repository
         private readonly ITaskTypesRepo _taskTypesRepo;
 
+        /**/
+        /*
+        * NAME:
+        *      ProjectActivity - constructor for the ProjectActivity class
+        * SYNOPSIS:
+                ProjectActivity(ITasksRepo tasksRepo, IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, ITaskTypesRepo taskTypesRepo)
+        *           tasksRepo --> the ProjectManager application tasks repository that is injected as a dependency injection
+                    usersRepo --> the ProjectManager application users repository that is injected as a dependency injection
+                    projectsRepo --> the ProjectManager application projects repository that is injected as a dependency injection
+                    taskTypesRepo --> the ProjectManager application taskTypes repository that is injected as a dependency injection
+        * DESCRIPTION:
+                Initializes the ProjectActivity class
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         public ProjectActivity(ITasksRepo tasksRepo, IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, ITaskTypesRepo taskTypesRepo)
         {
             _tasksRepo = tasksRepo;
@@ -27,6 +50,25 @@ namespace ProjectManager.Data.Services
             _taskTypesRepo = taskTypesRepo;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GenerateUserActivity - generates UserActivity objects for the given user
+        * SYNOPSIS:
+                GenerateUserActivity(string userId)
+        *           userId --> the id of the user whose activities are to be generated
+        * DESCRIPTION:
+                This function goes through the database and extracts all the TaskComment, TaskUpdate, and TaskUserUpdate entries
+                    associated with the given user, and it interprests those entries to generate descriptions of all the user's activites
+                    in the form of a list of UserActivity objects
+        * RETURNS
+                a List of the UserActivity objects associated with the user
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         public List<UserActivity> GenerateUserActivity(string userId)
         {
             //get the user's name
@@ -114,6 +156,25 @@ namespace ProjectManager.Data.Services
             return userActivities;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GenerateProjectActivity - generates UserActivity objects for all the users in a project
+        * SYNOPSIS:
+                GenerateProjectActivity(int projectId)
+        *           projectId --> the id of the project whose user activities are to be generated
+        * DESCRIPTION:
+                This function goes through the database and extracts all the TaskComment, TaskUpdate, and TaskUserUpdate entries
+                    associated with the given project, and it interprets those entries to generate descriptions of all the project's activites
+                    in the form of a list of UserActivity objects
+        * RETURNS
+                a List of the UserActivity objects associated with the project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         public List<UserActivity> GenerateProjectActivity(int projectId)
         {
             var projectComments = _projectsRepo.GetProjectTaskComments(projectId);
@@ -200,6 +261,26 @@ namespace ProjectManager.Data.Services
             return projectActivities;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GenerateUserActivityInProject - generates UserActivity objects for a user's activities in a project
+        * SYNOPSIS:
+                GenerateUserActivityInProject(int projectId, string userId)
+        *           projectId --> the id of the project whose user's activities are to be generated
+                    userId --> the id of the user whose activites in the project are to be generated
+        * DESCRIPTION:
+                This function goes through the database and extracts all the TaskComment, TaskUpdate, and TaskUserUpdate entries
+                    by a user in a given project, and it interprets those entries to generate descriptions of all the user's project activites
+                    in the form of a list of UserActivity objects
+        * RETURNS
+                a List of the UserActivity objects by a user in a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         public List<UserActivity> GenerateUserActivityInProject(int projectId, string userId)
         {
             var projectUserComments = _projectsRepo.GetProjectTaskCommentsByUser(projectId, userId);
@@ -286,6 +367,25 @@ namespace ProjectManager.Data.Services
             return projectUserActivities;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUpdatedAttributeAndValue - takes a TaskUpdate object and determines what attributes were updated 
+        * SYNOPSIS:
+                GetUpdatedAttributeAndValue(TaskUpdate taskUpdate)
+        *           taskUpdate --> the TaskUpdate object used to determine what attributes of the task were updated
+        * DESCRIPTION:
+                This function goes through all the attributes in the TaskUpdate object and figures out whether an attribute was 
+                updated or not and also figures out the updated value
+        * RETURNS
+                a list containin the updated attribute in the first index and the value of the attribute in the second index
+                returns null if the TaskUpdate represent the creation of a task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         private List<string> GetUpdatedAttributeAndValue(TaskUpdate taskUpdate)
         {
             // this list stores two strings, the first one holding the attribute changed and the second one holding 
@@ -315,6 +415,23 @@ namespace ProjectManager.Data.Services
             return updated;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserFullName - returns the name of the user with the given id
+        * SYNOPSIS:
+                GetUserFullName(string userId)
+        *           userId --> the id of the user whose full name is to be returned
+        * DESCRIPTION:
+                This function returns the full name of the user with the given id
+        * RETURNS
+                a string containing the user's full name
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         private string GetUserFullName(string userId)
         {
             var user = _usersRepo.GetUserById(userId);
@@ -322,6 +439,23 @@ namespace ProjectManager.Data.Services
             return userFullName;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskNameById - returns the name of the task with the given id
+        * SYNOPSIS:
+                GetTaskNameById(int taskId)
+        *           taskId --> the id of the task whose name is to be returned
+        * DESCRIPTION:
+                This function returns the name of the task with the given id
+        * RETURNS
+                a string containing the task's full name
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/04/2020 
+        * /
+        /**/
         private string GetTaskNameById(int taskId)
         {
             return _tasksRepo.GetTaskById(taskId).Name;

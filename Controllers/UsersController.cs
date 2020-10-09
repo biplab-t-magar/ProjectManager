@@ -23,12 +23,32 @@ namespace ProjectManager.Controllers
         private readonly IAppUsersRepo _usersRepo;
         private readonly IProjectsRepo _projectsRepo;
 
-        // private readonly IProjectsRepo _projectsRepo;
 
         //the manager for handling user creation, deletion, etc..
         private readonly UserManager<AppUser> _userManager;
+        //for the generation of user activites
         private readonly ProjectActivity _projectActivity;
 
+        /**/
+        /*
+        * NAME:
+        *      UsersController - constructor for the UsersController class
+        * SYNOPSIS:
+                UsersController(IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, UserManager userManager, ProjectActivity projectActivity)
+        *           usersRepo --> the ProjectManager application users repository that is injected as a dependency injection
+                    projectsRepo --> the ProjectManager application projects repository that is injected as a dependency injection
+                    userManager --> an instance of the UserManager class, which is a class provided by Asp.Net Core Identity to handle
+                                    use registration and retrieval
+                    projectActivity --> an instance of the ProjectActivity class that is injected as a dependency injection
+        * DESCRIPTION:
+                Initializes the UsersController class
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        * /
+        /**/
         public UsersController(UserManager<AppUser> userManager, IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, ProjectActivity projectActivity )
         {
             _usersRepo = usersRepo;
@@ -37,6 +57,22 @@ namespace ProjectManager.Controllers
             _projectActivity = projectActivity;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUser - In response to a Get request, it returns an HTTP response with the info of the user who is currently using the web application
+        * SYNOPSIS:
+                GetUser()
+        * DESCRIPTION:
+                Figures out the identity of the current user and teturns an HTTP response with the info on the user
+        * RETURNS
+                an HTTP response containing the info on the user
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/24/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> GetUser()
@@ -47,6 +83,23 @@ namespace ProjectManager.Controllers
             return Ok(user);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      UpdateUserInfo - Accepts a Post request to update the information of a particular user
+        * SYNOPSIS:
+                UpdateUserInfo(UpdateUserModel userModel)
+                    userModel --> contains the information on the user to be updated and the updated values
+        * DESCRIPTION:
+                Accepts a Post request to update the information of a particular user
+        * RETURNS
+                an HTTP response containing the info on the updateduser
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/30/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("update-info")]
         public async Task<IActionResult> UpdateUserInfo(UpdateUserModel userModel)
@@ -65,6 +118,24 @@ namespace ProjectManager.Controllers
             return Ok(user);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserById - Accepts a GET request to return the information of a particular user
+        * SYNOPSIS:
+                GetUserById(string userId)
+                    userId --> the id of the user whose information is to be sent to the client
+        * DESCRIPTION:
+                Accepts a GET request to retrieve the information on the user with the given id
+        * RETURNS
+                an HTTP response containing the info on the user with the given id
+
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/30/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{userId}")]
         public IActionResult GetUserById(string userId)
@@ -74,6 +145,23 @@ namespace ProjectManager.Controllers
             return Ok(user);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserRoleInProject 
+        * SYNOPSIS:
+                GetUserRoleInProject(int project)
+                    projectId --> the id of the project
+        * DESCRIPTION:
+                Accepts a GET request to return the information on the currently signed-in user's role in a project
+        * RETURNS
+                an HTTP response containing the info on the project-user relationship
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/30/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/user-role")]
         public async Task<IActionResult> GetUserRoleInProject(int projectId)
@@ -91,6 +179,22 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjects
+        * SYNOPSIS:
+                GetUserProjects()
+        * DESCRIPTION:
+                Accepts a GET request to return info on all the projects the currently sign-in user is a part of
+        * RETURNS
+                an HTTP response containing the info on the all the user's projects
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/24/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("projects")]
         public async Task<IActionResult> GetUserProjects() 
@@ -102,6 +206,22 @@ namespace ProjectManager.Controllers
             return Ok(userProjects);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserTasks
+        * SYNOPSIS:
+                GetUserTasks()
+        * DESCRIPTION:
+                Accepts a GET request to return info on all the tasks the currently sign-in user is assigned to
+        * RETURNS
+                an HTTP response containing the info on the all the user's tasks
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/24/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("tasks")]
         public async Task<IActionResult> GetUserTasks() 
@@ -116,6 +236,22 @@ namespace ProjectManager.Controllers
             return Ok(userTasks);
         }
         
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectInvitations
+        * SYNOPSIS:
+                GetUserProjectInvitations()
+        * DESCRIPTION:
+                Accepts a GET request to return info on all the project invitations for the currently sign-in user
+        * RETURNS
+                an HTTP response containing the info on the all the user's project invitations
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/27/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("project-invitations")]
         public async Task<IActionResult> GetUserProjectInvitations()
@@ -128,6 +264,22 @@ namespace ProjectManager.Controllers
             return Ok(projectInvitations);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectInviters
+        * SYNOPSIS:
+                GetUserProjectInviters()
+        * DESCRIPTION:
+                Accepts a GET request to return info on all the users who have invited the signed in user to projects
+        * RETURNS
+                an HTTP response containing the info on all the user's project inviters
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/27/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("project-inviters")]
         public async Task<IActionResult> GetUserProjectInviters()
@@ -140,6 +292,22 @@ namespace ProjectManager.Controllers
             return Ok(projectInviters);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserProjectsInvitedTo
+        * SYNOPSIS:
+                GetUserProjectsInvitedTo()
+        * DESCRIPTION:
+                Accepts a GET request to return info on all the projects the signed in user has been invited to
+        * RETURNS
+                an HTTP response containing the info on all the projects the user has been invited to
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/27/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("projects-invited-to")]
         public async Task<IActionResult> GetUserProjectsInvitedTo()
@@ -152,6 +320,23 @@ namespace ProjectManager.Controllers
             return Ok(projectsInvitedTo);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      AcceptInvitation
+        * SYNOPSIS:
+                AcceptInvitation(ProjectInvitation projectInvitation)
+                    projectInvitation --> the invitation to be accepted
+        * DESCRIPTION:
+                Accepts a POST request and handles the acceptance of the given project invitation by the signed-in user
+        * RETURNS
+                an HTTP response containing the newly formed ProjectUser entry
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/29/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("accept-invite")]
         public async Task<IActionResult> AcceptInvitation(ProjectInvitation projectInvitation)
@@ -179,6 +364,23 @@ namespace ProjectManager.Controllers
             return Ok(projectUser);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      DeclineInvitation
+        * SYNOPSIS:
+                DeclineInvitation(ProjectInvitation projectInvitation)
+                    projectInvitation --> the invitation to be declined
+        * DESCRIPTION:
+                Accepts a POST request and handles the rejection of the given project invitation by the signed-in user
+        * RETURNS
+                an HTTP response status 200 response
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/29/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("decline-invite")]
         public async Task<IActionResult> DeclineInvitation(ProjectInvitation projectInvitation)
@@ -198,6 +400,23 @@ namespace ProjectManager.Controllers
             return Ok();
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserActivity
+        * SYNOPSIS:
+                GetUserActivity(string userId)
+                    userId --> the id of the user who activity is to be returned
+        * DESCRIPTION:
+                Accepts a GET request and returns a list of all of the signed-in user's activities
+        * RETURNS
+                an HTTP response containing the list of all the user's activities
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{userId}/activity")]
         public async Task<IActionResult> GetUserActivity(string userId)
@@ -221,6 +440,24 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetRecentUserActivity
+        * SYNOPSIS:
+                GetRecentUserActivity(string userId, int num)
+                    userId --> the id of the user who activity is to be returned
+                    num --> the number of recent activities to be returned
+        * DESCRIPTION:
+                Accepts a GET request and returns a list of the signed-in user's recent activities
+        * RETURNS
+                an HTTP response containing the list of the user's recent activities
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{userId}/activity/{num}")]
         public async Task<IActionResult> GetRecentUserActivity(string userId, int num)

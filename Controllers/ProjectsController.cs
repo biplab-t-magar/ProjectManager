@@ -31,6 +31,31 @@ namespace ProjectManager.Controllers
         private readonly ProjectMemberValidation _validation;
         private readonly ProjectActivity _projectActivity;
 
+
+        /**/
+        /*
+        * NAME:
+        *      ProjectsController - constructor for the ProjectsController class
+        * SYNOPSIS:
+                ProjectsController(IAppUsersRepo usersRepo, IProjectsRepo projectsRepo, ITasksRepo tasksRepo, ITaskTypesRepo
+                                    UserManager userManager, ProjectActivity projectActivity)
+        *           usersRepo --> the ProjectManager application users repository that is injected as a dependency injection
+                    projectsRepo --> the ProjectManager application projects repository that is injected as a dependency injection
+                    tasksRepo --> the ProjectManager application tasks repository that is injected as a dependency injection
+                    taskTypesRepo --> the ProjectManager application task types repository that is injected as a dependency injection
+                    userManager --> an instance of the UserManager class, which is a class provided by Asp.Net Core Identity to handle
+                                    use registration and retrieval
+                    validation --> an instance of the ProjectMemberValidation class that is injected as a dependency injection                
+                    projectActivity --> an instance of the ProjectActivity class that is injected as a dependency injection
+        * DESCRIPTION:
+                Initializes the ProjectsController class
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/06/2020 
+        * /
+        /**/
         public ProjectsController(
             IProjectsRepo projectsRepo, 
             IAppUsersRepo usersRepo, 
@@ -50,6 +75,23 @@ namespace ProjectManager.Controllers
             _projectActivity = projectActivity;
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProject
+        * SYNOPSIS:
+                GetProject(int projectId)
+                    projectId --> the id of the project
+        * DESCRIPTION:
+                In response to a Get request, it returns an HTTP response with the info of the project with the given id
+        * RETURNS
+                an HTTP response containing the info on the project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/13/2020 
+        * /
+        /**/
         [HttpGet("{projectId}")]
         [Authorize]
         public async Task<IActionResult> GetProject(int projectId)
@@ -73,6 +115,23 @@ namespace ProjectManager.Controllers
         }
 
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectUsers
+        * SYNOPSIS:
+                GetProjectUsers(int projectId)
+                    projectId --> the id of the project
+        * DESCRIPTION:
+                Accepts a GET request and returns a list of all of the users that are members of the given project
+        * RETURNS
+                an HTTP response containing the list of all the users in a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/13/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/users")]
         public async Task<IActionResult> GetProjectUsers(int projectId)
@@ -89,6 +148,23 @@ namespace ProjectManager.Controllers
             return Ok(projectUsers);
         }
         
+        /**/
+        /*
+        * NAME:
+        *      GetProjectUserRoles
+        * SYNOPSIS:
+                GetProjectUserRoles(int projectId)
+                    projectId --> the id of the project
+        * DESCRIPTION:
+                Accepts a GET request and returns a listing of the roles of the users in the project
+        * RETURNS
+                an HTTP response containing the listing of the roles of all the users in a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/13/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/roles")]
         public async Task<ActionResult> GetProjectUserRoles(int projectId)
@@ -105,6 +181,23 @@ namespace ProjectManager.Controllers
             return Ok(projectUserRoles);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTasks
+        * SYNOPSIS:
+                GetProjectTasks(int projectId)
+                    projectId --> the id of the project whose tasks are to be returned
+        * DESCRIPTION:
+                Accepts a GET request and returns a listing of all the tasks in a project
+        * RETURNS
+                an HTTP response containing the listing of the tasks in the specified project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/13/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/tasks")]
         public async Task<IActionResult> GetProjectTasks(int projectId)
@@ -122,6 +215,24 @@ namespace ProjectManager.Controllers
             return Ok(projectTasks);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTasks
+        * SYNOPSIS:
+                GetProjectTasks(int projectId, int numOfTasks)
+                    projectId --> the id of the project whose tasks are to be returned
+                    numOfTasks --> the number of tasks to be returned
+        * DESCRIPTION:
+                Accepts a GET request and returns a listing of the specified number of tasks in a project
+        * RETURNS
+                an HTTP response containing the listing of the specified number of tasks in the specified project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/tasks/recent/{numOfTasks}")]
         public async Task<IActionResult> GetProjectTasks(int projectId, int numOfTasks)
@@ -151,6 +262,23 @@ namespace ProjectManager.Controllers
             
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTaskTypes
+        * SYNOPSIS:
+                GetProjectTaskTypes(int projectId)
+                    projectId --> the id of the project whose task types are to be returned
+        * DESCRIPTION:
+                Accepts a GET request and returns a listing of all the task types in a project
+        * RETURNS
+                an HTTP response containing the listing of the task types in the the specified project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         [HttpGet("{projectId}/task-types")]
         public async Task<IActionResult> GetProjectTaskTypes(int projectId)
         {
@@ -167,6 +295,25 @@ namespace ProjectManager.Controllers
             return Ok(projectTaskTypes);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      CreateProject
+        * SYNOPSIS:
+                CreateProject(UtilityProjectModel projectModel)
+                    projectModel --> an instance of the UtilityProjectModel class, which contains information
+                                    on the project to be created
+        * DESCRIPTION:
+                Accepts a POST request, extracts values for the attributes of UtilityProjectModel from the post request
+                    body, and then creates a new project entry in the database
+        * RETURNS
+                an HTTP response containing the newly created project object
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("new")]
         public async Task<IActionResult> CreateProject([FromBody]UtilityProjectModel projectModel)
@@ -187,6 +334,26 @@ namespace ProjectManager.Controllers
             return Ok(project);
         }
 
+
+        /**/
+        /*
+        * NAME:
+        *      UpdateProject
+        * SYNOPSIS:
+                UpdateProject(Project project)
+                    project --> an instance of the Project class, which contains information
+                                    on the project to be updated
+        * DESCRIPTION:
+                Accepts a POST request, extracts values for the attributes of the Project object from the post request
+                    body, and then updates the project entry in the database
+        * RETURNS
+                an HTTP response containing the updated project object
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("edit")]
         public async Task<IActionResult> UpdateProject([FromBody] Project project)
@@ -207,6 +374,23 @@ namespace ProjectManager.Controllers
             return Ok(project);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      DeleteProject
+        * SYNOPSIS:
+                DeleteProject(int projectId)
+                    projectId --> the id of the project to be deleted
+        * DESCRIPTION:
+                Accepts a HTTP DELETE request and deletes the project with the given projet id
+        * RETURNS
+                an HTTP response indicating no content to be returned
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/14/2020 
+        * /
+        /**/
         [Authorize]
         [HttpDelete("{projectId}/delete")]
         public async Task<IActionResult> DeleteProject(int projectId)
@@ -226,6 +410,25 @@ namespace ProjectManager.Controllers
             return NoContent();
         } 
 
+        /**/
+        /*
+        * NAME:
+        *      InviteToProject
+        * SYNOPSIS:
+                InviteToProject(UtilityInviteModel inviteModel)
+                    inviteModel --> an instance of the UtilityInviteModel class, which contains information
+                                    on the project invite
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the UtilityInviteModel object from the post request
+                    body, and then creates the project invite
+        * RETURNS
+                an HTTP response containing the instance of the user who was invited
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/22/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("invite")]
         public async Task<IActionResult> InviteToProject([FromBody]UtilityInviteModel inviteModel)
@@ -269,6 +472,24 @@ namespace ProjectManager.Controllers
 
             return Ok(invitee);
         }   
+
+        /**/
+        /*
+        * NAME:
+        *      GetProjectInvitees
+        * SYNOPSIS:
+                GetProjectInvitees(int projecId)
+                    projecId --> the id of the project whose list of invitees are to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of invitees to a project
+        * RETURNS
+                an HTTP response containing the list of invitees to a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/22/2020 
+        * /
+        /**/
         [Authorize]
         [HttpGet("{projectId}/invitees")]
         public async Task<IActionResult> GetProjectInvitees(int projectId)
@@ -285,6 +506,24 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      CancelProjectInvite
+        * SYNOPSIS:
+                CancelProjectInvite(int projecId, string inviteeId)
+                    projecId --> the id of the project whose project invitee is to be canceled
+                    inviteeId --> the invitee to whom the invitation was sent
+        * DESCRIPTION:
+                Accepts an HTTP DELETE request, and deletes the project invitation sent to the given user 
+        * RETURNS
+                an HTTP response containing the updated list of invitees to a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/23/2020 
+        * /
+        /**/
         [Authorize]
         [HttpDelete("{projectId}/cancel/{inviteeId}")]
         public async Task<IActionResult> CancelProjectInvite(int projectId, string inviteeId)
@@ -308,6 +547,26 @@ namespace ProjectManager.Controllers
             return Ok(_projectsRepo.GetProjectInvitees(projectId));
         }   
 
+
+        /**/
+        /*
+        * NAME:
+        *      SwitchUserRole
+        * SYNOPSIS:
+                SwitchUserRole(ProjectUser projectUser)
+                    projecUser --> an instance of the project user object, which contains information on a 
+                                project user's role in the project
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts information for the ProjectUser instance, and uses that instance
+                to determine the relevant user, and then switches the role for that user
+        * RETURNS
+                an HTTP response returning the ProjectUser object
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/23/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("switch-role")]
         public async Task<IActionResult> SwitchUserRole([FromBody]ProjectUser projectUser)
@@ -350,6 +609,26 @@ namespace ProjectManager.Controllers
             return Ok(projectUser);
         }   
 
+
+        /**/
+        /*
+        * NAME:
+        *      CreateTaskType
+        * SYNOPSIS:
+                CreateTaskType(UtilityTaskTypeModel taskType)
+                    taskType --> an instance of the UtilityTaskTypeModel, which contains information on the task type
+                                    to be created
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts information for the UtilityTaskTypeModel instance, and uses that instance
+                to create a new task type for the project
+        * RETURNS
+                an HTTP response returning the newly created TaskType object
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        * /
+        /**/
         [Authorize]
         [HttpPost("create-task-type")]
         public async Task<IActionResult> CreateTaskType([FromBody]UtilityTaskTypeModel taskType)
@@ -370,6 +649,25 @@ namespace ProjectManager.Controllers
             return Ok(newTaskType);
         }   
 
+
+        /**/
+        /*
+        * NAME:
+        *      DeleteTaskType
+        * SYNOPSIS:
+                DeleteTaskType(int projectId, int taskTypeId)
+                    projectId --> the id of the project to which the task type belongs
+                    taskTypeId --> the id of the task type to be deleted
+        * DESCRIPTION:
+                Accepts an HTTP DELETE request, and deletes the task type with the given id
+        * RETURNS
+                an HTTP response returning the updates list of task types in the project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpDelete("{projectId}/task-types/{taskTypeId}")]
         public async Task<IActionResult> DeleteTaskType(int projectId, int taskTypeId)
@@ -398,6 +696,25 @@ namespace ProjectManager.Controllers
             }
         }   
 
+        /**/
+        /*
+        * NAME:
+        *      CreateProjectTask
+        * SYNOPSIS:
+                CreateProjectTask(UtilityTaskCreateModel taskModel)
+                    taskModel --> an instance of the UtilityTaskCreateModel, which contains information on the 
+                                    task to be created
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts information for the UtilityTaskCreateModel instance, and uses that instance
+                to create a new task for the project
+        * RETURNS
+                an HTTP response returning the newly created task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpPost("create-task")]
         public async Task<IActionResult> CreateProjectTask([FromBody]UtilityTaskCreateModel taskModel)
@@ -430,7 +747,23 @@ namespace ProjectManager.Controllers
             return Ok(task);
         }   
 
-
+        /**/
+        /*
+        * NAME:
+        *      GetTaskDetails
+        * SYNOPSIS:
+                GetTaskDetails(int taskId)
+                    taskId --> the id of the task whose details are to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the task with the given task id
+        * RETURNS
+                an HTTP response returning the Task object with the given id
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("task/{taskId}")]
         public async Task<IActionResult> GetTaskDetails(int taskId)
@@ -452,6 +785,25 @@ namespace ProjectManager.Controllers
             return Ok(task);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      UpdateTask
+        * SYNOPSIS:
+                UpdateTask(UtilityTaskEditModel taskModel)
+                    taskModel --> an instance of the UtilityTaskEditModel, which contains information on the 
+                                    task to be edited
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts information for the UtilityTaskEditModel instance, and uses that instance
+                to make changes to the task
+        * RETURNS
+                an HTTP response returning the updated Task object
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpPost("edit-task")]
         public async Task<IActionResult> UpdateTask([FromBody]UtilityTaskEditModel taskModel)
@@ -487,6 +839,24 @@ namespace ProjectManager.Controllers
             return Ok(task);
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskUsers
+        * SYNOPSIS:
+                GetTaskUsers(int projectId, int taskId)
+                    projectId --> the id of the project that the task belongs to
+                    taskId --> the id of the task whose users are to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of users assigned to the given task
+        * RETURNS
+                an HTTP response containg the list of AppUser objects of users assigned to the given task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{projectId}/task/{taskId}/assigned-users")]
         public async Task<IActionResult> GetTaskUsers(int projectId, int taskId)
@@ -503,6 +873,24 @@ namespace ProjectManager.Controllers
             return Ok(taskUsers);
         }
         
+        /**/
+        /*
+        * NAME:
+        *      GetTaskNonUsers
+        * SYNOPSIS:
+                GetTaskNonUsers(int projectId, int taskId)
+                    projectId --> the id of the project that the task belongs to
+                    taskId --> the id of the task 
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of users in the project not yet assigned to the given task
+        * RETURNS
+                an HTTP response containg the list of AppUser objects of users not assigned to the given task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{projectId}/task/{taskId}/unassigned-users")]
         public async Task<IActionResult> GetTaskNonUsers(int projectId, int taskId)
@@ -537,6 +925,26 @@ namespace ProjectManager.Controllers
 
         }
 
+
+        /**/
+        /*
+        * NAME:
+        *      AssignTaskUser
+        * SYNOPSIS:
+                AssignTaskUser(TaskUser taskUser)
+                    taskUser --> an instance of the TaskUser class, which holds the information on the relation between a user 
+                                    and a task
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the TaskUser object from the post request
+                    body, and then uses the object to assign the given task to the given user
+        * RETURNS
+                an HTTP response containg the TaskUser object representing the assignment of the user to the task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpPost("assign-task-user")]
         public async Task<IActionResult> AssignTaskUser([FromBody]TaskUser taskUser)
@@ -577,6 +985,26 @@ namespace ProjectManager.Controllers
             return Ok(taskUser);
         }
 
+
+        /**/
+        /*
+        * NAME:
+        *      UnassignTaskUser
+        * SYNOPSIS:
+                UnassignTaskUser(TaskUser taskUser)
+                    taskUser --> an instance of the TaskUser class, which holds the information on the relation between a user 
+                                    and a task
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the TaskUser object from the post request
+                    body, and then uses the object to unassign the given user from the given task
+        * RETURNS
+                an HTTP response containg the updated list of task users
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpPost("unassign-task-user")]
         public async Task<IActionResult> UnassignTaskUser([FromBody]TaskUser taskUser)
@@ -612,6 +1040,23 @@ namespace ProjectManager.Controllers
             return Ok(_tasksRepo.GetTaskUsers(taskUser.TaskId));
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetTaskComments
+        * SYNOPSIS:
+                GetTaskComments(int taskId)
+                    taskId --> the id of the task of which the comments are to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of all task comments for the given task
+        * RETURNS
+                an HTTP response containg the list of all TaskComment objects associated with the given task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{taskId}/comments")]
         public async Task<IActionResult> GetTaskComments(int taskId)
@@ -636,6 +1081,24 @@ namespace ProjectManager.Controllers
             return Ok(_tasksRepo.GetTaskComments(taskId));
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetRecentTaskComments
+        * SYNOPSIS:
+                GetRecentTaskComments(int taskId, int numOfComments)
+                    taskId --> the id of the task of which the comments are to be returned
+                    numOfComments --> the number of comments to return
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of the speciefied number of task comments for the given task
+        * RETURNS
+                an HTTP response containg the list of all TaskComment objects associated with the given task
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/19/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{taskId}/comments/recent/{numOfComments}")]
         public async Task<IActionResult> GetRecentTaskComments(int taskId, int numOfComments)
@@ -673,30 +1136,27 @@ namespace ProjectManager.Controllers
             return Ok(taskComments);
         }
 
-        [Authorize]
-        [HttpPost("task/{taskId}/comments")]
-        public async Task<IActionResult> AddCommentToTask(int taskId)
-        {
-            //retrieve the task from the database
-            var task = _tasksRepo.GetTaskById(taskId);
 
-            if(task == null) 
-            {
-                return BadRequest("The task with the given task id does not exist");
-            }
-
-            //get the current user
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            //make sure the user who is making the request is a project administrator
-            if(!_validation.userIsProjectMember(user.Id, task.ProjectId))
-            {
-                return Unauthorized();
-            }
-            
-            return Ok(_tasksRepo.GetTaskComments(taskId));
-        }
-
+        /**/
+        /*
+        * NAME:
+        *      AddCommentToTask
+        * SYNOPSIS:
+                AddCommentToTask(UtilityTaskCommentModel taskCommentModel)
+                    taskCommentModel --> an instance of the UtilityTaskCommentModel class, which holds the information on the comment
+                                        to be added to the task
+        * DESCRIPTION:
+                Accepts an HTTP POST request, extracts values for the attributes of the UtilityTaskCommentModel object from the post request
+                    body, and then uses the object to add a comment to the given task
+        * RETURNS
+                an HTTP response containg the object for the newly created task comment
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/05/2020 
+        */
+        /**/
+        
         [Authorize]
         [HttpPost("task/comment/add")]
         public async Task<IActionResult> AddCommentToTask(UtilityTaskCommentModel taskCommentModel)
@@ -733,6 +1193,25 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetUserActivityInProject
+        * SYNOPSIS:
+                GetUserActivityInProject(int projectId, string userId)
+                    projectId --> the id of the project for which the activity is to be returned
+                    userId --> the id of the user whose activity in the projet is to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of ProjectActivity objects corresponding to all 
+                    the activities by a user in a project 
+        * RETURNS
+                an HTTP response containg the list of ProjectActivity objects
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/05/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{projectId}/user/{userId}/activity")]
         public async Task<IActionResult> GetUserActivityInProject(int projectId, string userId)
@@ -757,6 +1236,24 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectActivity
+        * SYNOPSIS:
+                GetProjectActivity(int projectId)
+                    projectId --> the id of the project for which the activity is to be returned
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of ProjectActivity objects corresponding to all 
+                    the activities in a project 
+        * RETURNS
+                an HTTP response containg the list of ProjectActivity objects
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/05/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{projectId}/activity")]
         public async Task<IActionResult> GetProjectActivity(int projectId)
@@ -781,6 +1278,25 @@ namespace ProjectManager.Controllers
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectActivity
+        * SYNOPSIS:
+                GetProjectActivity(int projectId, int num)
+                    projectId --> the id of the project for which the activity is to be returned
+                    num --> the number of activities to return
+        * DESCRIPTION:
+                Accepts an HTTP GET request, and returns the list of ProjectActivity objects corresponding to the given number of 
+                     activities in a project 
+        * RETURNS
+                an HTTP response containg the list of ProjectActivity objects
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      10/05/2020 
+        */
+        /**/
         [Authorize]
         [HttpGet("{projectId}/activity/{num}")]
         public async Task<IActionResult> GetProjectActivity(int projectId, int num)
