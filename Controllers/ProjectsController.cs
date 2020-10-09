@@ -1,3 +1,9 @@
+/* ProjectController.cs
+ This file contains the ProjectController class, which represents one of the three controller classes in the ProjectManager project.
+ A controller class in ASP.NET Core is responsible for defining and handling HTTP requests to specific routes. The ProjectsController class handles
+ routes and HTTP requests relating to everything specific to Projects in the Project Manager web application
+*/
+
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Models;

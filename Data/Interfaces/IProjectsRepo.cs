@@ -1,3 +1,9 @@
+/* IProjectsRepo.cs
+ This file contains the IProjectsRepo interface, which represents one of the four Repository interfaces in the ProjectManager project.
+ A repository interface defines the list of all the public functions for a repository used by the web application. THe IProjectsRepo represents
+ a repository that contains all information on the projects of the ProjectManager web application
+*/
+
 using System.Collections.Generic;
 using ProjectManager.Models;
 
@@ -20,13 +26,9 @@ namespace ProjectManager.Data.Interfaces
 
         Task CreateTask(Task task, string creatorId);
 
-        List<AppUser> GetProjectUsersByRole(int projectId, string role);
-
         List<Task> GetProjectTasks(int projectId);
         List<Task> GetUserProjectTasks(int projectId, string userId);
 
-        List<Task> GetProjectTasksByTaskStatus(int projectId, string taskStatus);
-        List<Task> GetProjectTasksByUrgency(int projectId, string urgency);
         List<Task> GetProjectTasksByTaskType(int projectId, int taskTypeId);
 
         List<TaskType> GetProjectTaskTypes(int projectId);

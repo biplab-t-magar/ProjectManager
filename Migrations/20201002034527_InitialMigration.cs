@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+Generated automatically by Entity Framework Core to build and update the database scheme
+*/
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 

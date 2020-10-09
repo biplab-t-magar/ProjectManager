@@ -15,6 +15,23 @@ import ConvertDate from "../Utilities/ConvertDate.js"
 import LoadingSpinner from '../Utilities/LoadingSpinner';
 import CheckAuthentication from '../Utilities/CheckAuthentication';
 
+/**/
+/*
+ * NAME:
+ *      Projects() - React functional component corresponding to the Projects page
+ * SYNOPSIS:
+ *      Projects()
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to list all of a user's projects
+ *      This components handles the retrieval of all data needed to display the user's projects and related information
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      09/15/2020 
+ * /
+ /**/
 const Projects = () => {
     // const [numOfEntries, setNumOfEntries] = useState(10);
     const [projectsList, setProjectsList] = useState([]);
@@ -27,7 +44,22 @@ const Projects = () => {
     }, []);
     
 
-    
+    /**/
+    /*
+    * NAME:
+    *      fetchAllProjects() - async function to retrieve the list of projects from the server
+    * SYNOPSIS:
+    *      fetchAllProjects()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the all the project's of a user
+    *      Sets the projectsList state corresponding to project data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/15/2020 
+    * /
+    /**/
     const fetchAllProjects = async () => {
         
         const res = await fetch("/user/projects");
@@ -41,6 +73,7 @@ const Projects = () => {
         
     };
 
+    //return the JSX that generates the page. 
     return (
         <div className="page">
             <div className="projects">

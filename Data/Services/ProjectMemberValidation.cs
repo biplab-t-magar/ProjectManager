@@ -1,3 +1,8 @@
+/* ProjectMemberValidation.cs
+ This file contains the ProjectMemberValidation class. The ProjectMemberValidation class is used to determine whether a user
+ is a valid member/administrator of a project
+*/
+
 using System.Linq;
 
 namespace ProjectManager.Data.Services

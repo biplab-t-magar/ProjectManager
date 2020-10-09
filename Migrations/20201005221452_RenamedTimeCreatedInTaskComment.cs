@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿/*
+Generated automatically by Entity Framework Core to build and update the database scheme
+*/
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectManager.Migrations
 {

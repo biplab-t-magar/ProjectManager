@@ -6,7 +6,6 @@
  * the roles of users in projects
  * / 
 /**/
-
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import PageDescription from "../Components/PageDescription";
@@ -14,7 +13,30 @@ import LoadingSpinner from '../Utilities/LoadingSpinner';
 import "../CSS/ManageProjectUsers.css";
 import CheckAuthentication from "../Utilities/CheckAuthentication";
 
+
+/**/
+/*
+ * NAME:
+ *      ManageProjectUsers() - React functional component corresponding to the ManageProjectUsers page
+ * SYNOPSIS:
+ *      ManageProjectUsers({match})
+ *          match.params --> the parameters passed by the Router component to this component. The parameters contained 
+ *                              in this object are retreived from the parameters in the specified route path for this page
+ *          match.params.projectId --> the id of the project
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to manage the users in a project
+ *      This components handles the retrieval of data, and the sending of data to the 
+ *      server, thus handling the processes of inviting users a project and changing their roles
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      10/04/2020 
+ * /
+ /**/
 const ManageProjectUsers = ({match}) => {
+    //useState hooks
     const [projectDetails, setProjectDetails] = useState({});
     const [projectMembers, setProjectMembers] = useState([]);
     const [projectUserRoles, setProjectUserRoles] = useState([]);
@@ -23,6 +45,8 @@ const ManageProjectUsers = ({match}) => {
     const [userToInviteError, setUserToInviteError] = useState("");
     const [pendingInvitees, setPendingInvitees] = useState([]);
     const [changeRoleError, setChangeRoleError] = useState("");
+
+    //useEffect hook called on first render
     useEffect(() => {
         CheckAuthentication();
         fetchProjectData();
@@ -30,13 +54,44 @@ const ManageProjectUsers = ({match}) => {
         fetchPendingInvitees();
     }, []);
 
-
+    /**/
+    /*
+    * NAME:
+    *      fetchProjectData() - async function to retrieve project data from server
+    * SYNOPSIS:
+    *      fetchProjectData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the project.
+    *      Sets the state corresponding to project data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const fetchProjectData = async () => {
         const res = await fetch(`/project/${match.params.projectId}`);
         const data = await res.json();
         setProjectDetails(data);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchUserData() - async function to retrieve data on all the members of the project
+    * SYNOPSIS:
+    *      fetchUserData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on project users.
+    *      Sets the projectMembers state corresponding to fetched data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const fetchUserData = async() => {
         const res = await fetch(`/project/${match.params.projectId}/users`);
         const data = await res.json();
@@ -46,6 +101,22 @@ const ManageProjectUsers = ({match}) => {
         fetchProjectUserRoles();
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchProjectUserRoles() - async function to retrieve data on all the roles of each member in the project
+    * SYNOPSIS:
+    *      fetchProjectUserRoles()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on project users.
+    *      Sets the projectMembers state corresponding to fetched data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const fetchProjectUserRoles = async () => {
         const res = await fetch(`/project/${match.params.projectId}/roles`);
         const data = await res.json();
@@ -53,6 +124,22 @@ const ManageProjectUsers = ({match}) => {
         setContentLoaded(true);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchPendingInvitees() - async function to retrieve all the pending invites to the project
+    * SYNOPSIS:
+    *      fetchPendingInvitees()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing all the pending invites to the project
+    *      Sets the pendingInvites state corresponding to the fetched data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const fetchPendingInvitees = async () => {
         const res = await fetch(`/project/${match.params.projectId}/invitees`);
         const data = await res.json();
@@ -60,6 +147,23 @@ const ManageProjectUsers = ({match}) => {
         setPendingInvitees(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      getUserRole() - returns the role of the user in the project given their user id
+    * SYNOPSIS:
+    *      getUserRole(userId)
+    *           userId      -->     the user's Id
+    * DESCRIPTION:
+    *      Looks through all the elements in the projectUserRoles array to find the matching user Id, and
+    *       then returns the role associated with the entry
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const getUserRole = (userId) => {
         for(let i = 0; i < projectUserRoles.length; i++) {
             if(projectUserRoles[i].appUserId === userId) {
@@ -68,8 +172,25 @@ const ManageProjectUsers = ({match}) => {
         }
     };
 
+    /**/
+    /*
+    * NAME:
+    *      cancelInvitation() - async function that cancels an invitation to a user
+    * SYNOPSIS:
+    *      cancelInvitation(userId)
+    *           userId      -->     the user's Id
+    * DESCRIPTION:
+    *      This function makes a GET request to the server to cancel the inviation to the project sent to 
+    *       the user with the given user Id. It also updates the pendingInvitees array to reflect the changes in the 
+    *       invitees list
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const cancelInvitation = async (userId) => {
-        console.log(projectDetails.projectId);
         //making post request to server
         const response = await fetch(`/project/${projectDetails.projectId}/cancel/${userId}` , {
             method: "DELETE",
@@ -86,7 +207,23 @@ const ManageProjectUsers = ({match}) => {
             setPendingInvitees(data);
         }
     }
-
+    /**/
+    /*
+    * NAME:
+    *      inviteUser() - async function that sends an invite to the specified user
+    * SYNOPSIS:
+    *      inviteUser(e)
+    *           e --> the JavaScript event generated when submitting the form
+    * DESCRIPTION:
+    *      This function makes a GET request to the server to invite a user to the project. It also updates the 
+    *       array containing the invited users to reflect the latest change
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const inviteUser = async (e) => {
         let errorsExist = false;
         //prevent default action
@@ -101,6 +238,7 @@ const ManageProjectUsers = ({match}) => {
         }
 
         if(errorsExist == false) {
+            //this payload adheres to the UtilityInviteModel in the server
             const payload = {
                 inviteeUserName: userNameToInvite,
                 projectId: projectDetails.projectId
@@ -116,10 +254,12 @@ const ManageProjectUsers = ({match}) => {
             });
             const data = await response.json();
             
+            //if error inviting the user, then set userToInviteError state to display the error
             if(!response.ok) {
                 console.log(data);
                 setUserToInviteError(data);
             } else {
+                //update the Invitees list
                 let updatedInvitees = [...pendingInvitees];
                 updatedInvitees.push(data);
                 setPendingInvitees(updatedInvitees);
@@ -128,6 +268,22 @@ const ManageProjectUsers = ({match}) => {
         }
     }   
 
+    /**/
+    /*
+    * NAME:
+    *      switchRole() - an async function that switches the role of a user
+    * SYNOPSIS:
+    *      switchRole(user)
+    *           user      -->     the user whose role is to be switched
+    * DESCRIPTION:
+    *      Sends a request to the server to switch the user's role 
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const switchRole = async (user) => {
         const payload = {
             ProjectId: projectDetails.projectId,
@@ -154,7 +310,7 @@ const ManageProjectUsers = ({match}) => {
         }
     }
 
-
+    //return the JSX that generates the page. 
     return(
         <div className="page">
             <div className="manage-users">

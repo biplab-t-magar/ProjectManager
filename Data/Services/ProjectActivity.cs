@@ -1,3 +1,9 @@
+/* ProjectActivity.cs
+ This file contains the ProjectActivity class. The ProjectActivity class is used to generate information that defines the activities in a project, 
+ activities by a user, or activities by a user in a project. The ProjectActivity class gathers disparate data from the database and interprets the data 
+ in order to generate easily comprehensible information regarding project activities
+*/
+
 using System;
 using System.Collections.Generic;
 using ProjectManager.Data.Interfaces;

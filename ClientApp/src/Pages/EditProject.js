@@ -12,30 +12,88 @@ import PageDescription from "../Components/PageDescription.js";
 import "../CSS/CreateNewProject.css"; //use same css as for create new project page because they look very similar
 import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 
-
+/**/
+/*
+ * NAME:
+ *      EditProject() - React functional component corresponding to the EditProject page
+ * SYNOPSIS:
+ *      EditProject({match})
+ *          match.params --> the parameters passed by the Router component to this component. The parameters contained 
+ *                              in this object are retreived from the parameters in the specified route path for this page
+ *          match.params.projectId --> the id of the project
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to edit a project.
+ *      This components handles the retrieval of data, generation of forms, and the sending of data to the 
+ *      server, thus handling the process of editing a project
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      10/02/2020 
+ * /
+ /**/
 const EditProject = ({match}) => {
+    //state hooks with information to render in the page.
     const [projectDetails, setProjectDetails] = useState({});
     const [newProjectName, setNewProjectName] = useState("");
     const [projectNameError, setProjectNameError] = useState("");
     const [newProjectDescription, setNewProjectDescription] = useState("");
     const [projectDescriptionError, setProjectDescriptionError] = useState("");
 
+    //checks authentication and fetches project data on first rendering on the page
     useEffect(() => {
         CheckAuthentication();
         fetchProjectData();
     }, []);
 
+    //this useEffect hook is called everytime the value of the projectDetails state variable is changed
     useEffect(() => {
         setNewProjectName(projectDetails.name);
         setNewProjectDescription(projectDetails.description);
     }, [projectDetails]);
 
+    /**/
+    /*
+    * NAME:
+    *      fetchProjectData() - async function to retrieve project data from server
+    * SYNOPSIS:
+    *      fetchProjectData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the project.
+    *      Sets the state corresponding to project data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const fetchProjectData = async () => {
         const res = await fetch(`/project/${match.params.projectId}`);
         const data = await res.json();
         setProjectDetails(data);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      handleSubmit() - handles the submission of the edit project form
+    * SYNOPSIS:
+    *      handleSubmit()
+    *           e --> the JavaScript event generated when submitting the form
+    * DESCRIPTION:
+    *      This function executes the action to be taken once the user has filled out the form and hit submit.
+    *      First it validates the user input in the forms, and sets the error message if user input is not valid.
+    *      If user input is valid, it sends a request to the server to edit the project with given information
+    *      Finally, it redirects to the ProjectDetails page corresponding to the for the project
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
@@ -62,6 +120,8 @@ const EditProject = ({match}) => {
         }
 
         if(errorsExist == false) {
+            //if no errors were found, create an object to send information in the HTTP Request body
+            //this payload adheres to the UtilityProjectModel in the serer
             const payload = {
                 ProjectId: projectDetails.projectId,
                 Name: newProjectName,
@@ -77,7 +137,9 @@ const EditProject = ({match}) => {
                 },
                 body: JSON.stringify(payload)
             })
+            //convert response to json
             .then(response => response.json())
+            //relocate to the projectDetails page
             .then(data => {
                 window.location.pathname = `/projects/${data.projectId}`;
             })
@@ -88,7 +150,7 @@ const EditProject = ({match}) => {
 
     }
     
-
+    //JSX to render edit project form
     return(
         <div className="page">
             <div className="edit-project">

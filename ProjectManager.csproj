@@ -1,3 +1,4 @@
+<!-- Place where all the packages used are declared -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>

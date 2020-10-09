@@ -10,7 +10,26 @@ import React, {useEffect, useState} from 'react';
 import "../CSS/Register.css";
 import {Link, Redirect, withRouter} from "react-router-dom";
 
-const Register = (props) => {
+/**/
+/*
+ * NAME:
+ *      Register() - React functional component corresponding to the Register page
+ * SYNOPSIS:
+ *      Register()
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page where a user registers
+ *      This components handles the sending of data to the server, the generation of the register form, and the retreival of data from the
+ *      server used to sign the user in (using browser cookies) or to display error messages if registration failed
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      09/29/2020 
+ * /
+ /**/
+const Register = () => {
+    //useState hooks
     const [userFirstName, setUserFirstName] = useState("");
     const [userLastName, setUserLastName] = useState("");
     const [userName, setUserName] = useState("");
@@ -27,14 +46,27 @@ const Register = (props) => {
         checkAuthentication();
     }, []);
 
-    // if(userAuthenticated) {
-    //     props.history.pushState(null, "/");
-    // }
-
     if(userAuthenticated) {
         window.location.pathname = "/";
     }
 
+    /**/
+    /*
+    * NAME:
+    *      checkAuthentication() - async function to communicate with the server and check if the user has already been signed in
+    *                              based on the Cookie stored in the web browser
+    * SYNOPSIS:
+    *      checkAuthentication()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response on whether the user is already signed in. Sets the userAuthenticated set
+    *       to true or false based on the server response
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/29/2020 
+    * /
+    /**/
     const checkAuthentication = async () => {
         let response = await fetch("/account");
         //if response status is Ok, redirect to home page 
@@ -45,6 +77,25 @@ const Register = (props) => {
         }
     }
     
+    /**/
+    /*
+    * NAME:
+    *      handleSubmit() - handles the submission of the registration form
+    * SYNOPSIS:
+    *      handleSubmit(e)
+    *           e --> the JavaScript event generated when submitting the form
+    * DESCRIPTION:
+    *      This function executes the action to be taken once the user has filled out the form and hit submit.
+    *      First it validates the user input in the forms, and sets the error message if user input is not valid.
+    *      If user input is valid, it sends a request to the server to register the user with the given information.
+    *      Finally, it redirects to the Home page of the web application if the registration is successful. 
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/29/2020 
+    * /
+    /**/
     const handleSubmit = async (e) => {
         //stop default form submit behavior
         e.preventDefault();
@@ -86,7 +137,7 @@ const Register = (props) => {
         }
         
         if(errorsExist == false) {
-            //data to send to server
+            //payload adheres to the RegisterUserModel in the server
             const payload = {
                 firstName: userFirstName,
                 lastName: userLastName,
@@ -114,15 +165,11 @@ const Register = (props) => {
             })
             .then(response => console.log(response))
             .catch(error => console.log(error));
-            // if(!res.ok) {
-            //     console.log(res.statusText);
-            // }
-            // const data = await res.json();
-            // console.log(data);
+
         }
     }
 
-
+    //return the JSX that generates the page. 
     return (
         <div>
             {/* Redirecting to another home page if user has been authenticated */}

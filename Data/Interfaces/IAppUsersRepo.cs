@@ -1,3 +1,9 @@
+/* IAppUsersRepo.cs
+ This file contains the IAppUsersRepo interface, which represents one of the four Repository interfaces in the ProjectManager project.
+ A repository interface defines the list of all the public functions for a repository used by the web application. THe IAppUsersRepo represents
+ a repository that contains all information on the users of the ProjectManager web application
+*/
+
 using System.Collections.Generic;
 using ProjectManager.Models;
 

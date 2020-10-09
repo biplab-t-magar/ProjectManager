@@ -8,7 +8,25 @@
 
 import React from "react";
 
+/**/
+/*
+ * NAME:
+ *      NotFoundPage() - React functional component corresponding to the NotFoundPage page
+ * SYNOPSIS:
+ *      NotFoundPage()
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the Not Found page for all the possible routes
+ *      specified by the user that are not valid
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      09/17/2020 
+ * /
+ /**/
 const NotFoundPage = () => {
+    //return the JSX that generates the page. 
     return(
         <div className="page">
             <div className="not-found-page">

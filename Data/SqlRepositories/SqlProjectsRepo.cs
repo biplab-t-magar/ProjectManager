@@ -1,3 +1,10 @@
+/* SqlProjectsRepo.cs
+ This file contains the SqlProjectsRepo class. The SqlProjectsRepo class is an implementation of the IProjectsRepo interface. It represents 
+ an implementation of the interface by using an SQL database to store and retrieve data. So this repository class communicates with an SQL database
+ (a PostgreSQL database, specifically),while providing all the functions to retrieve and manipulate the entries in the database
+ that are listed in the interface it implements.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,28 +18,92 @@ namespace ProjectManager.Data.SqlRepositories
         //The database context
         private readonly ProjectManagerContext _context;
 
+        /**/
+        /*
+        * NAME:
+        *      SqlProjectsRepo - constructor for SqlProjectsRepo
+        * SYNOPSIS:
+                SqlProjectsRepo(ProjectManagerContext context)
+        *           context --> the database context that is injected into the class through dependency injection
+        * DESCRIPTION:
+                The constructor implements the SqlProjectsRepo class, which represents an implementation of the IProjectsRepo interface
+                It initializes the _context member variable, which will be used by all the functions in this class for data access
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
         public SqlProjectsRepo(ProjectManagerContext context)
         {   
             _context = context;
         }
 
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectById - gets the Project object with the given id
+        * SYNOPSIS:
+                GetProjectById(int projectId)
+        *           projectId --> the id of the project to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the project of the given id
+        * RETURNS
+                The Project object with the given id
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
         public Project GetProjectById(int projectId)
         {
             return _context.Projects.Find(projectId);
 
         }
 
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTasks - gets the list of Task objects associated with the given project
+        * SYNOPSIS:
+                GetProjectTasks(int projectId)
+        *           projectId --> the id of the project whose tasks are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of Task object associated with the given project
+        * RETURNS
+                The list of Task objects associated with the given project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
         public List<Task> GetProjectTasks(int projectId)
         {
             return _context.Tasks.Where(t => t.ProjectId == projectId).ToList();
         }
 
-        public List<Task> GetProjectTasksByTaskStatus(int projectId, string taskStatus)
-        {
-            return _context.Tasks.Where(t => t.ProjectId == projectId && t.TaskStatus == taskStatus).ToList();
-        }
-
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTasksByTaskType - gets the list of tasks associated with the given project and of the given task type
+        * SYNOPSIS:
+                GetProjectTasksByTaskType(int projectId, int taskTypeId)
+        *           projectId --> the id of the project whose tasks are to be returned
+                    taskTypeId --> the id of the task type 
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of Task objects associated with the given project and of the given task type
+        * RETURNS
+                The list of Task objects associated with the given project and of the given task type
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<Task> GetProjectTasksByTaskType(int projectId, int taskTypeId)
         {
             var tasks = _context.Tasks.Where(t => t.ProjectId == projectId && t.TaskTypeId == taskTypeId);
@@ -43,11 +114,23 @@ namespace ProjectManager.Data.SqlRepositories
             }
         }
 
-        public List<Task> GetProjectTasksByUrgency(int projectId, string urgency)
-        {
-            return _context.Tasks.Where(t => t.ProjectId == projectId && t.Urgency == urgency).ToList();
-        }
-
+        /**/
+        /*
+        * NAME:
+        *      GetProjectTaskTypes - gets the list of task types of a project
+        * SYNOPSIS:
+                GetProjectTaskTypes(int projectId)
+        *           projectId --> the id of the project whose task types are to be returned
+        * DESCRIPTION:
+                Accesses the database context in order to return the list of Task types of a project
+        * RETURNS
+                The list of TaskType objects of a project
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/10/2020 
+        * /
+        /**/
         public List<TaskType> GetProjectTaskTypes(int projectId)
         {
             return _context.TaskTypes.Where(tt => tt.ProjectId == projectId).ToList();
@@ -62,23 +145,6 @@ namespace ProjectManager.Data.SqlRepositories
             List<AppUser> users = new List<AppUser>();
 
             //loop through all user ids and store corresponding user entries
-            for(int i = 0; i < projectUsers.Count; i++)
-            {
-                users.Add(_context.Users.Find(projectUsers[i].AppUserId));
-            }
-
-            //return the queried values
-            return users;
-        }
-
-        public List<AppUser> GetProjectUsersByRole(int projectId, string role)
-        {
-            var projectUsers = _context.ProjectUsers.Where(p => (p.ProjectId == projectId && p.Role == role)).ToList();
-
-            //store all users corresponding to the given projectId and role
-            List<AppUser> users = new List<AppUser>();
-
-            //loop through all users and store corresponding user entries 
             for(int i = 0; i < projectUsers.Count; i++)
             {
                 users.Add(_context.Users.Find(projectUsers[i].AppUserId));
@@ -265,10 +331,7 @@ namespace ProjectManager.Data.SqlRepositories
 
         }
 
-        public bool SaveChanges()
-        {
-            return _context.SaveChanges() >= 0;
-        }
+        
 
         public List<TaskComment> GetProjectTaskComments(int projectId)
         {
@@ -363,6 +426,27 @@ namespace ProjectManager.Data.SqlRepositories
 
             return projectTaskUpdatesByUpdater;
 
+        }
+
+        /**/
+        /*
+        * NAME:
+        *      SaveChanges - saves all changes made so far using the context into the database
+        * SYNOPSIS:
+                SaveChanges()
+        * DESCRIPTION:
+                Accesses the database context in order save changes to it
+        * RETURNS
+                true if savechanges was successful, false if not
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
         }
     }
 }

@@ -132,7 +132,7 @@ const CreateTask = ({match}) => {
     * DESCRIPTION:
     *      This function executes the action to be taken once the user has filled out the form and hit submits.
     *      First it validates the user input in the forms, and sets the error message if user input is not valid.
-    *      If user input is valid, it sends a request to the server to create a new task with the given information in a project for the user
+    *      If user input is valid, it sends a request to the server to create a new task with the given information
     *      Finally, it redirects to the TaskDetails page corresponding to the newly created task
     * RETURNS
     * AUTHOR
@@ -174,6 +174,7 @@ const CreateTask = ({match}) => {
             }
             
             //build the payload for http request body
+            //this payload adheres to the UtilityTaskCreateModel in the server
             const payload = {
                 ProjectId: projectDetails.projectId,
                 Name: taskName,
@@ -200,7 +201,7 @@ const CreateTask = ({match}) => {
             }
         }
     }
-
+    //return the JSX that generates the page. 
     return(
         <div className="page">
             <div className="create-task">

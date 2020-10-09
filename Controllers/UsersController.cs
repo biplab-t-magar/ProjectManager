@@ -1,5 +1,9 @@
+/* UsersController.cs
+ This file contains the UsersController class, which represents one of the three controller classes in the ProjectManager project.
+ A controller class in ASP.NET Core is responsible for defining and handling HTTP requests to specific routes. The UsersController class handles
+ routes and HTTP requests relating to everything specific to User in the Project Manager web application
+*/
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

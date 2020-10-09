@@ -16,14 +16,36 @@ import "../CSS/TaskUrgency.css";
 import CheckAuthentication from "../Utilities/CheckAuthentication";
 import LoadingSpinner from "../Utilities/LoadingSpinner";
 
-
+/**/
+/*
+ * NAME:
+ *      TaskDetails() - React functional component corresponding to the TaskDetails page
+ * SYNOPSIS:
+ *      TaskDetails({match})
+ *          match.params --> the parameters passed by the Router component to this component. The parameters contained 
+ *                              in this object are retreived from the parameters in the specified route path for this page
+ *          match.params.projectId --> the id of the project the task is a part of
+ *          match.params.taskId --> the id of the task
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to list the details of a task
+ *      This components handles the retrieval of all data corresponding to the task's details needed to be displayed
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      09/27/2020 
+ * /
+ /**/
 const TaskDetails = ({match}) => {
+    //useEffect hooks
     const [taskDetails, setTaskDetails] = useState({});
     const [taskComments, setTaskComments] = useState([]);
     const [taskUsers, setTaskUsers] = useState([]);
     const [taskTypes, setTaskTypes] = useState([]);
     const [commentsLoaded, setCommentsLoaded] = useState(false);
 
+    //useEffect hook to be called on the first render of the page
     useEffect(() => {
         CheckAuthentication();
         fetchTaskData();
@@ -32,32 +54,111 @@ const TaskDetails = ({match}) => {
         fetchTaskComments();
     }, []);
 
-
+/**/
+    /*
+    * NAME:
+    *      fetchTaskData() - async function to retrieve data on the current task
+    * SYNOPSIS:
+    *      fetchTaskData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the task
+    *      Sets the taskDetails state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      09/27/2020 
+    * /
+    /**/
     const fetchTaskData = async () => {
         const res = await fetch(`/project/task/${match.params.taskId}`);
         const data = await res.json();
         setTaskDetails(data);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskComments() - async function to retrieve all the comments in a task
+    * SYNOPSIS:
+    *      fetchTaskComments()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing a list of all the comments
+    *       made under a task
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/05/2020 
+    * /
+    /**/
     const fetchTaskComments = async () => {
         const res = await fetch(`/project/${match.params.taskId}/comments/recent/15`);
         const data = await res.json();
         setTaskComments(data);
         setCommentsLoaded(true);
     }
-
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskUsers() - async function to retrieve information on all the users assigned to a task
+    * SYNOPSIS:
+    *      fetchTaskUsers()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing all the users assigned to a task
+    *      Sets the taskUsers state corresponding to retrieved information
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/05/2020 
+    * /
+    /**/
     const fetchTaskUsers = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task/${match.params.taskId}/assigned-users`);
         const data = await res.json();
         setTaskUsers(data);
     }
+
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskTypes() - async function to retrieve data on the task types of the project
+    * SYNOPSIS:
+    *      fetchTaskTypes()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the task types of 
+    *      the project. Sets the projectTaskTypes state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/04/2020 
+    * /
+    /**/
     const fetchTaskTypes = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task-types`);
         const data = await res.json();
         setTaskTypes(data);
     }
 
-
+    /**/
+    /*
+    * NAME:
+    *      getTaskTypeName() - finds the name of a task type given its id
+    * SYNOPSIS:
+    *      getTaskTypeName(typeId)
+    *             typeId  -->  the Id of the task type whose name is to be found
+    * DESCRIPTION:
+    *      This function finds what the task type name is given the id of a task type.
+    * RETURNS
+    *       The name of the given task type
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const getTaskTypeName = (typeId) => {
         for(let i = 0; i < taskTypes.length; i++) {
             if(taskTypes[i].taskTypeId === typeId) {
@@ -66,6 +167,7 @@ const TaskDetails = ({match}) => {
         }
     }
 
+    //return the JSX that generates the page. 
     return(
         <div className="page">
             <div className="task-details">

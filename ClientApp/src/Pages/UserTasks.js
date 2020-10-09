@@ -15,17 +15,53 @@ import ConvertDate from "../Utilities/ConvertDate";
 import ConvertTime from "../Utilities/ConvertTime";
 import LoadingSpinner from "../Utilities/LoadingSpinner";
 
+
+/**/
+/*
+ * NAME:
+ *      Tasks() - React functional component corresponding to the Tasks page
+ * SYNOPSIS:
+ *      Tasks()
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the list of all the tasks assigned to a user 
+ *      This components handles the retrieval of all of the user's task, along with related information
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      10/7/2020 
+ * /
+ /**/
 const Tasks = () => {
+    //useState hooks
     const [userProjects, setUserProjects] = useState([]);
     const [userTasks, setUserTasks] = useState([]);
     const [contentLoaded, setContentLoaded] = useState(false);
 
+    //useEffect hook called on first render
     useEffect(() => {
         CheckAuthentication();
         fetchUserTasks();
         fetchProjects();
     }, [])
 
+    /**/
+    /*
+    * NAME:
+    *      fetchProjects() - async function to retrieve the list of projects of a user from the server
+    * SYNOPSIS:
+    *      fetchProjects()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the all the project's of a user
+    *      Sets the userProjects state corresponding to retrieved data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/7/2020 
+    * /
+    /**/
     const fetchProjects = async () => {
         const res = await fetch("/user/projects");
         const data = await res.json();
@@ -33,12 +69,44 @@ const Tasks = () => {
         setContentLoaded(true);
     }; 
 
+    /**/
+    /*
+    * NAME:
+    *      fetchUserTasks() - async function to retrieve the list of all tasks for a user from the server
+    * SYNOPSIS:
+    *      fetchUserTasks()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the all the projects assigned to a user
+    *      Sets the userTasks state corresponding to retrieved data
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/7/2020 
+    * /
+    /**/
     const fetchUserTasks = async () => {
         const res = await fetch("/user/tasks");
         const data = await res.json();
         setUserTasks(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      getProjectName() - gets the project name given the id of the project
+    * SYNOPSIS:
+    *      getProjectName(projectid)
+    *           projectId     -->    the id of the project whose name is to be found
+    * DESCRIPTION:
+    *      Gets the name of the project whose id is given
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/05/2020 
+    * /
+    /**/
     const getProjectName = (projectId) => {
         for(let i = 0; i < userProjects.length; i++) {
             if(userProjects[i].projectId === projectId) {
@@ -47,6 +115,7 @@ const Tasks = () => {
         }
     }
     
+    //return the JSX that generates the page. 
     return (
         <div className="page">
             <div className="tasks">

@@ -1,3 +1,10 @@
+/* SqlAppUsersRepo.cs
+ This file contains the SqlAppUsersRepo class. The SqlAppUsersRepo class is an implementation of the IAppUsersRepo interface. It represents 
+ an implementation of the interface by using an SQL database to store and retrieve data. So this repository class communicates with an SQL database
+ (a PostgreSQL database, specifically),while providing all the functions to retrieve and manipulate the entries in the database
+ that are listed in the interface it implements.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +15,26 @@ namespace ProjectManager.Data.SqlRepositories
 {
     public class SqlUsersRepo : IAppUsersRepo
     {
+        //the database context
         private readonly ProjectManagerContext _context;
 
+        /**/
+        /*
+        * NAME:
+        *      SqlUsersRepo - constructor for SqlUsersRepo
+        * SYNOPSIS:
+                SqlUsersRepo(ProjectManagerContext context)
+        *           context --> the database context that is injected into the class through dependency injection
+        * DESCRIPTION:
+                The constructor implements the SqlUsersRepo class, which represents an implementation of the IUsersRepo interface
+                It initializes the _context member variable, which will be used by all the functions in this class for data access
+        * RETURNS
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
         public SqlUsersRepo(ProjectManagerContext context)
         {   
             _context = context;
@@ -208,12 +233,7 @@ namespace ProjectManager.Data.SqlRepositories
             return _context.ProjectUsers.Find(projectId, userId);
         }
 
-        public bool SaveChanges()
-        {
-            //save all the changes to the database
-            return _context.SaveChanges() >= 0;
-        }
-
+       
         public List<TaskComment> GetCommentsByUser(string userId)
         {
             return _context.TaskComments.Where(tc => tc.AppUserId == userId).ToList();
@@ -228,5 +248,28 @@ namespace ProjectManager.Data.SqlRepositories
         {
             return _context.TaskUserUpdates.Where(tuu => tuu.UpdaterId == updaterId).ToList();
         }
+
+        /**/
+        /*
+        * NAME:
+        *      SaveChanges - saves all changes made so far using the context into the database
+        * SYNOPSIS:
+                SaveChanges()
+        * DESCRIPTION:
+                Accesses the database context in order save changes to it
+        * RETURNS
+                true if savechanges was successful, false if not
+        * AUTHOR
+        *      Biplab Thapa Magar
+        * DATE
+        *      09/02/2020 
+        * /
+        /**/
+        public bool SaveChanges()
+        {
+            //save all the changes to the database
+            return _context.SaveChanges() >= 0;
+        }
+
     }
 }

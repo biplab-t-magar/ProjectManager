@@ -12,7 +12,28 @@ import PageDescription from "../Components/PageDescription.js";
 import "../CSS/EditTask.css";
 import CheckAuthentication from "../Utilities/CheckAuthentication.js";
 
-
+/**/
+/*
+ * NAME:
+ *      EditTask() - React functional component corresponding to the EditTask page
+ * SYNOPSIS:
+ *      EditTask({match})
+ *          match.params --> the parameters passed by the Router component to this component. The parameters contained 
+ *                              in this object are retreived from the parameters in the specified route path for this page
+ *          match.params.projectId --> the id of the project that this task is a part of
+ *          match.params.taskId --> the id of the task to be edited
+ * DESCRIPTION:
+ *      A React functional component that generates JSX to render the page to edit a task.
+ *      This components handles the retrieval of data, generation of forms, and the sending of data to the 
+ *      server, thus handling the process of editing a task
+ * RETURNS
+ *      JSX that renders the needed page
+ * AUTHOR
+ *      Biplab Thapa Magar
+ * DATE
+ *      10/02/2020 
+ * /
+ /**/
 const EditTask = ({match}) => {
     const [taskDetails, setTaskDetails] = useState({});
     const [newTaskName, setNewTaskName] = useState("");
@@ -26,6 +47,7 @@ const EditTask = ({match}) => {
     const [assignedUsers, setAssignedUsers] = useState([]);
     const [unassignedUsers, setUnassignedUsers] = useState([]);
 
+    //called on the first rendering of the page
     useEffect(() => {
         CheckAuthentication();
         fetchTaskData();
@@ -34,6 +56,7 @@ const EditTask = ({match}) => {
         fetchUnassignedUsers();
     }, []);
 
+    //called every time the value for taskDetails is changed
     useEffect(()=> {
         setNewTaskName(taskDetails.name);
         setNewTaskDescription(taskDetails.description);
@@ -47,30 +70,111 @@ const EditTask = ({match}) => {
         
     }, [taskDetails]);
 
+    /**/
+    /*
+    * NAME:
+    *      fetchAssignedUsers() - async function to retrieve users assigned to a task
+    * SYNOPSIS:
+    *      fetchAssignedUsers()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the users assigned to a task
+    *      Sets the assignedUsers state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const fetchAssignedUsers = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task/${match.params.taskId}/assigned-users`);
         const data = await res.json();
         setAssignedUsers(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      fetchUnassignedUsers() - async function to retrieve users not assigned to a task
+    * SYNOPSIS:
+    *      fetchUnassignedUsers()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the users not assigned to a task
+    *      Sets the unassignedUsers state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const fetchUnassignedUsers = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task/${match.params.taskId}/unassigned-users`);
         const data = await res.json();
         setUnassignedUsers(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskData() - async function to retrieve data on the current task
+    * SYNOPSIS:
+    *      fetchTaskData()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the task
+    *      Sets the taskDetails state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const fetchTaskData = async () => {
         const res = await fetch(`/project/task/${match.params.taskId}`);
         const data = await res.json();
         setTaskDetails(data);
     };
 
+    /**/
+    /*
+    * NAME:
+    *      fetchTaskTypes() - async function to retrieve data on the task types of the project
+    * SYNOPSIS:
+    *      fetchTaskTypes()
+    * DESCRIPTION:
+    *      Makes a GET request to server to receive response containing information on the task types of 
+    *      the project. Sets the projectTaskTypes state
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const fetchTaskTypes = async () => {
         const res = await fetch(`/project/${match.params.projectId}/task-types`);
         const data = await res.json();
         setProjectTaskTypes(data);
     }
 
+    /**/
+    /*
+    * NAME:
+    *      findTaskTypeId() - finds the id of a task type given its name
+    * SYNOPSIS:
+    *      findTaskTypeId(taskTypeName)
+    *             taskTypeName  -->  the name of the task type whose Id is to be found
+    * DESCRIPTION:
+    *      This function finds what the task type id is given the name of a task type.
+    * RETURNS
+    *       The id of the given task type
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const findTaskTypeId = (taskTypeName) => {
         for(let i = 0; i < projectTaskTypes.length; i++) {
             if(taskTypeName === projectTaskTypes[i].name) {
@@ -79,6 +183,23 @@ const EditTask = ({match}) => {
         }
     }
 
+    /**/
+    /*
+    * NAME:
+    *      getTaskTypeName() - finds the name of a task type given its id
+    * SYNOPSIS:
+    *      getTaskTypeName(taskTypeId)
+    *             taskTypeId  -->  the Id of the task type whose name is to be found
+    * DESCRIPTION:
+    *      This function finds what the task type name is given the id of a task type.
+    * RETURNS
+    *       The name of the given task type
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const getTaskTypeName = (typeId) => {
         for(let i = 0; i < projectTaskTypes.length; i++) {
             if(projectTaskTypes[i].taskTypeId === typeId) {
@@ -88,6 +209,25 @@ const EditTask = ({match}) => {
         }
     }
 
+    /**/
+    /*
+    * NAME:
+    *      handleSubmit() - handles the submission of the edit task form
+    * SYNOPSIS:
+    *      handleSubmit(e)
+    *           e --> the JavaScript event generated when submitting the form
+    * DESCRIPTION:
+    *      This function executes the action to be taken once the user has filled out the form and hit submit.
+    *      First it validates the user input in the forms, and sets the error message if user input is not valid.
+    *      If user input is valid, it sends a request to the server to edit the given task with the given information
+    *      Finally, it redirects to the TaskDetails page corresponding to the edited task
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const handleSubmit = async (e) => {
         let errorsExist = false;
         //prevent default action
@@ -114,14 +254,17 @@ const EditTask = ({match}) => {
         }
 
         if(errorsExist === false) {
+            //if the task type id was not specified or if it was specified to be "none"
+            //, then set the taskTypeId to -1, so that the server ignores this taskTypeId when 
+            //if receives the HTTP request
             let taskTypeId = -1;
-            console.log(projectTaskTypes);
-            console.log(newTaskType);
             if(projectTaskTypes.length != 0 && newTaskType !== "none") {
                 taskTypeId = findTaskTypeId(newTaskType);
                 console.log(taskTypeId);
             }
             
+            //create the payload to be sent over in the body of the HTTP request. 
+            //This payload adhers to the UtilityTaskEditModel in the server
             const payload = {
                 TaskId: taskDetails.taskId,
                 ProjectId: taskDetails.projectId,
@@ -132,7 +275,6 @@ const EditTask = ({match}) => {
                 TaskTypeId: taskTypeId,
                 TimeCreated: taskDetails.timeCreated
             }
-            console.log(payload);
             //making post request to server
             const response = await fetch("/project/edit-task" , {
                 method: "POST",
@@ -144,6 +286,7 @@ const EditTask = ({match}) => {
             });
             const data = await response.json();
             if(response.ok) {
+                //if the task was successfully edited, redirect to task details page
                 window.location.pathname = `/projects/${taskDetails.projectId}/task/${data.taskId}`;
             } else {    
                 console.log(data);
@@ -151,12 +294,30 @@ const EditTask = ({match}) => {
         }
     }
 
+    /**/
+    /*
+    * NAME:
+    *      assignUserToTask() - handles the assigning of a user to a task
+    * SYNOPSIS:
+    *      assignUserToTask(userId)
+    *           userId --> the id of the user to be assigned to the taks
+    * DESCRIPTION:
+    *      This function makes a request to the server to assign the current task to the specified user
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const assignUserToTask = async (userId) => {
+        //This payload adheres to the TaskUser model in the server
         const payload = {
             TaskId: taskDetails.taskId,
             AppUserId: userId
         }
 
+        //make request to server
         const response = await fetch("/project/assign-task-user" , {
             method: "POST",
             headers: {
@@ -170,16 +331,35 @@ const EditTask = ({match}) => {
         if(!response.ok) {
             console.log(data);
         } else {
+            //once the request has been made, the server updates the list of assigned and unassigned users in its database
+            //so, we need to again fetch the assigned users and unassigned users list to update the page accordingly
             fetchAssignedUsers();
             fetchUnassignedUsers();
         }
     }
-
+    /**/
+    /*
+    * NAME:
+    *      unassignUserFromTask() - handles the unssigning of a user from a task
+    * SYNOPSIS:
+    *      unassignUserFromTask(userId)
+    *           userId --> the id of the user to be unassigned from the taks
+    * DESCRIPTION:
+    *      This function makes a request to the server to unassign the user from the current task
+    * RETURNS
+    * AUTHOR
+    *      Biplab Thapa Magar
+    * DATE
+    *      10/02/2020 
+    * /
+    /**/
     const unassignUserFromTask = async(userId) => {
+        //This payload adheres to the TaskUser model in the server
         const payload = {
             TaskId: taskDetails.taskId,
             AppUserId: userId
         }
+        //make server request
         const response = await fetch("/project/unassign-task-user" , {
             method: "POST",
             headers: {
@@ -193,11 +373,13 @@ const EditTask = ({match}) => {
         if(!response.ok) {
             console.log(data);
         } else {
+            //once the request has been made, the server updates the list of assigned and unassigned users in its database
+            //so, we need to again fetch the assigned users and unassigned users list to update the page accordingly
             fetchAssignedUsers();
             fetchUnassignedUsers();
         }
     }
-
+    //return the JSX that generates the page. 
     return(
         <div className="page">
             <div className="edit-task">
